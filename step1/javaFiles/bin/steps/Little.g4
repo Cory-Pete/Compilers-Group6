@@ -4,7 +4,7 @@ grammar Little;
 
 id : IDENTIFIER ;
 
-IDENTIFIER : '[a-Z]([a-Z]|[0-9])*' ;
+IDENTIFIER : '[a-Z]+ ([a-Z]|[0-9])*' ;
 
 /*PROGRAM : .*? '\n' ;*/
 
