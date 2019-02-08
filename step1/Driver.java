@@ -11,14 +11,14 @@ public class Driver {
 
 		Vocabulary voc = lexer.getVocabulary();
 		//tok.getType != EOF
-		Token token = null;
-		while(lexer.nextToken().getType()!=token.EOF) {
-			token = lexer.nextToken();
-			System.out.println("Token Type:" + voc.getSymbolicName(token.getType()));
+		Token token = lexer.nextToken();
+		while(token.getType() != token.EOF) {
+			System.out.println("Token Type: " + voc.getSymbolicName(token.getType()));
+			writer.write("Token Type: " + voc.getSymbolicName(token.getType()) + "\n");
 			System.out.println("Value: " + token.getText());
-		}
-		
-		
+			writer.write("Value: " + token.getText() + "\n");
+			token = lexer.nextToken();
+		}	
 		writer.close();
 	}
 }

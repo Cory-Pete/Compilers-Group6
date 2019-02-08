@@ -4,17 +4,17 @@ grammar Little;
 
 id : IDENTIFIER ;
 
-IDENTIFIER : [A-z]([A-z]|[0-9])* ;
+KEYWORD : 'PROGRAM' | 'BEGIN' | 'END' | 'FUNCTION' | 'READ' | 'WRITE' | 'IF' | 'ELSE' | 'ENDIF' | 'WHILE' | 'ENDWHILE' | 'CONTINUE' | 'BREAK' | 'RETURN' | 'INT' | 'VOID' | 'STRING' | 'FLOAT' ;
 
-KEYWORDS : 'PROGRAM' | 'BEGIN' | 'END' | 'FUNCTION' | 'READ' | 'WRITE' | 'IF' | 'ELSE' | 'ENDIF' | 'WHILE' | 'ENDWHILE' | 'CONTINUE' | 'BREAK' | 'RETURN' | 'INT' | 'VOID' | 'STRING' | 'FLOAT' ;
+OPERATOR :  ':=' | '+' | '-' | '*' | '/' | '=' | '!=' | '<' | '>' | '(' | ')' | ';' | ',' | '<=' | '>=' ;
+
+IDENTIFIER : [A-z]([A-z]|[0-9])* ;
 
 INTLITERAL : [0-9]+ ;
 
 STRINGLITERAL : '"'.*?'"'  ;
 
 FLOATLITERAL : [0-9]*'.'[0-9]+ ;
-
-OPERATORS :  ':=' | '+' | '-' | '*' | '/' | '=' | '!=' | '<' | '>' | '(' | ')' | ';' | ',' | '<=' | '>=' ;
 
 COMMENTS : '--' .*? '\n' -> skip ;
 
