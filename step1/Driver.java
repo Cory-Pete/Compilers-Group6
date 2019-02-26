@@ -8,7 +8,7 @@ public class Driver {
 		// LittleLexer lexer = null;
 		LittleLexer lexer = new LittleLexer(CharStreams.fromFileName(args[0]));
 		// LittleLexer lexer = new LittleLexer(CharStreams.fromFileName("../Step1/inputs/sqrt.micro"));
-
+		JavaParser p = new JavaParser();
 		Vocabulary voc = lexer.getVocabulary();
 		//tok.getType != EOF
 		Token token = lexer.nextToken();
@@ -20,5 +20,8 @@ public class Driver {
 			token = lexer.nextToken();
 		}	
 		writer.close();
+	}
+	public static void program(Parser p){
+		
 	}
 }
