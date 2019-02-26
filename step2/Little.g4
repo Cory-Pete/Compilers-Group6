@@ -15,7 +15,7 @@ var_decl          : var_type id_list ;
 var_type          : 'FLOAT' | 'INT' ;
 any_type          : var_type | 'VOID' ;
 id_list           : id id_tail ;
-id_tail           : ',' id id_tail | 'empty' ; #change to ;
+id_tail           : ',' id id_tail | 'empty' ; /* change , to ; */
 
 /* Function Paramater List */
 param_decl_list   : param_decl param_decl_tail | 'empty' ;
@@ -61,8 +61,9 @@ compop            : '<' | '>' | '=' | '!=' | '<=' | '>=' ;
 /* While statements */
 while_stmt        : 'WHILE' ( cond ) decl stmt_list 'ENDWHILE' ;
 
+/*Lexer rules */
 
-KEYWORD : 'BEGIN' | 'END' | 'FUNCTION' | 'READ' | 'WRITE' | 'IF' | 'ELSE' | 'ENDIF' | 'WHILE' | 'ENDWHILE' | 'CONTINUE' | 'BREAK' | 'RETURN' | 'INT' | 'VOID' | 'STRING' | 'FLOAT' ;
+KEYWORD : 'PROGRAM' | 'BEGIN' | 'END' | 'FUNCTION' | 'READ' | 'WRITE' | 'IF' | 'ELSE' | 'ENDIF' | 'WHILE' | 'ENDWHILE' | 'CONTINUE' | 'BREAK' | 'RETURN' | 'INT' | 'VOID' | 'STRING' | 'FLOAT' ;
 
 OPERATOR :  ':=' | '+' | '-' | '*' | '/' | '=' | '!=' | '<' | '>' | '(' | ')' | ';' | ',' | '<=' | '>=' ;
 
