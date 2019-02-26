@@ -12,7 +12,7 @@ str               : STRINGLITERAL ;
 
 /* Variable Declaration */
 var_decl          : var_type id_list ;
-var_type          :FLOAT | INT ;
+var_type          : FLOAT | INT ;
 any_type          : var_type | VOID ;
 id_list           : id id_tail ;
 id_tail           : id id_tail | 'empty' ;
@@ -59,7 +59,7 @@ cond              : expr compop expr ;
 compop            : '<' | '>' | '=' | '!=' | '<=' | '>=' ;
 
 /* While statements */
-while_stmt       : WHILE ( cond ) decl stmt_list ENDWHILE ;
+while_stmt        : WHILE ( cond ) decl stmt_list ENDWHILE ;
 
 
 KEYWORD : 'PROGRAM' | 'BEGIN' | 'END' | 'FUNCTION' | 'READ' | 'WRITE' | 'IF' | 'ELSE' | 'ENDIF' | 'WHILE' | 'ENDWHILE' | 'CONTINUE' | 'BREAK' | 'RETURN' | 'INT' | 'VOID' | 'STRING' | 'FLOAT' ;
