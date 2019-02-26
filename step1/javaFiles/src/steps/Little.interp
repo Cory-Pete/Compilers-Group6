@@ -1,29 +1,23 @@
 token literal names:
 null
-<<<<<<< HEAD:step1/javaFiles/bin/steps/Little.interp
 '[a-Z]+ ([a-Z]|[0-9])*'
 '[0-9]+'
 '(?<=")[\\S\\s]*(?=")'
-=======
->>>>>>> 83a94a2ca219e780394d2d0d833d5b32e3184dba:step1/.antlr/Little.interp
 null
 null
 null
 null
-null
-null
-null
-null
+' '
 
 token symbolic names:
 null
 IDENTIFIER
-KEYWORDS
-INTLITERAL
-STRINGLITERAL
-FLOATLITERAL
-OPERATORS
+INTEGER
+STRING
 COMMENTS
+FLOAT
+KEYWORDS
+OPERATORS
 WHITESPACE
 
 rule names:
