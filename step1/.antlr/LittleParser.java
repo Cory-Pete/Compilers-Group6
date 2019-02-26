@@ -1,4 +1,4 @@
-// Generated from Little.g4 by ANTLR 4.7.1
+// Generated from /home/hughman/git/step1/Little.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -16,8 +16,8 @@ public class LittleParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, INTEGER=2, STRING=3, COMMENTS=4, FLOAT=5, KEYWORDS=6, OPERATORS=7, 
-		WHITESPACE=8;
+		IDENTIFIER=1, KEYWORDS=2, INTLITERAL=3, STRINGLITERAL=4, FLOATLITERAL=5, 
+		OPERATORS=6, COMMENTS=7, WHITESPACE=8;
 	public static final int
 		RULE_id = 0;
 	public static final String[] ruleNames = {
@@ -25,12 +25,10 @@ public class LittleParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'[a-Z]([a-Z]|[0-9])*'", "'[0-9]+'", "'(?<=\")[\\S\\s]*(?=\")'", 
-		null, null, null, null, "' '"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, "INTEGER", "STRING", "COMMENTS", "FLOAT", "KEYWORDS", "OPERATORS", 
-		"WHITESPACE"
+		null, "IDENTIFIER", "KEYWORDS", "INTLITERAL", "STRINGLITERAL", "FLOATLITERAL", 
+		"OPERATORS", "COMMENTS", "WHITESPACE"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -82,18 +80,11 @@ public class LittleParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class IdContext extends ParserRuleContext {
+		public TerminalNode IDENTIFIER() { return getToken(LittleParser.IDENTIFIER, 0); }
 		public IdContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_id; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LittleListener ) ((LittleListener)listener).enterId(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LittleListener ) ((LittleListener)listener).exitId(this);
-		}
 	}
 
 	public final IdContext id() throws RecognitionException {
@@ -103,7 +94,7 @@ public class LittleParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(2);
-			match(T__0);
+			match(IDENTIFIER);
 			}
 		}
 		catch (RecognitionException re) {
