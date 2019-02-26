@@ -61,8 +61,7 @@ compop            : '<' | '>' | '=' | '!=' | '<=' | '>=' ;
 /* While statements */
 while_stmt       : WHILE ( cond ) decl stmt_list ENDWHILE ;
 
-
-id : IDENTIFIER ;
+/*Lexer rules */
 
 KEYWORD : 'PROGRAM' | 'BEGIN' | 'END' | 'FUNCTION' | 'READ' | 'WRITE' | 'IF' | 'ELSE' | 'ENDIF' | 'WHILE' | 'ENDWHILE' | 'CONTINUE' | 'BREAK' | 'RETURN' | 'INT' | 'VOID' | 'STRING' | 'FLOAT' ;
 
