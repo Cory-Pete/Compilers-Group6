@@ -1,4 +1,4 @@
-// Generated from /home/hughman/git/step1/Little.g4 by ANTLR 4.7.1
+// Generated from /Users/matthewsagen/Library/Mobile Documents/com~apple~CloudDocs/Documents/Compilers/step1/Little.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -16,8 +16,8 @@ public class LittleParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		IDENTIFIER=1, KEYWORDS=2, INTLITERAL=3, STRINGLITERAL=4, FLOATLITERAL=5, 
-		OPERATORS=6, COMMENTS=7, WHITESPACE=8;
+		KEYWORD=1, OPERATOR=2, IDENTIFIER=3, INTLITERAL=4, STRINGLITERAL=5, FLOATLITERAL=6, 
+		COMMENTS=7, WHITESPACE=8;
 	public static final int
 		RULE_id = 0;
 	public static final String[] ruleNames = {
@@ -27,8 +27,8 @@ public class LittleParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "IDENTIFIER", "KEYWORDS", "INTLITERAL", "STRINGLITERAL", "FLOATLITERAL", 
-		"OPERATORS", "COMMENTS", "WHITESPACE"
+		null, "KEYWORD", "OPERATOR", "IDENTIFIER", "INTLITERAL", "STRINGLITERAL", 
+		"FLOATLITERAL", "COMMENTS", "WHITESPACE"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -110,7 +110,7 @@ public class LittleParser extends Parser {
 
 	public static final String _serializedATN =
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\n\7\4\2\t\2\3\2\3"+
-		"\2\3\2\2\2\3\2\2\2\2\5\2\4\3\2\2\2\4\5\7\3\2\2\5\3\3\2\2\2\2";
+		"\2\3\2\2\2\3\2\2\2\2\5\2\4\3\2\2\2\4\5\7\5\2\2\5\3\3\2\2\2\2";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
