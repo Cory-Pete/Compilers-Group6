@@ -1,9 +1,8 @@
 #!/bin/bash
 
-antlr4 Little.g4
-javac Little*.java
+java -jar /usr/local/lib/antlr-4.7.1-complete.jar Little.g4
+javac *.java
 
-javac Driver.java
 java Driver $1
 
 rm -rf *.class
