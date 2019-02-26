@@ -7,9 +7,7 @@ public class Driver {
 		PrintWriter writer = new PrintWriter("group6.output", "UTF-8"); //this is used to print to output file
 		// LittleLexer lexer = null;
 		LittleLexer lexer = new LittleLexer(CharStreams.fromFileName(args[0]));
-		CommonTokenStream tokenStream = new CommonTokenStream(Lexer);
 		// LittleLexer lexer = new LittleLexer(CharStreams.fromFileName("../Step1/inputs/sqrt.micro"));
-		LittleParser p = new LittleParser();
 		Vocabulary voc = lexer.getVocabulary();
 		//tok.getType != EOF
 		Token token = lexer.nextToken();
