@@ -12,15 +12,15 @@ str               : STRINGLITERAL ;
 
 /* Variable Declaration */
 var_decl          : var_type id_list ;
-var_type          :FLOAT | INT ;
+var_type          : FLOAT | INT ;
 any_type          : var_type | VOID ;
 id_list           : id id_tail ;
-id_tail           : , id id_tail | empty ;
+id_tail           : id id_tail | empty ;
 
 /* Function Paramater List */
 param_decl_list   : param_decl param_decl_tail | empty ;
 param_decl        : var_type id ;
-param_decl_tail   : , param_decl param_decl_tail | empty ;
+param_decl_tail   : param_decl param_decl_tail | empty ;
 
 /* Function Declarations */
 func_declarations : func_decl func_declarations | empty ;
@@ -47,16 +47,16 @@ factor_prefix     : factor_prefix postfix_expr mulop | empty ;
 postfix_expr      : primary | call_expr ;
 call_expr         : id ( expr_list ) ;
 expr_list         : expr expr_list_tail | empty ;
-expr_list_tail    : , expr expr_list_tail | empty ;
+expr_list_tail    : expr expr_list_tail | empty ;
 primary           : ( expr ) | id | INTLITERAL | FLOATLITERAL ;
-addop             : + | - ;
-mulop             : * | / ;
+addop             : '+ | -';
+mulop             : '* | / ';
 
 /* Complex Statements and Condition */
 if_stmt           : IF ( cond ) decl stmt_list else_part ENDIF ;
 else_part         : ELSE decl stmt_list | empty ;
 cond              : expr compop expr ;
-compop            : < | > | = | != | <= | >= ;
+compop            : '<' | '>' | '=' | '!=' | '<=' | '>=' ;
 
 /* While statements */
 while_stmt       : WHILE ( cond ) decl stmt_list ENDWHILE ;
@@ -76,6 +76,6 @@ STRINGLITERAL : '"'.*?'"'  ;
 
 FLOATLITERAL : [0-9]*'.'[0-9]+ ;
 
-COMMENTS : '--' .*? '\n' : skip ;
+COMMENTS : '--' .*? '\n' -> skip ;
 
 WHITESPACE : [ \t\n] -> skip ;
