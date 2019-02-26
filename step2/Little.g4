@@ -66,7 +66,7 @@ KEYWORD : 'BEGIN' | 'END' | 'FUNCTION' | 'READ' | 'WRITE' | 'IF' | 'ELSE' | 'END
 
 OPERATOR :  ':=' | '+' | '-' | '*' | '/' | '=' | '!=' | '<' | '>' | '(' | ')' | ';' | ',' | '<=' | '>=' ;
 
-IDENTIFIER : [A-z]([A-z]|[0-9])* ;
+IDENTIFIER : [A-Za-z]([A-Za-z]|[0-9])* ;
 
 INTLITERAL : [0-9]+ ;
 
