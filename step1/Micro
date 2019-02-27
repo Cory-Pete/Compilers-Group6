@@ -1,9 +1,13 @@
 #!/bin/bash
 
-java -jar /usr/local/lib/antlr-4.7.1-complete.jar Little.g4
-javac Little*.java
+if [ ! -f ./antlr-4.7.2-complete.jar ]; then
+    #   echo "No ANTLR JAR found, downloading it now..."
+      curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar
+fi
 
-javac Driver.java
+export CLASSPATH="./antlr-4.7.2-complete.jar:$CLASSPATH"
+java -jar ./antlr-4.7.2-complete.jar Little.g4
+javac *.java
 java Driver $1
 
 rm -rf *.class
