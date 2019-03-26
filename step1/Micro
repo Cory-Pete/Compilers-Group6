@@ -1,7 +1,6 @@
 #!/bin/bash
 
 if [ ! -f ./antlr-4.7.2-complete.jar ]; then
-    #   echo "No ANTLR JAR found, downloading it now..."
       curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar
 fi
 
