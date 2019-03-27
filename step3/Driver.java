@@ -11,6 +11,10 @@ public class Driver {
 		ParseTreeWalker walker = new ParseTreeWalker();
 		LittleBaseListener listener = new LittleBaseListener();
 		walker.walk(listener, parser.program());
-		
+		Listener l = new Listener();
+		SymbolTable s = l.getC();
+		for(LittleParser.Assign_exprContext ctx : s){
+			System.out.println(ctx);
+		}
 	}
 }      
