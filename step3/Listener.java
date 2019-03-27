@@ -14,4 +14,4 @@ class Listener extends LittleBaseListener
         //operate on symbol table here
     }
 }
->>>>>>> b1445ddc6a31f0a5e69f9338bd555ab289fb1036
+
