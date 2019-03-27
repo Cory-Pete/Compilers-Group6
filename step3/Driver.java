@@ -14,13 +14,6 @@ public class Driver {
 		walker.walk(listener, parser.program());
 		SymbolTable s = listener.getSymbolTable();
 		System.out.println(s);
-		/*if(parser.getNumberOfSyntaxErrors() > 0)
-		{
-			returnS = "Not Accepted";
-		}
-		else{
-			returnS = "Accepted";
-		}*/
-		//System.out.println(returnS);
+		
 	}
 }      
