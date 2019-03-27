@@ -1,6 +1,5 @@
 import java.io.IOException;
-import org.antlr.v4.runtime;
-
+import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 public class Driver {
@@ -12,8 +11,6 @@ public class Driver {
 		ParseTreeWalker walker = new ParseTreeWalker();
 		LittleBaseListener listener = new LittleBaseListener();
 		walker.walk(listener, parser.program());
-		SymbolTable s = listener.getSymbolTable();
-		System.out.println(s);
 		
 	}
 }      

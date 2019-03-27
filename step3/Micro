@@ -6,7 +6,7 @@ if [ ! -f ./antlr-4.7.2-complete.jar ]; then
 fi
 
 export CLASSPATH="./antlr-4.7.2-complete.jar:$CLASSPATH"
-java -jar ./antlr-4.7.2-complete.jar Little.g4
+java -jar ./antlr-4.7.2-complete.jar Little.g4 
 javac *.java
 java Driver $1
 
