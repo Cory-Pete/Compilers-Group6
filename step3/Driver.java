@@ -1,6 +1,7 @@
 import java.io.IOException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
+import java.util.*;
 
 public class Driver {
 	public static void main(String[] args) throws IOException {
@@ -12,8 +13,9 @@ public class Driver {
 		LittleBaseListener listener = new LittleBaseListener();
 		walker.walk(listener, parser.program());
 		Listener l = new Listener();
-		SymbolTable s = l.getC();
-		for(LittleParser.Assign_exprContext ctx : s){
+		SymbolTable s = l.getSymbolTable();
+		ArrayList<LittleParser.Assign_exprContext> h = s.getList();
+		for(LittleParser.Assign_exprContext ctx : h){
 			System.out.println(ctx);
 		}
 	}

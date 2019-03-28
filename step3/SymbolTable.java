@@ -1,4 +1,6 @@
+import java.util.*;
 public class SymbolTable {
+
     ArrayList<LittleParser.Assign_exprContext> list = new ArrayList<LittleParser.Assign_exprContext>();
     public void addScope() {
     }

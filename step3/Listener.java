@@ -1,5 +1,5 @@
-class Listener extends LittleBaseListener
-{
+class Listener extends LittleBaseListener{
+    
     SymbolTable st = new SymbolTable();
 
     @Override
@@ -13,20 +13,13 @@ class Listener extends LittleBaseListener
     }
 
     @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) { 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-        System.out.println(ctx);
+        st.add(ctx);
     }
     @Override public void exitAssign_expr(LittleParser.Assign_exprContext ctx) { 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-    }
 	
+    }
+	public SymbolTable getSymbolTable(){
+        return st;
+    }
 }
 
