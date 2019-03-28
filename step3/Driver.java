@@ -10,10 +10,9 @@ public class Driver {
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		LittleParser parser = new LittleParser(tokenStream);
 		ParseTreeWalker walker = new ParseTreeWalker();
-		LittleBaseListener listener = new LittleBaseListener();
+		Listener listener = new Listener();
 		walker.walk(listener, parser.program());
-		Listener l = new Listener();
-		SymbolTable s = l.getSymbolTable();
+		SymbolTable s = listener.getSymbolTable();
 		ArrayList<LittleParser.Assign_exprContext> h = s.getList();
 		for(LittleParser.Assign_exprContext ctx : h){
 			System.out.println(ctx);
