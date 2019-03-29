@@ -15,7 +15,7 @@ public class Driver {
 		SymbolTable s = listener.getSymbolTable();
 		ArrayList<LittleParser.Assign_exprContext> h = s.getList();
 		for(LittleParser.Assign_exprContext ctx : h){
-			System.out.println(ctx);
+			System.out.println(ctx.getText());
 		}
 	}
 }      

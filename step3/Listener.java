@@ -28,12 +28,28 @@ class Listener extends LittleBaseListener{
     @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
         String name = ctx.id().getText();
         String value = ctx.getText();
-        //String type = root.getData(name).type;
-        stt.peek().addSymbol(new TokenData(type, name, value));
+        //temp for testing
+        try
+        {
+            if (root.getData(name).type == null)
+            {
+                //lookup table?
+            }
+            else
+            {
+                String type = root.getData(name).type;
+                stt.peek().addSymbol(new TokenData(type, name, value));
+            }
+        }catch(Exception e)
+        {
+            System.out.println("YOUR FAVORITE NULL");
+            //Empty StackNotation
+        }
+        
 
     }
     @Override public void exitAssign_expr(LittleParser.Assign_exprContext ctx) { 
-        stt.pop();
+        // stt.pop();
     }
 
     @Override
