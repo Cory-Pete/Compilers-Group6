@@ -161,27 +161,33 @@ class Listener extends LittleBaseListener{
     }
 	
     @Override public void enterIf_stmt(LittleParser.If_stmtContext ctx) { 
-
+        String type = ctx.var_type().getText();
+        String paramID = ctx.id().getText();
+        stt.peek().addSymbol(new TokenData(type, paramID));
     }
 	
 	@Override public void exitIf_stmt(LittleParser.If_stmtContext ctx) { 
-        //stt.pop();
+        stt.pop();
     }
 	
     @Override public void enterElse_part(LittleParser.Else_partContext ctx) { 
-
+        String type = ctx.var_type().getText();
+        String paramID = ctx.id().getText();
+        stt.peek().addSymbol(new TokenData(type, paramID));
     }
 	
 	@Override public void exitElse_part(LittleParser.Else_partContext ctx) {
-        //stt.pop();
+        stt.pop();
      }
 	
     @Override public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
-
+        String type = ctx.var_type().getText();
+        String paramID = ctx.id().getText();
+        stt.peek().addSymbol(new TokenData(type, paramID));
      }
 	
 	@Override public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
-        //stt.pop();
+        stt.pop();
     }
 
 	
