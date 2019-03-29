@@ -22,6 +22,19 @@ public class SymbolTable {
     public ArrayList<LittleParser.Assign_exprContext> getList(){
         return list;
     }
+    public void addToTable(CustomVariable input)
+    {
+        for(int i = 0; i < id; i++)
+        {
+            if(table.get(i).name.equals(input.name))
+            {
+                System.out.println("DECLARATION ERROR " + input.name);
+                System.exit(0);
+            }
+        }
+    table.put(id, input);
+    id++;
+    }
 }
 
 public class Scope{
