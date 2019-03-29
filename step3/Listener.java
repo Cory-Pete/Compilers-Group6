@@ -1,6 +1,7 @@
 class Listener extends LittleBaseListener{
     
     SymbolTable st = new SymbolTable();
+    Stack<SymbolTable> stt = new Stack <SymbolTable>(); //symbol table tree
     //need to make stack to push new scopes on?
 
     @Override
@@ -19,6 +20,7 @@ class Listener extends LittleBaseListener{
     @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
         System.out.println(ctx.getText());
         st.add(ctx);
+
     }
     @Override public void exitAssign_expr(LittleParser.Assign_exprContext ctx) { 
 	
