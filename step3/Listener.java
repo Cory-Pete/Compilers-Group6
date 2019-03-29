@@ -13,12 +13,12 @@ class Listener extends LittleBaseListener{
         stt.push(root);
     }
     @Override public void enterProgram(LittleParser.ProgramContext ctx) { 
-       SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
-        new_table.setScope("ENTER_PROGRAM");
+        SymbolTable new_table = new SymbolTable("Global");
+        stt.addTable(new_table);
     }
 	
 	@Override public void exitProgram(LittleParser.ProgramContext ctx) { 
-        
+        stt.pop();
     }
 	
     @Override public void enterId(LittleParser.IdContext ctx) {
@@ -30,11 +30,12 @@ class Listener extends LittleBaseListener{
      }
 	
 	@Override public void enterPgm_body(LittleParser.Pgm_bodyContext ctx) { 
-        
+        SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
+        stt.addTable(new_table);
     }
 	
 	@Override public void exitPgm_body(LittleParser.Pgm_bodyContext ctx) {
-        //stt.pop();
+        stt.pop();
      }
 	
 	@Override public void enterDecl(LittleParser.DeclContext ctx) {
@@ -66,11 +67,13 @@ class Listener extends LittleBaseListener{
         stt.pop();
     }
     @Override public void enterFunc_body(LittleParser.Func_bodyContext ctx) {
-
+        SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
+        stt.peek().addTable(new_table);
+        stt.push(new_table);
      }
 	
 	@Override public void exitFunc_body(LittleParser.Func_bodyContext ctx) {
-        //stt.pop();
+        stt.pop();
      }
 	
     @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
