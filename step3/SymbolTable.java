@@ -12,7 +12,7 @@ public class SymbolTable {
     public void popStack(){
         stack.pop();
     }
-    
+
     public void addSymbol() {
 
     }
@@ -22,4 +22,8 @@ public class SymbolTable {
     public ArrayList<LittleParser.Assign_exprContext> getList(){
         return list;
     }
+}
+
+public class Scope{
+    
 }
