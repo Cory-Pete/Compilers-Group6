@@ -6,7 +6,9 @@ class Listener extends LittleBaseListener{
     @Override
     public void enterFunc_decl(LittleParser.Func_declContext ctx){
         //operate on symbol table here, ie add new scope
-        System.out.println("FUNC");
+        SymbolTable new_table = new SymbolTable(ctx.id().getText(), scopeTracker.peek());
+        scopeTracker.peek().addTable(new_table);
+        scopeTracker.push(new_table);
     }
 
     @Override
@@ -15,7 +17,7 @@ class Listener extends LittleBaseListener{
     }
 
     @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
-        System.out.println("ASSIGN");
+        System.out.println(ctx);
         st.add(ctx);
     }
     @Override public void exitAssign_expr(LittleParser.Assign_exprContext ctx) { 
