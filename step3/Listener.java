@@ -13,11 +13,13 @@ class Listener extends LittleBaseListener{
         stt.push(root);
     }
     @Override public void enterProgram(LittleParser.ProgramContext ctx) { 
-
+        SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
+        stt.peek().addTable(new_table);
+        stt.push(new_table);
     }
 	
 	@Override public void exitProgram(LittleParser.ProgramContext ctx) { 
-
+        stt.pop();
     }
 	
     @Override public void enterId(LittleParser.IdContext ctx) {
@@ -25,15 +27,15 @@ class Listener extends LittleBaseListener{
      }
 	
 	@Override public void exitId(LittleParser.IdContext ctx) {
-
+        stt.pop();
      }
 	
 	@Override public void enterPgm_body(LittleParser.Pgm_bodyContext ctx) { 
-
+        
     }
 	
 	@Override public void exitPgm_body(LittleParser.Pgm_bodyContext ctx) {
-
+        stt.pop();
      }
 	
 	@Override public void enterDecl(LittleParser.DeclContext ctx) {
@@ -41,7 +43,7 @@ class Listener extends LittleBaseListener{
      }
 	
 	@Override public void exitDecl(LittleParser.DeclContext ctx) {
-
+        stt.pop();
      }
 	
     @Override public void enterVar_type(LittleParser.Var_typeContext ctx) { 
@@ -49,7 +51,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitVar_type(LittleParser.Var_typeContext ctx) {
-
+        stt.pop();
      }
 	
     @Override
@@ -69,7 +71,7 @@ class Listener extends LittleBaseListener{
      }
 	
 	@Override public void exitFunc_body(LittleParser.Func_bodyContext ctx) {
-
+        stt.pop();
      }
 	
     @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
@@ -96,7 +98,7 @@ class Listener extends LittleBaseListener{
 
     }
     @Override public void exitAssign_expr(LittleParser.Assign_exprContext ctx) { 
-        // stt.pop();
+        stt.pop();
     }
 
     @Override
@@ -153,7 +155,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitReturn_stmt(LittleParser.Return_stmtContext ctx) { 
-
+        stt.pop();
     }
 	
     @Override public void enterIf_stmt(LittleParser.If_stmtContext ctx) { 
@@ -161,7 +163,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitIf_stmt(LittleParser.If_stmtContext ctx) { 
-
+        stt.pop();
     }
 	
     @Override public void enterElse_part(LittleParser.Else_partContext ctx) { 
@@ -169,7 +171,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitElse_part(LittleParser.Else_partContext ctx) {
-
+        stt.pop();
      }
 	
     @Override public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
@@ -177,7 +179,7 @@ class Listener extends LittleBaseListener{
      }
 	
 	@Override public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
-        
+        stt.pop();
     }
 
 	
