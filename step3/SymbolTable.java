@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class SymbolTable {
+    int id = 0;
+    //SymbolTable table = new SymbolTable();
 
     ArrayList<LittleParser.Assign_exprContext> list = new ArrayList<LittleParser.Assign_exprContext>();
     Stack<LittleParser.Func_declContext> stack = new Stack<LittleParser.Func_declContext>();
@@ -22,21 +24,21 @@ public class SymbolTable {
     public ArrayList<LittleParser.Assign_exprContext> getList(){
         return list;
     }
-    public void addToTable(CustomVariable input)
-    {
-        for(int i = 0; i < id; i++)
-        {
-            if(table.get(i).name.equals(input.name))
-            {
-                System.out.println("DECLARATION ERROR " + input.name);
-                System.exit(0);
-            }
-        }
-    table.put(id, input);
-    id++;
-    }
+    // public void addSymbol(String input)
+    // {
+    //     for(int i = 0; i < id; i++)
+    //     {
+    //         if(table.get(i).name.equals(input.name))
+    //         {
+    //             System.out.println("DECLARATION ERROR " + input.name);
+    //             System.exit(0);
+    //         }
+    //     }
+    // table.put(id, input);
+    // id++;
+    // }
 }
 
-public class Scope{
+// public class Scope{
     
-}
+// }
