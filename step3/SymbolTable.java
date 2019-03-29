@@ -13,9 +13,6 @@ public class SymbolTable {
         stack.pop();
     }
 
-    public void addSymbol() {
-
-    }
     public void add(LittleParser.Assign_exprContext ctx){
         list.add(ctx);
     }
