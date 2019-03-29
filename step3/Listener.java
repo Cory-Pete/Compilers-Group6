@@ -26,5 +26,14 @@ class Listener extends LittleBaseListener{
 	public SymbolTable getSymbolTable(){
         return st;
     }
+    @Override
+    public void enterString_decl(LittleParser.String_declContext ctx)
+    {
+        String type = "STRING";
+        String name = ctx.id().getText();
+        String value = ctx.str().getText();
+        //System.out.println("name " + name + " type " + type + " value " + value);
+        scopeTracker.peek().addToTable(new CustomVariable(type, name, value));
+    }
 }
 
