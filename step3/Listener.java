@@ -12,66 +12,46 @@ class Listener extends LittleBaseListener{
         root = setScope("GLOBAL");
         stt.push(root);
     }
-    @Override public void enterProgram(LittleParser.ProgramContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitProgram(LittleParser.ProgramContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-    @Override public void enterId(LittleParser.IdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitId(LittleParser.IdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPgm_body(LittleParser.Pgm_bodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPgm_body(LittleParser.Pgm_bodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDecl(LittleParser.DeclContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDecl(LittleParser.DeclContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-    @Override public void enterVar_type(LittleParser.Var_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVar_type(LittleParser.Var_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+    @Override public void enterProgram(LittleParser.ProgramContext ctx) { 
+
+    }
+	
+	@Override public void exitProgram(LittleParser.ProgramContext ctx) { 
+
+    }
+	
+    @Override public void enterId(LittleParser.IdContext ctx) {
+
+     }
+	
+	@Override public void exitId(LittleParser.IdContext ctx) {
+
+     }
+	
+	@Override public void enterPgm_body(LittleParser.Pgm_bodyContext ctx) { 
+
+    }
+	
+	@Override public void exitPgm_body(LittleParser.Pgm_bodyContext ctx) {
+
+     }
+	
+	@Override public void enterDecl(LittleParser.DeclContext ctx) {
+
+     }
+	
+	@Override public void exitDecl(LittleParser.DeclContext ctx) {
+
+     }
+	
+    @Override public void enterVar_type(LittleParser.Var_typeContext ctx) { 
+
+    }
+	
+	@Override public void exitVar_type(LittleParser.Var_typeContext ctx) {
+
+     }
+	
     @Override
     public void enterFunc_decl(LittleParser.Func_declContext ctx){
         //operate on symbol table here, ie add new scope
@@ -84,18 +64,14 @@ class Listener extends LittleBaseListener{
     public void exitFunc_decl(LittleParser.Func_declContext ctx){
         stt.pop();
     }
-    @Override public void enterFunc_body(LittleParser.Func_bodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunc_body(LittleParser.Func_bodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+    @Override public void enterFunc_body(LittleParser.Func_bodyContext ctx) {
+
+     }
+	
+	@Override public void exitFunc_body(LittleParser.Func_bodyContext ctx) {
+
+     }
+	
     @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
         String name = ctx.id().getText();
         String value = ctx.getText();
@@ -172,55 +148,39 @@ class Listener extends LittleBaseListener{
         String paramID = ctx.id().getText();
         stt.peek().addSymbol(new TokenData(type, paramID));
     }
-    @Override public void enterReturn_stmt(LittleParser.Return_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitReturn_stmt(LittleParser.Return_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-    @Override public void enterIf_stmt(LittleParser.If_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIf_stmt(LittleParser.If_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-    @Override public void enterElse_part(LittleParser.Else_partContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElse_part(LittleParser.Else_partContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-    @Override public void enterWhile_stmt(LittleParser.While_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { }
+    @Override public void enterReturn_stmt(LittleParser.Return_stmtContext ctx) { 
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+    }
+	
+	@Override public void exitReturn_stmt(LittleParser.Return_stmtContext ctx) { 
+
+    }
+	
+    @Override public void enterIf_stmt(LittleParser.If_stmtContext ctx) { 
+
+    }
+	
+	@Override public void exitIf_stmt(LittleParser.If_stmtContext ctx) { 
+
+    }
+	
+    @Override public void enterElse_part(LittleParser.Else_partContext ctx) { 
+
+    }
+	
+	@Override public void exitElse_part(LittleParser.Else_partContext ctx) {
+
+     }
+	
+    @Override public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
+
+     }
+	
+	@Override public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
+        
+    }
+
+	
 }
 
 
