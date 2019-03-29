@@ -13,8 +13,8 @@ class Listener extends LittleBaseListener{
         stt.push(root);
     }
     @Override public void enterProgram(LittleParser.ProgramContext ctx) { 
-        SymbolTable new_table = new SymbolTable("Global");
-        stt.addTable(new_table);
+        SymbolTable new_table = new SymbolTable("Global", null);
+        stt.peek().addTable(new_table);
     }
 	
 	@Override public void exitProgram(LittleParser.ProgramContext ctx) { 
