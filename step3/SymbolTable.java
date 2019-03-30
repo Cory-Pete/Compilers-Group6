@@ -12,13 +12,14 @@ public class SymbolTable {
 
     ArrayList<SymbolTable> children = null;
     Stack<LittleParser.Func_declContext> stack = new Stack<LittleParser.Func_declContext>();
-    Hashtable<Integer, TokenData> table;
+    //Hashtable<Integer, TokenData> table = null;
+    ArrayList<TokenData> table = null;
 
     public SymbolTable(String scope, SymbolTable parent){
         this.scope = scope;
         id = 0;
         this.count = 0;
-        table = new Hashtable<Integer, TokenData>();
+        //table = new Hashtable<Integer, TokenData>();
         this.parent = parent;
     }
     public void addScope(LittleParser.Func_declContext ctx) {
@@ -37,27 +38,28 @@ public class SymbolTable {
     }
 
     public void addSymbol(TokenData data){
-        for(int i = 0; i < id; i++){
-            if(table.get(i).name.equals(data.name)){
-                System.out.println("doubleVar");
-                return;
-            }
+        if(table == null){
+            table = new ArrayList<TokenData>();
         }
-        table.put(id, data);
-        id++;
-    }
-    public TokenData getData(String name){
         for(int i = 0; i < table.size(); i++){
-            System.out.println(table.get(i).name);
-            if(table.get(i).name.equals(name)){
-                return table.get(i);
+            if(table.get(i).name.equals(data.name)){
+                System.out.println("DECLARATION ERROR " + data.name);
+                System.exit(0);
             }
         }
-        if(this.parent != null){
-            return this.parent.getData(name);
-        }
-        else{
-            return null;
+        table.add(data);
+        //id++;
+    }
+    public void getData(){
+        if(table != null){
+            for(int i = 0; i < table.size(); i++){
+                if(table.get(i).data != ""){
+                    System.out.println("name " + table.get(i).name + " type " + table.get(i).type + " value " + table.get(i).data);
+                }
+                else{
+                    System.out.println("name " + table.get(i).name + " type " + table.get(i).type);
+                }
+            }
         }
     }
     public ArrayList<SymbolTable> getChildren(){

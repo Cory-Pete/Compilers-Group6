@@ -14,7 +14,6 @@ public class Driver {
 		Listener listener = new Listener();
 		walker.walk(listener, parser.program());
 		SymbolTable root = listener.getRoot();
-		System.out.print("name " + root.getName() + " type" + root.getType()); //print roots info
 		listener.printResults(root);
 		
 	}

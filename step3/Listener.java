@@ -8,19 +8,18 @@ class Listener extends LittleBaseListener{
     int scope;
     //need to make stack to push new scopes on?
     public Listener(){
-        scope = 0;
+        scope = 1;
         root = new SymbolTable("GLOBAL", null);
         stt.push(root);
     }
     @Override public void enterProgram(LittleParser.ProgramContext ctx) { 
-        SymbolTable new_table = new SymbolTable("Global", null);
-        stt.peek().addTable(new_table);
-        stt.push(new_table);
-        new_table.setParent(stt.peek());
+        SymbolTable root = new SymbolTable("GLOBAL", null);
+        stt.peek().addTable(root);
+        stt.push(root);
     }
 	
 	@Override public void exitProgram(LittleParser.ProgramContext ctx) { 
-        stt.pop();
+       stt.pop();
     }
 	
     @Override public void enterVar_type(LittleParser.Var_typeContext ctx) { 
@@ -29,9 +28,6 @@ class Listener extends LittleBaseListener{
         }
     }
 	
-	@Override public void exitVar_type(LittleParser.Var_typeContext ctx) {
-       
-     }
 	
     @Override
     public void enterFunc_decl(LittleParser.Func_declContext ctx){
@@ -39,8 +35,8 @@ class Listener extends LittleBaseListener{
         if(ctx.any_type() != null){
             SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
             stt.peek().addTable(new_table);
-            stt.push(new_table);
             new_table.setParent(stt.peek());
+            stt.push(new_table);
         }
     }
 
@@ -68,7 +64,8 @@ class Listener extends LittleBaseListener{
     {
         String type = "STRING";
         String name = ctx.id().getText();
-        String value = ctx.getText();
+        String value = ctx.getText().split("=")[1];
+        value = value.split(";")[0];
         //System.out.println("name " + name + " type " + type + " value " + value);
         stt.peek().addSymbol(new TokenData(type, name, value));
     }
@@ -84,8 +81,9 @@ class Listener extends LittleBaseListener{
     @Override public void enterIf_stmt(LittleParser.If_stmtContext ctx) { 
         if (ctx.cond() != null) {
             SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
-            stt.push(new_table);
+            stt.peek().addTable(new_table);
             new_table.setParent(stt.peek());
+            stt.push(new_table);
         }
     }
 	
@@ -96,8 +94,10 @@ class Listener extends LittleBaseListener{
     @Override public void enterElse_part(LittleParser.Else_partContext ctx) { 
         if(ctx.decl() != null){
             SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
-            stt.push(new_table);
+            stt.peek().addTable(new_table);
             new_table.setParent(stt.peek());
+            stt.push(new_table);
+            
         }
     }
 	
@@ -108,8 +108,9 @@ class Listener extends LittleBaseListener{
     @Override public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
             if(ctx.cond() != null){
                 SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
-                stt.push(new_table);
+                stt.peek().addTable(new_table);
                 new_table.setParent(stt.peek());
+                stt.push(new_table);
             }
     }
 	
@@ -120,18 +121,17 @@ class Listener extends LittleBaseListener{
         return root;
     }
     public void printResults(SymbolTable r){
-        while(r != null){
+        //while(r != null){
             if(r.getChildren() != null){
                 ArrayList<SymbolTable> children = r.getChildren();
                 for(int i = 0; i < children.size(); i++){
                     if(children.get(i).visited == false){
                         children.get(i).setVisited();
-                        if(children.get(i).getValue() != null){
-                            System.out.println("name " + children.get(i).getName() + " type " + children.get(i).getType() + " value " + children.get(i).getValue());
+                        System.out.println("Symbol table " + children.get(i).getName());
+                        if(children.get(i).table != null){
+                            children.get(i).getData();
                         }
-                        else{
-                            System.out.println("name " + children.get(i).getName() + " type " + children.get(i).getType());
-                        }
+                        System.out.println();
                         printResults(children.get(i));
                     }
                 }
@@ -140,7 +140,7 @@ class Listener extends LittleBaseListener{
                 return;
             }
         }
-    }
+   // }
 	
 }
 
