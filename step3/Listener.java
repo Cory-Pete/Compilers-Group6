@@ -13,19 +13,22 @@ class Listener extends LittleBaseListener{
         root = new SymbolTable("GLOBAL", null);
         stt.push(root);
     }
-    @Override public void enterProgram(LittleParser.ProgramContext ctx) { 
+    //Creates global symbol table as root of our tree
+    @Override
+    public void enterProgram(LittleParser.ProgramContext ctx) { 
         SymbolTable root = new SymbolTable("GLOBAL", null);
         stt.peek().addTable(root);
         stt.push(root);
     }
 	
-	@Override public void exitProgram(LittleParser.ProgramContext ctx) { 
+    @Override
+    public void exitProgram(LittleParser.ProgramContext ctx) { 
        stt.pop();
     }
 	
     @Override
     public void enterFunc_decl(LittleParser.Func_declContext ctx){
-        //if the type is not null, add the table to the stack and set the privious parent as its parent.
+        //if the type is not null, add the table to the stack and set the previous table as its parent.
         if(ctx.any_type() != null){
             SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
             stt.peek().addTable(new_table);
@@ -57,6 +60,7 @@ class Listener extends LittleBaseListener{
     @Override
     public void enterString_decl(LittleParser.String_declContext ctx)
     {
+        //get data from string declaration
         String type = "STRING";
         String name = ctx.id().getText();
         String value = ctx.getText().split("=")[1];
@@ -71,8 +75,10 @@ class Listener extends LittleBaseListener{
         String paramID = ctx.id().getText();
         stt.peek().addSymbol(new TokenData(type, paramID));
     }
-	
-    @Override public void enterIf_stmt(LittleParser.If_stmtContext ctx) { 
+    
+    //Enter if statement block, creates new scope by making new symbol table
+    @Override
+    public void enterIf_stmt(LittleParser.If_stmtContext ctx) { 
         if (ctx.cond() != null) {
             SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
             stt.peek().addTable(new_table);
@@ -81,11 +87,14 @@ class Listener extends LittleBaseListener{
         }
     }
 	
-	@Override public void exitIf_stmt(LittleParser.If_stmtContext ctx) { 
+    @Override
+    public void exitIf_stmt(LittleParser.If_stmtContext ctx) { 
         stt.pop();
     }
-	
-    @Override public void enterElse_part(LittleParser.Else_partContext ctx) { 
+    
+    //Enter else statement block, creates new scope by making new symbol table
+    @Override
+    public void enterElse_part(LittleParser.Else_partContext ctx) { 
         if(ctx.decl() != null){
             SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
             stt.peek().addTable(new_table);
@@ -95,11 +104,14 @@ class Listener extends LittleBaseListener{
         }
     }
 	
-	@Override public void exitElse_part(LittleParser.Else_partContext ctx) {
+    @Override
+    public void exitElse_part(LittleParser.Else_partContext ctx) {
         stt.pop();
      }
-	
-    @Override public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
+    
+    //Enter while statement block, creates new scope by making new symbol table
+    @Override
+    public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
             if(ctx.cond() != null){
                 SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
                 stt.peek().addTable(new_table);
@@ -108,12 +120,15 @@ class Listener extends LittleBaseListener{
             }
     }
 	
-	@Override public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
+    @Override
+    public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
         stt.pop();
     }
     public SymbolTable getRoot(){
         return root;
     }
+
+    //Print all symbole tables starting from symbol table r in a readable format
     public void printResults(SymbolTable r){
         //while(r != null){
             if(r.getChildren() != null){
