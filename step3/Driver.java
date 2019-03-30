@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
 public class Driver {
+	
 	public static void main(String[] args) throws IOException {
 		String returnS;
 		LittleLexer lexer = new LittleLexer(CharStreams.fromFileName(args[0]));
@@ -12,8 +13,9 @@ public class Driver {
 		ParseTreeWalker walker = new ParseTreeWalker();
 		Listener listener = new Listener();
 		walker.walk(listener, parser.program());
-		for(LittleParser.Assign_exprContext ctx : h){
-			System.out.println(ctx.getText());
-		}
+		SymbolTable root = listener.getRoot();
+		System.out.print("name " + root.getName() + " type" + root.getType()); //print roots info
+		listener.printResults(root);
+		
 	}
 }      

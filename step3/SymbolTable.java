@@ -2,12 +2,15 @@ import java.util.*;
 
 public class SymbolTable {
 
-    int id, count;
-    String scope;
-    SymbolTable parent = null;
+    public int id, count;
+    public String scope;
+    public String value = null;
+    public SymbolTable parent = null;
+    public boolean visited = false;
+    public String type = null;
 
-    ArrayList<LittleParser.Assign_exprContext> list = new ArrayList<LittleParser.Assign_exprContext>();
-    ArrayList<SymbolTable> children;
+
+    ArrayList<SymbolTable> children = null;
     Stack<LittleParser.Func_declContext> stack = new Stack<LittleParser.Func_declContext>();
     Hashtable<Integer, TokenData> table;
 
@@ -24,13 +27,6 @@ public class SymbolTable {
 
     public void popStack(){
         stack.pop();
-    }
-
-    public void add(LittleParser.Assign_exprContext ctx){
-        list.add(ctx);
-    }
-    public ArrayList<LittleParser.Assign_exprContext> getList(){
-        return list;
     }
 
     public void addTable(SymbolTable st){
@@ -64,7 +60,7 @@ public class SymbolTable {
             return null;
         }
     }
-    public List<SymbolTable> getChildren(){
+    public ArrayList<SymbolTable> getChildren(){
         return children;
     }
     public String getScope()
@@ -76,14 +72,26 @@ public class SymbolTable {
     {
         return this;
     }
-
-    public String toString()
-    {
-        String s;
-        for(int i = 0; i < table.size(); i++){
-            s += table.get(i) + "\n";
-        }
-        return "";
+    public void setParent(SymbolTable s){
+        parent = s;
+    }
+    public SymbolTable getParent(){
+        return parent;
+    }
+    public String getName(){
+        return scope;
+    }
+    public String getValue(){
+        return value;
+    }
+    public void setVisited(){
+        visited = true;
+    }
+    public boolean visited(){
+        return visited;
+    }
+    public String getType(){
+        return type;
     }
 }
 

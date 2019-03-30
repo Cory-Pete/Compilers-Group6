@@ -10,35 +10,18 @@ class Listener extends LittleBaseListener{
     public Listener(){
         scope = 0;
         root = new SymbolTable("GLOBAL", null);
-        //root = setScope("GLOBAL");
         stt.push(root);
     }
     @Override public void enterProgram(LittleParser.ProgramContext ctx) { 
         SymbolTable new_table = new SymbolTable("Global", null);
         stt.peek().addTable(new_table);
+        stt.push(new_table);
+        new_table.setParent(stt.peek());
     }
 	
 	@Override public void exitProgram(LittleParser.ProgramContext ctx) { 
         stt.pop();
     }
-	
-	/*
-	@Override public void enterPgm_body(LittleParser.Pgm_bodyContext ctx) { 
-        SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
-        stt.addTable(new_table);
-    }
-	
-	@Override public void exitPgm_body(LittleParser.Pgm_bodyContext ctx) {
-        stt.pop();
-     }*/
-	
-	@Override public void enterDecl(LittleParser.DeclContext ctx) {
-
-     }
-	
-	@Override public void exitDecl(LittleParser.DeclContext ctx) {
-        //stt.pop();
-     }
 	
     @Override public void enterVar_type(LittleParser.Var_typeContext ctx) { 
         if (ctx != null) {
@@ -47,7 +30,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitVar_type(LittleParser.Var_typeContext ctx) {
-        stt.pop();
+       
      }
 	
     @Override
@@ -57,6 +40,7 @@ class Listener extends LittleBaseListener{
             SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
             stt.peek().addTable(new_table);
             stt.push(new_table);
+            new_table.setParent(stt.peek());
         }
     }
 
@@ -64,43 +48,6 @@ class Listener extends LittleBaseListener{
     public void exitFunc_decl(LittleParser.Func_declContext ctx){
         stt.pop();
     }
-    /*
-    @Override public void enterFunc_body(LittleParser.Func_bodyContext ctx) {
-        SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
-        stt.peek().addTable(new_table);
-        stt.push(new_table);
-     }
-	
-	@Override public void exitFunc_body(LittleParser.Func_bodyContext ctx) {
-        stt.pop();
-     }*/
-	/*
-    @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
-        String name = ctx.id().getText();
-        String value = ctx.getText();
-        //temp for testing
-        try
-        {
-            if (root.getData(name).type == null)
-            {
-                //lookup table?
-            }
-            else
-            {
-                String type = root.getData(name).type;
-                stt.peek().addSymbol(new TokenData(type, name, value));
-            }
-        }catch(Exception e)
-        {
-            System.out.println("YOUR FAVORITE NULL");
-            //Empty StackNotation
-        }
-        
-
-    }
-    @Override public void exitAssign_expr(LittleParser.Assign_exprContext ctx) { 
-        stt.pop();
-    }*/
 
     @Override
     public void enterVar_decl(LittleParser.Var_declContext ctx)
@@ -115,22 +62,7 @@ class Listener extends LittleBaseListener{
    
 	public SymbolTable getSymbolTable(){
         return root;
-    }/*
-    public SymbolTable setScope(String name){
-        SymbolTable out;
-        if(name != null){
-            out = new SymbolTable(name, null);
-            stt.push(out);
-            scope++;
-            return out;
-        }
-        out = new SymbolTable("BLOCK" + Integer.toString(scope), stt.peek());
-        stt.peek().addTable(out);
-        stt.push(out);
-        scope++;
-        return out;
-        
-    }*/
+    }
     @Override
     public void enterString_decl(LittleParser.String_declContext ctx)
     {
@@ -151,7 +83,9 @@ class Listener extends LittleBaseListener{
 	
     @Override public void enterIf_stmt(LittleParser.If_stmtContext ctx) { 
         if (ctx.cond() != null) {
-            stt.push(new SymbolTable("BLOCK " + scope++, stt.peek()));
+            SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
+            stt.push(new_table);
+            new_table.setParent(stt.peek());
         }
     }
 	
@@ -161,7 +95,9 @@ class Listener extends LittleBaseListener{
 	
     @Override public void enterElse_part(LittleParser.Else_partContext ctx) { 
         if(ctx.decl() != null){
-            stt.push(new SymbolTable("BLOCK " + scope++, stt.peek()));
+            SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
+            stt.push(new_table);
+            new_table.setParent(stt.peek());
         }
     }
 	
@@ -171,12 +107,39 @@ class Listener extends LittleBaseListener{
 	
     @Override public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
             if(ctx.cond() != null){
-                stt.push(new SymbolTable("BLOCK " + scope++, stt.peek()));
+                SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
+                stt.push(new_table);
+                new_table.setParent(stt.peek());
             }
     }
 	
 	@Override public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
         stt.pop();
+    }
+    public SymbolTable getRoot(){
+        return root;
+    }
+    public void printResults(SymbolTable r){
+        while(r != null){
+            if(r.getChildren() != null){
+                ArrayList<SymbolTable> children = r.getChildren();
+                for(int i = 0; i < children.size(); i++){
+                    if(children.get(i).visited == false){
+                        children.get(i).setVisited();
+                        if(children.get(i).getValue() != null){
+                            System.out.println("name " + children.get(i).getName() + " type " + children.get(i).getType() + " value " + children.get(i).getValue());
+                        }
+                        else{
+                            System.out.println("name " + children.get(i).getName() + " type " + children.get(i).getType());
+                        }
+                        printResults(children.get(i));
+                    }
+                }
+            }
+            else{
+                return;
+            }
+        }
     }
 	
 }
