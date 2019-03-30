@@ -11,10 +11,11 @@ public class SymbolTable {
 
 
     ArrayList<SymbolTable> children = null;
-    Stack<LittleParser.Func_declContext> stack = new Stack<LittleParser.Func_declContext>();
     //Hashtable<Integer, TokenData> table = null;
+    //ArrayList of TokenData
     ArrayList<TokenData> table = null;
 
+    //Constructor for symbol table using scope and parent
     public SymbolTable(String scope, SymbolTable parent){
         this.scope = scope;
         id = 0;
@@ -22,14 +23,8 @@ public class SymbolTable {
         //table = new Hashtable<Integer, TokenData>();
         this.parent = parent;
     }
-    public void addScope(LittleParser.Func_declContext ctx) {
-        stack.push(ctx);
-    }
 
-    public void popStack(){
-        stack.pop();
-    }
-
+    //Sets children of table
     public void addTable(SymbolTable st){
         if(children == null){
             children = new ArrayList<SymbolTable>();
@@ -37,11 +32,13 @@ public class SymbolTable {
         children.add(st);
     }
 
+    //Adds symbol data to table
     public void addSymbol(TokenData data){
         if(table == null){
             table = new ArrayList<TokenData>();
         }
         for(int i = 0; i < table.size(); i++){
+            //if duplicate declaration, raise Declaration Error and exit
             if(table.get(i).name.equals(data.name)){
                 System.out.println("DECLARATION ERROR " + data.name);
                 System.exit(0);
@@ -50,6 +47,8 @@ public class SymbolTable {
         table.add(data);
         //id++;
     }
+
+    //Prints data in the current table
     public void getData(){
         if(table != null){
             for(int i = 0; i < table.size(); i++){
@@ -62,6 +61,8 @@ public class SymbolTable {
             }
         }
     }
+
+    //Get children of current symbol table
     public ArrayList<SymbolTable> getChildren(){
         return children;
     }
@@ -74,6 +75,8 @@ public class SymbolTable {
     {
         return this;
     }
+
+    //Set parent symbol table
     public void setParent(SymbolTable s){
         parent = s;
     }
@@ -86,6 +89,8 @@ public class SymbolTable {
     public String getValue(){
         return value;
     }
+
+    //set if symbol table has been visited
     public void setVisited(){
         visited = true;
     }

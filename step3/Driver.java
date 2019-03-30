@@ -11,9 +11,15 @@ public class Driver {
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		LittleParser parser = new LittleParser(tokenStream);
 		ParseTreeWalker walker = new ParseTreeWalker();
+
+		//Make object of our own class Listener with override methods from BaseLittleListener
 		Listener listener = new Listener();
 		walker.walk(listener, parser.program());
+
+		//Get the root table
 		SymbolTable root = listener.getRoot();
+
+		//Print entire tree from root
 		listener.printResults(root);
 		
 	}
