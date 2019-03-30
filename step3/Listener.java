@@ -9,6 +9,7 @@ class Listener extends LittleBaseListener{
     //need to make stack to push new scopes on?
     public Listener(){
         scope = 1;
+        //make root table, and push to stack.
         root = new SymbolTable("GLOBAL", null);
         stt.push(root);
     }
@@ -22,16 +23,9 @@ class Listener extends LittleBaseListener{
        stt.pop();
     }
 	
-    @Override public void enterVar_type(LittleParser.Var_typeContext ctx) { 
-        if (ctx != null) {
-            String declType = ctx.getText();
-        }
-    }
-	
-	
     @Override
     public void enterFunc_decl(LittleParser.Func_declContext ctx){
-        //operate on symbol table here, ie add new scope
+        //if the type is not null, add the table to the stack and set the privious parent as its parent.
         if(ctx.any_type() != null){
             SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
             stt.peek().addTable(new_table);
@@ -47,7 +41,8 @@ class Listener extends LittleBaseListener{
 
     @Override
     public void enterVar_decl(LittleParser.Var_declContext ctx)
-    {
+    {  
+        //get data from a variable declaration, and create new symbol with this info
         String type = ctx.var_type().getText();
         String[] list = ctx.id_list().getText().split(",");
         for(int i = 0; i < list.length; i++)
@@ -66,7 +61,6 @@ class Listener extends LittleBaseListener{
         String name = ctx.id().getText();
         String value = ctx.getText().split("=")[1];
         value = value.split(";")[0];
-        //System.out.println("name " + name + " type " + type + " value " + value);
         stt.peek().addSymbol(new TokenData(type, name, value));
     }
 
