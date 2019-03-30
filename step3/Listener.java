@@ -5,11 +5,12 @@ class Listener extends LittleBaseListener{
     
     Stack<SymbolTable> stt = new Stack <SymbolTable>(); //symbol table tree
     SymbolTable root;
-    int count = 0;
+    int scope;
     //need to make stack to push new scopes on?
     public Listener(){
+        scope = 0;
         root = new SymbolTable("GLOBAL", null);
-        root = setScope("GLOBAL");
+        //root = setScope("GLOBAL");
         stt.push(root);
     }
     @Override public void enterProgram(LittleParser.ProgramContext ctx) { 
@@ -21,14 +22,7 @@ class Listener extends LittleBaseListener{
         stt.pop();
     }
 	
-    @Override public void enterId(LittleParser.IdContext ctx) {
-
-     }
-	
-	@Override public void exitId(LittleParser.IdContext ctx) {
-        //stt.pop();
-     }
-	
+	/*
 	@Override public void enterPgm_body(LittleParser.Pgm_bodyContext ctx) { 
         SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
         stt.addTable(new_table);
@@ -36,7 +30,7 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitPgm_body(LittleParser.Pgm_bodyContext ctx) {
         stt.pop();
-     }
+     }*/
 	
 	@Override public void enterDecl(LittleParser.DeclContext ctx) {
 
@@ -47,25 +41,30 @@ class Listener extends LittleBaseListener{
      }
 	
     @Override public void enterVar_type(LittleParser.Var_typeContext ctx) { 
-
+        if (ctx != null) {
+            String declType = ctx.getText();
+        }
     }
 	
 	@Override public void exitVar_type(LittleParser.Var_typeContext ctx) {
-        //stt.pop();
+        stt.pop();
      }
 	
     @Override
     public void enterFunc_decl(LittleParser.Func_declContext ctx){
         //operate on symbol table here, ie add new scope
-        SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
-        stt.peek().addTable(new_table);
-        stt.push(new_table);
+        if(ctx.any_type() != null){
+            SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
+            stt.peek().addTable(new_table);
+            stt.push(new_table);
+        }
     }
 
     @Override
     public void exitFunc_decl(LittleParser.Func_declContext ctx){
         stt.pop();
     }
+    /*
     @Override public void enterFunc_body(LittleParser.Func_bodyContext ctx) {
         SymbolTable new_table = new SymbolTable(ctx.id().getText(), stt.peek());
         stt.peek().addTable(new_table);
@@ -74,8 +73,8 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitFunc_body(LittleParser.Func_bodyContext ctx) {
         stt.pop();
-     }
-	
+     }*/
+	/*
     @Override public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
         String name = ctx.id().getText();
         String value = ctx.getText();
@@ -101,7 +100,7 @@ class Listener extends LittleBaseListener{
     }
     @Override public void exitAssign_expr(LittleParser.Assign_exprContext ctx) { 
         stt.pop();
-    }
+    }*/
 
     @Override
     public void enterVar_decl(LittleParser.Var_declContext ctx)
@@ -113,28 +112,25 @@ class Listener extends LittleBaseListener{
             stt.peek().addSymbol(new TokenData(type, list[i]));
         }
     }
-    @Override
-    public void exitVar_decl(LittleParser.Var_declContext ctx){
-        stt.pop();
-    }
+   
 	public SymbolTable getSymbolTable(){
         return root;
-    }
+    }/*
     public SymbolTable setScope(String name){
         SymbolTable out;
         if(name != null){
             out = new SymbolTable(name, null);
             stt.push(out);
-            //count++;
+            scope++;
             return out;
         }
-        out = new SymbolTable("BLOCK" + Integer.toString(count), stt.peek());
+        out = new SymbolTable("BLOCK" + Integer.toString(scope), stt.peek());
         stt.peek().addTable(out);
         stt.push(out);
-        //count++;
+        scope++;
         return out;
         
-    }
+    }*/
     @Override
     public void enterString_decl(LittleParser.String_declContext ctx)
     {
@@ -152,18 +148,11 @@ class Listener extends LittleBaseListener{
         String paramID = ctx.id().getText();
         stt.peek().addSymbol(new TokenData(type, paramID));
     }
-    @Override public void enterReturn_stmt(LittleParser.Return_stmtContext ctx) { 
-
-    }
-	
-	@Override public void exitReturn_stmt(LittleParser.Return_stmtContext ctx) { 
-        //stt.pop();
-    }
 	
     @Override public void enterIf_stmt(LittleParser.If_stmtContext ctx) { 
-        String type = ctx.var_type().getText();
-        String paramID = ctx.id().getText();
-        stt.peek().addSymbol(new TokenData(type, paramID));
+        if (ctx.cond() != null) {
+            stt.push(new SymbolTable("BLOCK " + scope++, stt.peek()));
+        }
     }
 	
 	@Override public void exitIf_stmt(LittleParser.If_stmtContext ctx) { 
@@ -171,9 +160,9 @@ class Listener extends LittleBaseListener{
     }
 	
     @Override public void enterElse_part(LittleParser.Else_partContext ctx) { 
-        String type = ctx.var_type().getText();
-        String paramID = ctx.id().getText();
-        stt.peek().addSymbol(new TokenData(type, paramID));
+        if(ctx.decl() != null){
+            stt.push(new SymbolTable("BLOCK " + scope++, stt.peek()));
+        }
     }
 	
 	@Override public void exitElse_part(LittleParser.Else_partContext ctx) {
@@ -181,15 +170,14 @@ class Listener extends LittleBaseListener{
      }
 	
     @Override public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
-        String type = ctx.var_type().getText();
-        String paramID = ctx.id().getText();
-        stt.peek().addSymbol(new TokenData(type, paramID));
-     }
+            if(ctx.cond() != null){
+                stt.push(new SymbolTable("BLOCK " + scope++, stt.peek()));
+            }
+    }
 	
 	@Override public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
         stt.pop();
     }
-
 	
 }
 

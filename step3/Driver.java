@@ -12,8 +12,6 @@ public class Driver {
 		ParseTreeWalker walker = new ParseTreeWalker();
 		Listener listener = new Listener();
 		walker.walk(listener, parser.program());
-		SymbolTable s = listener.getSymbolTable();
-		ArrayList<LittleParser.Assign_exprContext> h = s.getList();
 		for(LittleParser.Assign_exprContext ctx : h){
 			System.out.println(ctx.getText());
 		}

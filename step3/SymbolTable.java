@@ -76,6 +76,15 @@ public class SymbolTable {
     {
         return this;
     }
+
+    public String toString()
+    {
+        String s;
+        for(int i = 0; i < table.size(); i++){
+            s += table.get(i) + "\n";
+        }
+        return "";
+    }
 }
 
 
