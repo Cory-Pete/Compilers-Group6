@@ -8,8 +8,9 @@ public class ASTNode{
     public boolean visited;
     public char operator;
 
-    public ASTNode(String type){
-        this.name = name;
+    public ASTNode(String type, char operator){
+        this.type = type;
+        this.operator = operator;
         if(name == "add_op"){
             ASTNode child1 = new ASTNode("child1");
             ASTNode child2 = new ASTNode("child2");
