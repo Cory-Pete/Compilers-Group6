@@ -4,6 +4,8 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 class Listener extends LittleBaseListener{
     
     Stack<SymbolTable> stt = new Stack <SymbolTable>(); //symbol table tree
+    ArrayList<ASTNode> astNodes = new ArrayList<ASTNode>();
+
     SymbolTable root;
     
     int scope;
@@ -165,6 +167,8 @@ class Listener extends LittleBaseListener{
     @Override public void enterAssign_stmt(LittleParser.Assign_stmtContext ctx) { 
         String name = ctx.getText();
         String id = name.split(":")[0];
+        ASTNode n = new ASTNode(id);
+        astNodes.add(n);
         //System.out.println(id);
     }
 	
@@ -172,8 +176,19 @@ class Listener extends LittleBaseListener{
 
     }
 
+    @Override public void enterId(LittleParser.IdContext ctx) { 
+
+    }
+	
+	@Override public void exitId(LittleParser.IdContext ctx) {
+        
+    }
+	
+
     @Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) { 
         String name = ctx.getText();
+        String value = name.split(name)[0];
+        astNodes.get(astNodes.size()).setChild1(value);
         //ex: a+ b+ i+
         //System.out.println(name);
     }
@@ -202,7 +217,7 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) { 
         String name = ctx.getText();
-       // System.out.println(name);
+        astNodes.get(astNodes.size()).setChild2(name);
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {

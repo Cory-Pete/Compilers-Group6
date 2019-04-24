@@ -7,6 +7,7 @@ public class ASTNode{
     public boolean visited;
     public char operator;
     public String type;
+    public String child1;
 
     public ASTNode(String type){
         this.type = type;
@@ -43,6 +44,14 @@ public class ASTNode{
 
     public String getType(){
         return type;
+    }
+
+    public void setChild1(String val){
+        child1 = val;
+    }
+
+    public void setChild2(String val){
+        child2 = val;
     }
 
 }
