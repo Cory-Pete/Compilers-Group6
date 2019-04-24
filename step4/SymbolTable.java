@@ -62,6 +62,22 @@ public class SymbolTable {
         }
     }
 
+    public TokenData lookUp(String val){
+        for(int i = 0; i < table.size(); i++)
+        {
+            if(table.get(i).name == val){
+                return table.get(i);
+            }
+        }
+        if(parent != null)
+        {
+            return parent.lookUp(val);
+        }
+        else{
+            return null;
+        }
+    }
+
     //Get children of current symbol table
     public ArrayList<SymbolTable> getChildren(){
         return children;

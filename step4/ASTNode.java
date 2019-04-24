@@ -2,23 +2,31 @@ import java.util.*;
 
 public class ASTNode{
 
-    public ArrayList<ASTNode> children = new ArrayList<ASTNode>();
+    
     public ASTNode parent;
     public boolean visited;
     public char operator;
     public String type;
-    public String child1;
+    public String id;
+    public String data;
+    public String childOne, childTwo;
 
     public ASTNode(String type){
         this.type = type;
 
         if(type == "+" || type == "-" || type == "*"){
-            ASTNode child1 = new ASTNode();
-            ASTNode child2 = new ASTNode();
-            children.add(child1);
-            children.add(child2);
-            child1.setParent(this);
-            child2.setParent(this);
+        }
+        else if(type == "="){
+            System.out.println("no");
+        }
+    }
+
+    public ASTNode(String type, String data, String id){
+        this.type = type;
+
+        if(type == "int" || type == "-" || type == "*"){
+            this.data = data;
+            this.id = id;
         }
         else if(type == "="){
             System.out.println("no");
@@ -46,12 +54,19 @@ public class ASTNode{
         return type;
     }
 
-    public void setChild1(String val){
-        child1 = val;
+    public void setChild(ASTNode child, boolean flip){
+        if(flip){
+            childOne = child;
+        }
+        else{
+            childTwo = child;
+        }
     }
+    
 
-    public void setChild2(String val){
-        child2 = val;
+    public String getID()
+    {
+        return id;
     }
 
 }

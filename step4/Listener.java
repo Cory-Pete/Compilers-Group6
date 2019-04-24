@@ -177,7 +177,12 @@ class Listener extends LittleBaseListener{
     }
 
     @Override public void enterId(LittleParser.IdContext ctx) { 
-
+        String idname = ctx.getText());
+        TokenData symbol = stt.lookUp(idname)
+        if(symbol != null){
+            ASTNode temp = new ASTNode(symbol.type, symbol.data, idname);
+            
+        }
     }
 	
 	@Override public void exitId(LittleParser.IdContext ctx) {
