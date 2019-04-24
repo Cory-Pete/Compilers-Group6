@@ -5,6 +5,7 @@ class Listener extends LittleBaseListener{
     
     Stack<SymbolTable> stt = new Stack <SymbolTable>(); //symbol table tree
     SymbolTable root;
+    
     int scope;
     //need to make stack to push new scopes on?
     public Listener(){
@@ -128,6 +129,64 @@ class Listener extends LittleBaseListener{
         return root;
     }
 
+    @Override public void enterAddop(LittleParser.AddopContext ctx) {
+        String name = ctx.getText();
+        ASTNode n = new ASTNode(name);
+    }
+	
+	@Override public void exitAddop(LittleParser.AddopContext ctx) { 
+
+    }
+	
+	@Override public void enterMulop(LittleParser.MulopContext ctx) { 
+        String name = ctx.getText()
+    }
+	
+	@Override public void exitMulop(LittleParser.MulopContext ctx) { 
+
+    }
+	
+    @Override public void enterAssign_stmt(LittleParser.Assign_stmtContext ctx) { 
+
+    }
+	
+	@Override public void exitAssign_stmt(LittleParser.Assign_stmtContext ctx) {
+
+    }
+
+    @Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) { 
+
+    }
+	
+	@Override public void exitExpr_prefix(LittleParser.Expr_prefixContext ctx) { 
+
+    }
+	
+	@Override public void enterFactor(LittleParser.FactorContext ctx) {
+
+    }
+	
+	@Override public void exitFactor(LittleParser.FactorContext ctx) { 
+
+    }
+	
+	@Override public void enterFactor_prefix(LittleParser.Factor_prefixContext ctx) { 
+
+    }
+	
+	@Override public void exitFactor_prefix(LittleParser.Factor_prefixContext ctx) { 
+
+    }
+	
+	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) { 
+
+    }
+	
+	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
+
+    }
+
+	
     //Print all symbole tables starting from symbol table r in a readable format
     public void printResults(SymbolTable r){
         //while(r != null){

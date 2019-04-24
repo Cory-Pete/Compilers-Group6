@@ -2,18 +2,17 @@ import java.util.*;
 
 public class ASTNode{
 
-    public String type;// e.g add_op, expr_prefix
     public ArrayList<ASTNode> children = new ArrayList<ASTNode>();
     public ASTNode parent;
     public boolean visited;
     public char operator;
 
-    public ASTNode(String type, char operator){
+    public ASTNode(String type){
         this.type = type;
-        this.operator = operator;
-        if(name == "add_op"){
-            ASTNode child1 = new ASTNode("child1");
-            ASTNode child2 = new ASTNode("child2");
+
+        if(type == "+" || type == "-"){
+            ASTNode child1 = new ASTNode();
+            ASTNode child2 = new ASTNode();
             children.add(child1);
             children.add(child2);
             child1.setParent(this);
@@ -22,6 +21,10 @@ public class ASTNode{
         else if(name == "expr_prefix"){
             System.out.println("no");
         }
+    }
+
+    public ASTNode(){
+
     }
 
     public void setParent(ASTNode p){
