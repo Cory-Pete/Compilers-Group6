@@ -6,11 +6,12 @@ public class ASTNode{
     public ASTNode parent;
     public boolean visited;
     public char operator;
+    public String type;
 
     public ASTNode(String type){
         this.type = type;
 
-        if(type == "+" || type == "-"){
+        if(type == "+" || type == "-" || type == "*"){
             ASTNode child1 = new ASTNode();
             ASTNode child2 = new ASTNode();
             children.add(child1);
@@ -18,7 +19,7 @@ public class ASTNode{
             child1.setParent(this);
             child2.setParent(this);
         }
-        else if(name == "expr_prefix"){
+        else if(type == "="){
             System.out.println("no");
         }
     }

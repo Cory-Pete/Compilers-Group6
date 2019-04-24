@@ -128,10 +128,25 @@ class Listener extends LittleBaseListener{
     public SymbolTable getRoot(){
         return root;
     }
-
+    @Override public void enterPrimary(LittleParser.PrimaryContext ctx) { 
+        System.out.println(ctx.getText());
+    }
+	
+	@Override public void exitPrimary(LittleParser.PrimaryContext ctx) { 
+        
+    }
+	
     @Override public void enterAddop(LittleParser.AddopContext ctx) {
         String name = ctx.getText();
         ASTNode n = new ASTNode(name);
+    }
+    
+    @Override public void enterExpr(LittleParser.ExprContext ctx) {
+        //System.out.println(ctx.getText());
+     }
+	
+	@Override public void exitExpr(LittleParser.ExprContext ctx) { 
+
     }
 	
 	@Override public void exitAddop(LittleParser.AddopContext ctx) { 
@@ -139,7 +154,8 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void enterMulop(LittleParser.MulopContext ctx) { 
-        String name = ctx.getText()
+        String name = ctx.getText();
+        ASTNode n = new ASTNode(name);
     }
 	
 	@Override public void exitMulop(LittleParser.MulopContext ctx) { 
@@ -147,7 +163,9 @@ class Listener extends LittleBaseListener{
     }
 	
     @Override public void enterAssign_stmt(LittleParser.Assign_stmtContext ctx) { 
-
+        String name = ctx.getText();
+        String id = name.split(":")[0];
+        //System.out.println(id);
     }
 	
 	@Override public void exitAssign_stmt(LittleParser.Assign_stmtContext ctx) {
@@ -155,7 +173,9 @@ class Listener extends LittleBaseListener{
     }
 
     @Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) { 
-
+        String name = ctx.getText();
+        //ex: a+ b+ i+
+        //System.out.println(name);
     }
 	
 	@Override public void exitExpr_prefix(LittleParser.Expr_prefixContext ctx) { 
@@ -163,7 +183,8 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void enterFactor(LittleParser.FactorContext ctx) {
-
+        String name = ctx.getText();
+        //System.out.println(name);
     }
 	
 	@Override public void exitFactor(LittleParser.FactorContext ctx) { 
@@ -171,7 +192,8 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void enterFactor_prefix(LittleParser.Factor_prefixContext ctx) { 
-
+        String name = ctx.getText();
+        //System.out.println(name);
     }
 	
 	@Override public void exitFactor_prefix(LittleParser.Factor_prefixContext ctx) { 
@@ -179,7 +201,8 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) { 
-
+        String name = ctx.getText();
+       // System.out.println(name);
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
