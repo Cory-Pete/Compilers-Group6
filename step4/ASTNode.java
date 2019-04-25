@@ -9,7 +9,7 @@ public class ASTNode{
     public String type;
     public String id;
     public String data;
-    public ArrayList<ASTNode> children;
+    public ArrayList<ASTNode> children = new ArrayList<ASTNode>();;
     public ASTNode leftChild, rightChild;
     public boolean root;
 
@@ -36,8 +36,20 @@ public class ASTNode{
         }
     }
 
+    public ASTNode(ASTNode leftChild){
+        this.leftChild = leftChild;
+    }
+    
     public ASTNode(){
-        children = new ArrayList<ASTNode>();
+
+    }
+
+    public void setRightChild(ASTNode rightChild){
+        this.rightChild = rightChild;
+    }
+
+    public void setLeftChild(ASTNode leftChild){
+        this.leftChild = leftChild;
     }
 
     public void setParent(ASTNode p){

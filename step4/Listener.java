@@ -144,11 +144,19 @@ class Listener extends LittleBaseListener{
 	
     
     @Override public void enterExpr(LittleParser.ExprContext ctx) {
+        if(curChild == null){
+            curChild = new ASTNode();
+        }
+        else{
+            System.out.println("EnterExpr, child not null!");
+        }
        // System.out.println(ctx.getText());
     }
 	
-	@Override public void exitExpr(LittleParser.ExprContext ctx) { 
-
+	@Override public void exitExpr(LittleParser.ExprContext ctx) {
+        children[0].addChildren(children[1]);
+        root.setRightChild(children[0]);
+        ArrayList<ASTNode> children = curChild.getChildren();
     }
     @Override public void enterAddop(LittleParser.AddopContext ctx) {
         String name = ctx.getText();
@@ -223,6 +231,15 @@ class Listener extends LittleBaseListener{
 
 	
 	@Override public void enterFactor(LittleParser.FactorContext ctx) {
+        if(curChild == null){
+            curChild = new ASTNode();
+        }
+        else{
+            ASTNode temp = new ASTNode();
+            curChild.addChildren(temp);
+            curChild = temp;
+
+        }
         String name = ctx.getText();
         
     }
@@ -241,10 +258,6 @@ class Listener extends LittleBaseListener{
 
     }
 	@Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) {
-        if(ctx.getText() == "")
-        {
-            return;
-        }
         // String name = ctx.getText();
         // String value = name.split(name)[0];
         ASTNode c = new ASTNode();
