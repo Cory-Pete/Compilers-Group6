@@ -66,7 +66,8 @@ public class SymbolTable {
     public TokenData lookUp(String val){
         for(int i = 0; i < table.size(); i++)
         {
-            if(table.get(i).name == val){
+            // System.out.println(table.get(i).name);
+            if(table.get(i).name.equals(val)){
                 return table.get(i);
             }
         }

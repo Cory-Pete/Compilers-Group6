@@ -152,18 +152,19 @@ class Listener extends LittleBaseListener{
             curChild = new ASTNode();
         }
         else{
-            System.out.println("EnterExpr, child not null!");
+            // System.out.println("EnterExpr, child not null!");
         }
-       // System.out.println(ctx.getText());
     }
 	
 	@Override public void exitExpr(LittleParser.ExprContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
         if(children.size() == 0){
+            curChild = null;
             return;
         }
         children.get(0).setRightChild(children.get(1));
         curRoot.setRightChild(children.get(0));
+        curChild = null;
     }
     @Override public void enterAddop(LittleParser.AddopContext ctx) {
         String name = ctx.getText();
@@ -177,59 +178,38 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void enterMulop(LittleParser.MulopContext ctx) { 
         String name = ctx.getText();
-        // astRootNodes.get(0).setChild(new ASTNode(name), false);
     }
 	
 	@Override public void exitMulop(LittleParser.MulopContext ctx) { 
 
     }
 	
-    @Override public void enterAssign_stmt(LittleParser.Assign_stmtContext ctx) { 
+    @Override public void enterAssign_stmt(LittleParser.Assign_stmtContext ctx) {
         String name = ctx.getText();
-        //System.out.println(name);
-        // String middle = "=";
+        System.out.println("Hello " + name);
         String id = name.split(":")[0];
         String ops = name.split("=")[1];
         ASTNode curRoot = new ASTNode();
         ASTNode temp = new ASTNode(id);
         astRootNodes.add(curRoot);
-        
-        /*
-        System.out.println("id: " + id);
-        System.out.println("middle: " + middle);
-        System.out.println("ops: " + ops);
-        System.out.println();
-        */
-        // ASTNode n = new ASTNode(middle);
-        // n.setRoot();//set = as a root
-        // astRootNodes.add(n);
-        // astRootNodes.get(0).setChild(new ASTNode(id), true);
     }
 	
 	@Override public void exitAssign_stmt(LittleParser.Assign_stmtContext ctx) {
-    //   astRootNodes.remove(0);
     }
 
     @Override public void enterId(LittleParser.IdContext ctx) { 
         String idname = ctx.getText();
+        // System.out.println(idname);
         ASTNode temp = new ASTNode(idname);
         TokenData id = stt.peek().lookUp(idname);
         if(id != null){
             temp.setType(id.type);
             curChild.addChild(temp);
+            System.out.println("ID FOUND");
         }
         else{
-            System.out.println("ID not found");
+            System.out.println("ID not found " + idname);
         }
-        // if(astRootNodes.size() > 0 && astRootNodes(0).isRoot()){
-        //     astRootNodes.get(0).setChild(temp, childFlag);
-        //     if(childFlag == false){
-        //         childFlag = true;
-        //     }
-        //     else{
-        //         childFlag = false;
-            // }
-        // }
     }
 	
 	@Override public void exitId(LittleParser.IdContext ctx) {}
@@ -276,20 +256,31 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitFactor_prefix(LittleParser.Factor_prefixContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
+        ASTNode temp;
         if(children.size() == 0){
             return;
         }
-        ASTNode topChild = children.get(children.size()-1);
-        topChild.setLeftChild(children.get(0));
-        ASTNode temp = curChild.getParent();
-        temp.removeChild(curChild);
-        curChild = temp;
-        curChild.addChild(topChild);
+        if(children.size() == 2){
+            ASTNode topChild = children.get(children.size()-1);
+            topChild.setLeftChild(children.get(0));
+            temp = curChild.getParent();
+            temp.removeChild(curChild);
+            curChild = temp;
+            curChild.addChild(topChild);
+        }
+        else if(children.size() == 3)
+        {
+            children.get(1).setRightChild(children.get(0));
+            children.get(1).setLeftChild(children.get(1).getChildren().get(0));
+            children.get(2).setLeftChild(children.get(1));
+            temp = curChild.getParent();
+            temp.removeChild(curChild);
+            curChild = temp;
+            curChild.addChild(children.get(2));
+        }
         
     }
 	@Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) {
-        // String name = ctx.getText();
-        // String value = name.split(name)[0];
         ASTNode c = new ASTNode();
         if(curChild == null){
             curChild = c;
@@ -337,11 +328,11 @@ class Listener extends LittleBaseListener{
         curChild.addChild(temp);
         temp.setParent(curChild);
         curChild = temp;
-        //("v: " + value);
-        // astRootNodes.get(0).setChild(new ASTNode(value), true);
+        // System.out.println(curChild);
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
+        // System.out.println(curChild);
         if(curChild.getChildren().size() == 0){
             return;
         }
@@ -356,27 +347,27 @@ class Listener extends LittleBaseListener{
     {
         return curRoot;
     }
-    //Print all symbole tables starting from symbol table r in a readable format
-    // public void printResults(SymbolTable r){
-    //     //while(r != null){
-    //         if(r.getChildren() != null){
-    //             ArrayList<SymbolTable> children = r.getChildren();
-    //             for(int i = 0; i < children.size(); i++){
-    //                 if(children.get(i).visited == false){
-    //                     children.get(i).setVisited();
-    //                     System.out.println("Symbol table " + children.get(i).getName());
-    //                     if(children.get(i).table != null){
-    //                         children.get(i).getData();
-    //                     }
-    //                     System.out.println();
-    //                     printResults(children.get(i));
-    //                 }
-    //             }
-    //         }
-    //         else{
-    //             return;
-    //         }
-    // }
+    // Print all symbole tables starting from symbol table r in a readable format
+    public void printResults(SymbolTable r){
+        //while(r != null){
+            if(r.getChildren() != null){
+                ArrayList<SymbolTable> children = r.getChildren();
+                for(int i = 0; i < children.size(); i++){
+                    if(children.get(i).visited == false){
+                        children.get(i).setVisited();
+                        System.out.println("Symbol table " + children.get(i).getName());
+                        if(children.get(i).table != null){
+                            children.get(i).getData();
+                        }
+                        System.out.println();
+                        printResults(children.get(i));
+                    }
+                }
+            }
+            else{
+                return;
+            }
+    }
 }
 
 
