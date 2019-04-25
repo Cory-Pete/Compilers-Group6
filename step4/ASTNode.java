@@ -13,8 +13,8 @@ public class ASTNode{
     public ASTNode leftChild, rightChild;
     public boolean root;
 
-    public ASTNode(String type){
-        this.type = type;
+    public ASTNode(String id){
+        this.id = id;
         children = new ArrayList<ASTNode>();
 
         if(type == "+" || type == "-" || type == "*"){
@@ -71,6 +71,11 @@ public class ASTNode{
     public String getType(){
         return type;
     }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
     
     public void setRoot(){
         root = true;
@@ -88,6 +93,17 @@ public class ASTNode{
     {
         children.add(child);
         child.setParent(this);
+    }
+
+    public void removeChild(ASTNode childToBeRemoved)
+    {
+        for(int i = 0; i < children.size(); i++){
+            if(childToBeRemoved == children(i))
+            {
+                children.remove(i);
+                return;
+            }
+        }
     }
 
 }
