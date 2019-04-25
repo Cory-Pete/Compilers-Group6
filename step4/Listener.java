@@ -31,6 +31,10 @@ class Listener extends LittleBaseListener{
     @Override
     public void exitProgram(LittleParser.ProgramContext ctx) { 
        stt.pop();
+       for(int i = 0; i < astRootNodes.size()-1; i++){
+           astRootNodes.get(i).setRoot(astRootNodes.get(i+1));
+       }
+       curRoot = astRootNodes.get(0);
     }
 	
     @Override
@@ -155,14 +159,14 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitExpr(LittleParser.ExprContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
-        children[0].addRightChild(children[1]);
-        root.setRightChild(children[0]);
+        children.get(0).setRightChild(children.get(1));
+        curRoot.setRightChild(children.get(0));
     }
     @Override public void enterAddop(LittleParser.AddopContext ctx) {
         String name = ctx.getText();
         ASTNode temp = new ASTNode(name);
-        curChild.addChildren(temp);
-        temp.addParent(curChild);
+        curChild.addChild(temp);
+        temp.setParent(curChild);
         curChild = temp; 
     }
 
@@ -206,10 +210,10 @@ class Listener extends LittleBaseListener{
     @Override public void enterId(LittleParser.IdContext ctx) { 
         String idname = ctx.getText();
         ASTNode temp = new ASTNode(idname);
-        TokenData id = lookup(idname);
+        TokenData id = stt.peek().lookUp(idname);
         if(id != null){
             temp.setType(id.type);
-            curChild.setChild(temp);
+            curChild.addChild(temp);
         }
         else{
             System.out.println("ID not found");
@@ -235,7 +239,7 @@ class Listener extends LittleBaseListener{
         }
         else{
             ASTNode temp = new ASTNode();
-            curChild.addChildren(temp);
+            curChild.addChild(temp);
             temp.setParent(curChild);
             curChild = temp;
 
@@ -246,7 +250,7 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitFactor(LittleParser.FactorContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
-        children[0].setLeftChild(children[1]);
+        children.get(0).setLeftChild(children.get(1));
         curChild = curChild.getParent();
     }
 	
@@ -257,7 +261,7 @@ class Listener extends LittleBaseListener{
             return;
         }
         ASTNode temp = new ASTNode();
-        curChild.setChild(temp);
+        curChild.addChild(temp);
         temp.setParent(curChild);
         curChild = temp;
         
@@ -265,10 +269,10 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitFactor_prefix(LittleParser.Factor_prefixContext ctx) {
-        ASTNode<ArrayList> children = curChild.getChildren();
-        ASTNode topChild = children[children.size()-1];
-        topChild.setLeftChild(children[0]);
-        temp = curChild.getParent();
+        ArrayList<ASTNode> children = curChild.getChildren();
+        ASTNode topChild = children.get(children.size()-1);
+        topChild.setLeftChild(children.get(0));
+        ASTNode temp = curChild.getParent();
         temp.removeChild(curChild);
         curChild = temp;
         curChild.addChild(topChild);
@@ -291,16 +295,34 @@ class Listener extends LittleBaseListener{
     }
     @Override public void exitExpr_prefix(LittleParser.Expr_prefixContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
-        ASTNode topChild = children[children.size()-1];
-        topChild.setLeftChild(children[0]);
-        temp = curChild.getParent();
-        temp.removeChild(curChild);
-        curChild = temp;
-        curChild.addChild(topChild);
+        ASTNode temp;
+        if(children.size() < 3){
+            ASTNode topChild = children.get(1);
+            topChild.setLeftChild(children.get(0));
+            temp = curChild.getParent();
+            temp.removeChild(curChild);
+            curChild = temp;
+            curChild.addChild(topChild);
+        }
+        else if(children.size() == 3){
+            children.get(1).setRightChild(children.get(0));
+            children.get(1).setLeftChild(children.get(1).getChildren().get(0));
+            children.get(2).setLeftChild(children.get(1));
+            temp = curChild.getParent();
+            temp.removeChild(curChild);
+            curChild = temp;
+            curChild.addChild(children.get(2));
+        }
+        else if(children.size() == 1){
+            temp = curChild.getParent();
+            temp.removeChild(curChild);
+            curChild = temp;
+            curChild.addChild(children.get(0));
+        }
     }
 	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) {
         ASTNode temp = new ASTNode();
-        curChild.setChild(temp);
+        curChild.addChild(temp);
         temp.setParent(curChild);
         curChild = temp;
         //("v: " + value);
@@ -308,11 +330,16 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
-        ASTNode child = curChild.getChildren()[0];
-        temp = curChild.getParent();
+        ASTNode child = curChild.getChildren().get(0);
+        ASTNode temp = curChild.getParent();
         temp.removeChild(curChild);
         curChild = temp;
-        curChild.add(child);
+        curChild.addChild(child);
+    }
+
+    public static ASTNode getRootAST()
+    {
+        return curRoot;
     }
     //Print all symbole tables starting from symbol table r in a readable format
     // public void printResults(SymbolTable r){

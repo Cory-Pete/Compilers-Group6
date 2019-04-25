@@ -12,6 +12,7 @@ public class ASTNode{
     public ArrayList<ASTNode> children = new ArrayList<ASTNode>();;
     public ASTNode leftChild, rightChild;
     public boolean root;
+    public ASTNode childRoot;
 
     public ASTNode(String id){
         this.id = id;
@@ -95,15 +96,34 @@ public class ASTNode{
         child.setParent(this);
     }
 
+    public ArrayList<ASTNode> getChildren()
+    {
+        return children;
+    }
+
+    public void setRoot(ASTNode childRoot)
+    {
+        this.childRoot = childRoot;
+    }
+
+    public ASTNode getRoot(){
+        return childRoot;
+    }
+
     public void removeChild(ASTNode childToBeRemoved)
     {
         for(int i = 0; i < children.size(); i++){
-            if(childToBeRemoved == children(i))
+            if(childToBeRemoved == children.get(i))
             {
                 children.remove(i);
-                return;
+                break;
             }
         }
+    }
+
+    public void generateCode()
+    {
+
     }
 
 }
