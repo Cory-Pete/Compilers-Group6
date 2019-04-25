@@ -159,6 +159,9 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitExpr(LittleParser.ExprContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
+        if(children.size() == 0){
+            return;
+        }
         children.get(0).setRightChild(children.get(1));
         curRoot.setRightChild(children.get(0));
     }
@@ -250,6 +253,9 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitFactor(LittleParser.FactorContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
+        if(children.size() == 0){
+            return;
+        }
         children.get(0).setLeftChild(children.get(1));
         curChild = curChild.getParent();
     }
@@ -270,6 +276,9 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitFactor_prefix(LittleParser.Factor_prefixContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
+        if(children.size() == 0){
+            return;
+        }
         ASTNode topChild = children.get(children.size()-1);
         topChild.setLeftChild(children.get(0));
         ASTNode temp = curChild.getParent();
@@ -295,8 +304,11 @@ class Listener extends LittleBaseListener{
     }
     @Override public void exitExpr_prefix(LittleParser.Expr_prefixContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
+        if(children.size() == 0){
+            return;
+        }
         ASTNode temp;
-        if(children.size() < 3){
+        if(children.size() == 2){
             ASTNode topChild = children.get(1);
             topChild.setLeftChild(children.get(0));
             temp = curChild.getParent();
@@ -330,6 +342,9 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
+        if(curChild.getChildren().size() == 0){
+            return;
+        }
         ASTNode child = curChild.getChildren().get(0);
         ASTNode temp = curChild.getParent();
         temp.removeChild(curChild);
@@ -337,7 +352,7 @@ class Listener extends LittleBaseListener{
         curChild.addChild(child);
     }
 
-    public static ASTNode getRootAST()
+    public ASTNode getRootAST()
     {
         return curRoot;
     }

@@ -21,6 +21,7 @@ public class SymbolTable {
         id = 0;
         this.count = 0;
         //table = new Hashtable<Integer, TokenData>();
+        table = new ArrayList<TokenData>();
         this.parent = parent;
     }
 
