@@ -59,15 +59,6 @@ public class ASTNode{
     public String getType(){
         return type;
     }
-
-    public void setChild(ASTNode child, boolean flip){
-        if(flip){
-            leftChild = child;
-        }
-        else{
-            rightChild = child;
-        }
-    }
     
     public void setRoot(){
         root = true;

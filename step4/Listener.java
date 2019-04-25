@@ -6,11 +6,11 @@ class Listener extends LittleBaseListener{
     Stack<SymbolTable> stt = new Stack <SymbolTable>(); //symbol table tree
     ArrayList<ASTNode> astRootNodes = new ArrayList<ASTNode>();
     //Stack<ASTNode> astNodes = new Stack<ASTNode>();
-    boolean childFlag = true;
     SymbolTable root;
 
-    Queue<ASTNOde> rootNodes;
+    // Queue<ASTNOde> rootNodes;
     ASTNode curRoot;
+    ASTNode curChild;
     
     int scope;
     //need to make stack to push new scopes on?
@@ -152,15 +152,14 @@ class Listener extends LittleBaseListener{
     }
     @Override public void enterAddop(LittleParser.AddopContext ctx) {
         String name = ctx.getText();
-        //System.out.println(name);
         //if there are rootnodes, and the last root node is a +, =, -, *, / then add
-        if(astRootNodes.size() > 0 && astRootNodes(0).isRoot()){
-            ASTNode operator = new ASTNode(name);
-            operator.setRoot();
-            astRootNodes.get(0).setChild(new ASTNode(name), false);
-            astRootNodes.add(operator);
+        // if(astRootNodes.size() > 0 && astRootNodes(0).isRoot()){
+        //     ASTNode operator = new ASTNode(name);
+        //     operator.setRoot();
+        //     astRootNodes.get(0).setChild(new ASTNode(name), false);
+        //     astRootNodes.add(operator);
 
-        }
+        // }
         
     }
 
@@ -170,7 +169,7 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void enterMulop(LittleParser.MulopContext ctx) { 
         String name = ctx.getText();
-        astRootNodes.get(0).setChild(new ASTNode(name), false);
+        // astRootNodes.get(0).setChild(new ASTNode(name), false);
     }
 	
 	@Override public void exitMulop(LittleParser.MulopContext ctx) { 
@@ -185,8 +184,7 @@ class Listener extends LittleBaseListener{
         String ops = name.split("=")[1];
         ASTNode curRoot = new ASTNode();
         ASTNode temp = new ASTNode(id);
-        curRoot.setChild(true);
-        rootNodes.add(curRoot);
+        astRootNodes.add(curRoot);
         
         /*
         System.out.println("id: " + id);
@@ -207,15 +205,15 @@ class Listener extends LittleBaseListener{
     @Override public void enterId(LittleParser.IdContext ctx) { 
         String idname = ctx.getText();
         ASTNode temp = new ASTNode(idname);
-        if(astRootNodes.size() > 0 && astRootNodes(0).isRoot()){
-            astRootNodes.get(0).setChild(temp, childFlag);
-            if(childFlag == false){
-                childFlag = true;
-            }
-            else{
-                childFlag = false;
-            }
-        }
+        // if(astRootNodes.size() > 0 && astRootNodes(0).isRoot()){
+        //     astRootNodes.get(0).setChild(temp, childFlag);
+        //     if(childFlag == false){
+        //         childFlag = true;
+        //     }
+        //     else{
+        //         childFlag = false;
+            // }
+        // }
     }
 	
 	@Override public void exitId(LittleParser.IdContext ctx) {
@@ -242,49 +240,59 @@ class Listener extends LittleBaseListener{
 	@Override public void exitFactor_prefix(LittleParser.Factor_prefixContext ctx) { 
 
     }
-	@Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) { 
-        String name = ctx.getText();
-        String value = name.split(name)[0];
-        ASTNode c = new ASTNode(value);
-        curChild.addChild(c);
-        curChild = c;
-        astRootNodes.get(0).setChild(c, true);
+	@Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) {
+        if(ctx.getText() == "")
+        {
+            return;
+        }
+        // String name = ctx.getText();
+        // String value = name.split(name)[0];
+        ASTNode c = new ASTNode();
+        if(curChild == null){
+            curChild = c;
+        }
+        else{
+            curChild.addChild(c);
+            curChild = c;
+        }
         //ex: a+ b+ i+
        
     }
     @Override public void exitExpr_prefix(LittleParser.Expr_prefixContext ctx) {
-        curChild = curChild.getParent();
+        if(curChild != null){
+            curChild = curChild.getParent();
+        }
     }
 	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) { 
         String value = ctx.getText();
         //("v: " + value);
-        astRootNodes.get(0).setChild(new ASTNode(value), true);
+        // astRootNodes.get(0).setChild(new ASTNode(value), true);
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
 
     }
     //Print all symbole tables starting from symbol table r in a readable format
-    public void printResults(SymbolTable r){
-        //while(r != null){
-            if(r.getChildren() != null){
-                ArrayList<SymbolTable> children = r.getChildren();
-                for(int i = 0; i < children.size(); i++){
-                    if(children.get(i).visited == false){
-                        children.get(i).setVisited();
-                        System.out.println("Symbol table " + children.get(i).getName());
-                        if(children.get(i).table != null){
-                            children.get(i).getData();
-                        }
-                        System.out.println();
-                        printResults(children.get(i));
-                    }
-                }
-            }
-            else{
-                return;
-            }
-    }
+    // public void printResults(SymbolTable r){
+    //     //while(r != null){
+    //         if(r.getChildren() != null){
+    //             ArrayList<SymbolTable> children = r.getChildren();
+    //             for(int i = 0; i < children.size(); i++){
+    //                 if(children.get(i).visited == false){
+    //                     children.get(i).setVisited();
+    //                     System.out.println("Symbol table " + children.get(i).getName());
+    //                     if(children.get(i).table != null){
+    //                         children.get(i).getData();
+    //                     }
+    //                     System.out.println();
+    //                     printResults(children.get(i));
+    //                 }
+    //             }
+    //         }
+    //         else{
+    //             return;
+    //         }
+    // }
 }
 
 
