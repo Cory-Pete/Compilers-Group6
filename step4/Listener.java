@@ -8,6 +8,9 @@ class Listener extends LittleBaseListener{
     //Stack<ASTNode> astNodes = new Stack<ASTNode>();
     boolean childFlag = true;
     SymbolTable root;
+
+    Queue<ASTNOde> rootNodes;
+    ASTNode curRoot;
     
     int scope;
     //need to make stack to push new scopes on?
@@ -177,23 +180,27 @@ class Listener extends LittleBaseListener{
     @Override public void enterAssign_stmt(LittleParser.Assign_stmtContext ctx) { 
         String name = ctx.getText();
         //System.out.println(name);
-        String middle = "=";
+        // String middle = "=";
         String id = name.split(":")[0];
         String ops = name.split("=")[1];
+        ASTNode curRoot = new ASTNode();
+        ASTNode temp = new ASTNode(id);
+        curRoot.setChild(true);
+        rootNodes.add(curRoot);
         /*
         System.out.println("id: " + id);
         System.out.println("middle: " + middle);
         System.out.println("ops: " + ops);
         System.out.println();
         */
-        ASTNode n = new ASTNode(middle);
-        n.setRoot();//set = as a root
-        astRootNodes.add(n);
-        astRootNodes.get(0).setChild(new ASTNode(id), true);
+        // ASTNode n = new ASTNode(middle);
+        // n.setRoot();//set = as a root
+        // astRootNodes.add(n);
+        // astRootNodes.get(0).setChild(new ASTNode(id), true);
     }
 	
 	@Override public void exitAssign_stmt(LittleParser.Assign_stmtContext ctx) {
-      astRootNodes.remove(0);
+    //   astRootNodes.remove(0);
     }
 
     @Override public void enterId(LittleParser.IdContext ctx) { 
