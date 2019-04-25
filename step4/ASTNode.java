@@ -18,7 +18,7 @@ public class ASTNode{
         if(type == "+" || type == "-" || type == "*"){
         }
         else if(type == "="){
-            System.out.println("no");
+           // System.out.println("no");
         }
     }
 
