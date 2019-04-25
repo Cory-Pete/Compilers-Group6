@@ -9,7 +9,8 @@ public class ASTNode{
     public String type;
     public String id;
     public String data;
-    public String childOne, childTwo;
+    public ASTNode leftChild, rightChild;
+    public boolean root;
 
     public ASTNode(String type){
         this.type = type;
@@ -40,6 +41,9 @@ public class ASTNode{
     public void setParent(ASTNode p){
         parent = p;
     }
+    public ASTNode getParent(){
+        return parent;
+    }
 
     //set if symbol table has been visited
     public void setVisited(){
@@ -56,14 +60,20 @@ public class ASTNode{
 
     public void setChild(ASTNode child, boolean flip){
         if(flip){
-            childOne = child;
+            leftChild = child;
         }
         else{
-            childTwo = child;
+            rightChild = child;
         }
     }
     
+    public void setRoot(){
+        root = true;
+    }
 
+    public Boolean isRoot(){
+        return root;
+    }
     public String getID()
     {
         return id;

@@ -20,7 +20,7 @@ public class Driver {
 		SymbolTable root = listener.getRoot();
 
 		//Print entire tree from root
-		listener.printResults(root);
+		//listener.printResults(root);
 		
 	}
 }      
