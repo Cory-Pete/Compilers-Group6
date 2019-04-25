@@ -187,6 +187,7 @@ class Listener extends LittleBaseListener{
         ASTNode temp = new ASTNode(id);
         curRoot.setChild(true);
         rootNodes.add(curRoot);
+        
         /*
         System.out.println("id: " + id);
         System.out.println("middle: " + middle);
@@ -234,6 +235,7 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void enterFactor_prefix(LittleParser.Factor_prefixContext ctx) { 
         String name = ctx.getText();
+        
     
     }
 	
@@ -244,12 +246,14 @@ class Listener extends LittleBaseListener{
         String name = ctx.getText();
         String value = name.split(name)[0];
         ASTNode c = new ASTNode(value);
+        curChild.addChild(c);
+        curChild = c;
         astRootNodes.get(0).setChild(c, true);
         //ex: a+ b+ i+
        
     }
-    @Override public void exitExpr_prefix(LittleParser.Expr_prefixContext ctx) { 
-
+    @Override public void exitExpr_prefix(LittleParser.Expr_prefixContext ctx) {
+        curChild = curChild.getParent();
     }
 	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) { 
         String value = ctx.getText();
