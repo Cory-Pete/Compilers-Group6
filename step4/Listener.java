@@ -24,6 +24,8 @@ class Listener extends LittleBaseListener{
     @Override
     public void enterProgram(LittleParser.ProgramContext ctx) { 
         SymbolTable root = new SymbolTable("GLOBAL", null);
+        curChild = new ASTNode();
+        curRoot = new ASTNode();
         stt.peek().addTable(root);
         stt.push(root);
     }
@@ -139,7 +141,41 @@ class Listener extends LittleBaseListener{
         return root;
     }
     @Override public void enterPrimary(LittleParser.PrimaryContext ctx) { 
-       
+        String idname = ctx.getText();
+        System.out.println(idname);
+        // if(idname.equals("expr") || idname.equals("main"))
+        // {
+        //     return;
+        // }
+        ASTNode temp = new ASTNode(idname);
+        TokenData id = stt.peek().lookUp(idname);
+        System.out.println(idname);
+        if(id != null || idname.equals("newline")){
+            temp.setType(id.type);
+            curChild.addChild(temp);
+            System.out.println("ID FOUND");
+        }
+        else if(isInteger(idname))
+        {
+            curChild.addChild(temp);
+            temp.setType("INT");
+        }
+        else{
+            System.out.println("ID not found " + idname);
+            // temp.setType(id.type);
+            // curChild.addChild(temp);
+        }
+    }
+    public static boolean isInteger(String s) {
+        if(s.isEmpty()) return false;
+        for(int i = 0; i < s.length(); i++) {
+            if(i == 0 && s.charAt(i) == '-') {
+                if(s.length() == 1) return false;
+                else continue;
+            }
+            if(Character.digit(s.charAt(i),10) < 0) return false;
+        }
+        return true;
     }
 	
 	@Override public void exitPrimary(LittleParser.PrimaryContext ctx) { 
@@ -148,6 +184,7 @@ class Listener extends LittleBaseListener{
 	
     
     @Override public void enterExpr(LittleParser.ExprContext ctx) {
+        System.out.println("TEST: ENTER EXPR " + ctx.getText());
         if(curChild == null){
             curChild = new ASTNode();
         }
@@ -162,11 +199,17 @@ class Listener extends LittleBaseListener{
             curChild = null;
             return;
         }
+        else if (children.size() == 1){
+            curRoot.setRightChild(children.get(0));
+            curChild = null;
+            return;
+        }
         children.get(0).setRightChild(children.get(1));
         curRoot.setRightChild(children.get(0));
         curChild = null;
     }
     @Override public void enterAddop(LittleParser.AddopContext ctx) {
+        System.out.println("ADDOP: " + ctx.getText());
         String name = ctx.getText();
         ASTNode temp = new ASTNode(name);
         curChild.addChild(temp);
@@ -198,18 +241,25 @@ class Listener extends LittleBaseListener{
     }
 
     @Override public void enterId(LittleParser.IdContext ctx) { 
-        String idname = ctx.getText();
+        // String idname = ctx.getText();
         // System.out.println(idname);
-        ASTNode temp = new ASTNode(idname);
-        TokenData id = stt.peek().lookUp(idname);
-        if(id != null){
-            temp.setType(id.type);
-            curChild.addChild(temp);
-            System.out.println("ID FOUND");
-        }
-        else{
-            System.out.println("ID not found " + idname);
-        }
+        // if(idname.equals("expr") || idname.equals("main"))
+        // {
+        //     return;
+        // }
+        // ASTNode temp = new ASTNode(idname);
+        // TokenData id = stt.peek().lookUp(idname);
+        // System.out.println(idname);
+        // if(id != null || idname.equals("newline")){
+        //     temp.setType(id.type);
+        //     curChild.addChild(temp);
+        //     System.out.println("ID FOUND");
+        // }
+        // else{
+        //     System.out.println("ID not found " + idname);
+        //     // temp.setType(id.type);
+        //     // curChild.addChild(temp);
+        // }
     }
 	
 	@Override public void exitId(LittleParser.IdContext ctx) {}
@@ -217,6 +267,7 @@ class Listener extends LittleBaseListener{
 
 	
 	@Override public void enterFactor(LittleParser.FactorContext ctx) {
+        System.out.println("FACTOR " + ctx.getText());
         if(curChild == null){
             curChild = new ASTNode();
         }
@@ -234,6 +285,14 @@ class Listener extends LittleBaseListener{
 	@Override public void exitFactor(LittleParser.FactorContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
         if(children.size() == 0){
+            curChild = curChild.getParent();
+            return;
+        }
+        else if (children.size() == 1){
+            ASTNode temp = curChild.getParent();
+            temp.removeChild(curChild);
+            curChild = temp;
+            curChild.addChild(children.get(0));
             return;
         }
         children.get(0).setLeftChild(children.get(1));
@@ -241,6 +300,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void enterFactor_prefix(LittleParser.Factor_prefixContext ctx) {
+        System.out.println("Factor Prefix " + ctx.getText());
         String name = ctx.getText();
         if(name == "")
         {
@@ -281,6 +341,7 @@ class Listener extends LittleBaseListener{
         
     }
 	@Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) {
+        System.out.println("--EXPR PREFIX-- " + ctx.getText());
         ASTNode c = new ASTNode();
         if(curChild == null){
             curChild = c;
@@ -324,6 +385,7 @@ class Listener extends LittleBaseListener{
         }
     }
 	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) {
+        System.out.println("POSTFIX: " + ctx.getText());
         ASTNode temp = new ASTNode();
         curChild.addChild(temp);
         temp.setParent(curChild);
