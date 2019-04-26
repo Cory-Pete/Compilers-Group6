@@ -17,7 +17,10 @@ public class Driver {
 		walker.walk(listener, parser.program());
 
 		//Get the root table
-		SymbolTable root = listener.getRoot();
+		// SymbolTable root = listener.getRoot();
+
+		ASTNode root = listener.getRootAST();
+		root.generateCode();
 
 		//Print entire tree from root
 		//listener.printResults(root);

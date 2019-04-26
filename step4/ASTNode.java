@@ -9,11 +9,14 @@ public class ASTNode{
     public String type;
     public String id;
     public String data;
+    public ArrayList<ASTNode> children = new ArrayList<ASTNode>();;
     public ASTNode leftChild, rightChild;
     public boolean root;
+    public ASTNode childRoot;
 
-    public ASTNode(String type){
-        this.type = type;
+    public ASTNode(String id){
+        this.id = id;
+        children = new ArrayList<ASTNode>();
 
         if(type == "+" || type == "-" || type == "*"){
         }
@@ -34,8 +37,20 @@ public class ASTNode{
         }
     }
 
+    public ASTNode(ASTNode leftChild){
+        this.leftChild = leftChild;
+    }
+    
     public ASTNode(){
 
+    }
+
+    public void setRightChild(ASTNode rightChild){
+        this.rightChild = rightChild;
+    }
+
+    public void setLeftChild(ASTNode leftChild){
+        this.leftChild = leftChild;
     }
 
     public void setParent(ASTNode p){
@@ -58,13 +73,9 @@ public class ASTNode{
         return type;
     }
 
-    public void setChild(ASTNode child, boolean flip){
-        if(flip){
-            leftChild = child;
-        }
-        else{
-            rightChild = child;
-        }
+    public void setType(String type)
+    {
+        this.type = type;
     }
     
     public void setRoot(){
@@ -77,6 +88,42 @@ public class ASTNode{
     public String getID()
     {
         return id;
+    }
+
+    public void addChild(ASTNode child)
+    {
+        children.add(child);
+        child.setParent(this);
+    }
+
+    public ArrayList<ASTNode> getChildren()
+    {
+        return children;
+    }
+
+    public void setRoot(ASTNode childRoot)
+    {
+        this.childRoot = childRoot;
+    }
+
+    public ASTNode getRoot(){
+        return childRoot;
+    }
+
+    public void removeChild(ASTNode childToBeRemoved)
+    {
+        for(int i = 0; i < children.size(); i++){
+            if(childToBeRemoved == children.get(i))
+            {
+                children.remove(i);
+                break;
+            }
+        }
+    }
+
+    public void generateCode()
+    {
+
     }
 
 }
