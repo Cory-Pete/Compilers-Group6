@@ -121,8 +121,7 @@ public class ASTNode{
         }
     }
 
-    public void generateCode()
-    {
+    public void generateCode(){
 
     }
 

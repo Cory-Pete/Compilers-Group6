@@ -209,37 +209,18 @@ class Listener extends LittleBaseListener{
         curChild = null;
     }
     @Override public void enterAddop(LittleParser.AddopContext ctx) {
-<<<<<<< HEAD
-        /*
-        String name = ctx.getText();
-        //System.out.println(name);
-        //if there are rootnodes, and the last root node is a +, =, -, *, / then add
-        if(astRootNodes.size() > 0 && astRootNodes.get(astRootNodes.size()).isRoot()){
-            ASTNode operator = new ASTNode(name);
-            operator.setRoot();
-            astRootNodes.get(0).setChild(new ASTNode(name), false);
-            astRootNodes.add(operator);
-
-        }*/
-        
-=======
         System.out.println("ADDOP: " + ctx.getText());
         String name = ctx.getText();
         ASTNode temp = new ASTNode(name);
         curChild.addChild(temp);
         temp.setParent(curChild);
         curChild = temp; 
->>>>>>> c40ee7030e3c23c5c905bc752134dd0ba59c381a
     }
 
 	@Override public void exitAddop(LittleParser.AddopContext ctx) {}
 	
 	@Override public void enterMulop(LittleParser.MulopContext ctx) { 
         String name = ctx.getText();
-<<<<<<< HEAD
-       // astRootNodes.get(0).setChild(new ASTNode(name), false);
-=======
->>>>>>> c40ee7030e3c23c5c905bc752134dd0ba59c381a
     }
 	
 	@Override public void exitMulop(LittleParser.MulopContext ctx) { 
@@ -248,39 +229,6 @@ class Listener extends LittleBaseListener{
 	
     @Override public void enterAssign_stmt(LittleParser.Assign_stmtContext ctx) {
         String name = ctx.getText();
-<<<<<<< HEAD
-       //System.out.println(name);
-        String middle = "=";
-        String id = name.split(":")[0];
-        String ops = name.split("=")[1];
-        // System.out.println("id: " + id);
-        // System.out.println("middle: " + middle);
-        // System.out.println("ops: " + ops);
-        // System.out.println();
-        ASTNode n = new ASTNode(middle);
-        n.setRoot();//set = as a root
-        astRootNodes.add(n);
-        astRootNodes.get(0).setChild(new ASTNode(id), true);
-    }
-	
-	@Override public void exitAssign_stmt(LittleParser.Assign_stmtContext ctx) {
-
-    }
-
-    @Override public void enterId(LittleParser.IdContext ctx) { 
-        /*
-        String idname = ctx.getText();
-        ASTNode temp = new ASTNode(idname);
-        if(astRootNodes.size() > 0 && astRootNodes.get(astRootNodes.size()).isRoot()){
-            astRootNodes.get(0).setChild(temp, childFlag);
-            if(childFlag == false){
-                childFlag = true;
-            }
-            else{
-                childFlag = false;
-            }
-        }*/
-=======
         System.out.println("Hello " + name);
         String id = name.split(":")[0];
         String ops = name.split("=")[1];
@@ -312,7 +260,6 @@ class Listener extends LittleBaseListener{
         //     // temp.setType(id.type);
         //     // curChild.addChild(temp);
         // }
->>>>>>> c40ee7030e3c23c5c905bc752134dd0ba59c381a
     }
 	
 	@Override public void exitId(LittleParser.IdContext ctx) {}
@@ -320,11 +267,6 @@ class Listener extends LittleBaseListener{
 
 	
 	@Override public void enterFactor(LittleParser.FactorContext ctx) {
-<<<<<<< HEAD
-        // String name = ctx.getText();
-        // System.out.println(name);
-        // ASTNode f = new ASTNode(name);
-=======
         System.out.println("FACTOR " + ctx.getText());
         if(curChild == null){
             curChild = new ASTNode();
@@ -338,7 +280,6 @@ class Listener extends LittleBaseListener{
         }
         String name = ctx.getText();
         
->>>>>>> c40ee7030e3c23c5c905bc752134dd0ba59c381a
     }
 	
 	@Override public void exitFactor(LittleParser.FactorContext ctx) {
@@ -399,19 +340,6 @@ class Listener extends LittleBaseListener{
         }
         
     }
-<<<<<<< HEAD
-	@Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) { 
-        /*
-        String name = ctx.getText();
-        System.out.println(name);
-        String value = name.split("+")[0];
-        String op = name.split("a")[1];
-        System.out.println(value);
-        System.out.println(op);
-        ASTNode c = new ASTNode(value);
-        astRootNodes.get(0).setChild(c, true);
-        //ex: a+ b+ i+*/
-=======
 	@Override public void enterExpr_prefix(LittleParser.Expr_prefixContext ctx) {
         System.out.println("--EXPR PREFIX-- " + ctx.getText());
         ASTNode c = new ASTNode();
@@ -424,7 +352,6 @@ class Listener extends LittleBaseListener{
             curChild = c;
         }
         //ex: a+ b+ i+
->>>>>>> c40ee7030e3c23c5c905bc752134dd0ba59c381a
        
     }
     @Override public void exitExpr_prefix(LittleParser.Expr_prefixContext ctx) {
@@ -457,13 +384,6 @@ class Listener extends LittleBaseListener{
             curChild.addChild(children.get(0));
         }
     }
-<<<<<<< HEAD
-	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) { 
-        String value = ctx.getText();
-        System.out.println("v: " + value);
-
-        //astRootNodes.get(0).setChild(new ASTNode(value), true);
-=======
 	@Override public void enterPostfix_expr(LittleParser.Postfix_exprContext ctx) {
         System.out.println("POSTFIX: " + ctx.getText());
         ASTNode temp = new ASTNode();
@@ -471,7 +391,6 @@ class Listener extends LittleBaseListener{
         temp.setParent(curChild);
         curChild = temp;
         // System.out.println(curChild);
->>>>>>> c40ee7030e3c23c5c905bc752134dd0ba59c381a
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
