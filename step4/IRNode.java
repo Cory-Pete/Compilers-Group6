@@ -60,6 +60,9 @@ public class IRNode{
                 else if(n.operator == "DIVF"){
                     System.out.println("DIVF " + n.var1 + " " + n.var2 + " " + register);
                 }
+                if(n.assignment == "STOREI"){
+                    
+                }
             }
         }
     }
