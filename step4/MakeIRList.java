@@ -96,9 +96,14 @@ public class MakeIRList {
         boolean flip = false;
         if(n.leftChild == null && n.rightChild == null)
         {
-            return n.data;
+            if(n.data != null){
+                return n.data;
+            }
+            else{
+                return n.operator;
+            }
         }
-        if(n.operator != null)
+        if(n.operator == "+" || n.operator == "-" || n.operator == "*" || n.operator == "/")
         {
             rightSide = traverse(n.rightChild);
             leftSide = traverse(n.leftChild);
@@ -115,32 +120,32 @@ public class MakeIRList {
             if(flip){
                 switch(n.operator){
                     case "+":
-                        threeAC = ";ADDI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        threeAC = ";ADDI " + leftSide + " " + rightSide + " " + "$T" + register;
                         break;
                     case "-":
-                        threeAC = ";SUBI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        threeAC = ";SUBI " + leftSide + " " + rightSide + " " + "$T" + register;
                         break;
                     case "*":
-                        threeAC = ";MULI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        threeAC = ";MULI " + leftSide + " " + rightSide + " " + "$T" + register;
                         break;
                     case "/":
-                        threeAC = ";DIVI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        threeAC = ";DIVI " + leftSide + " " + rightSide + " " + "$T" + register;
                         break;
                 }
             }
             else{
                 switch(n.operator){
                     case "+":
-                        threeAC = ";ADDF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        threeAC = ";ADDF " + leftSide + " " + rightSide + " " + "$T" + register;
                         break;
                     case "-":
-                        threeAC = ";SUBF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        threeAC = ";SUBF " + leftSide + " " + rightSide + " " + "$T" + register;
                         break;
                     case "*":
-                        threeAC = ";MULF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        threeAC = ";MULF " + leftSide + " " + rightSide + " " + "$T" + register;
                         break;
                     case "/":
-                        threeAC = ";DIVF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        threeAC = ";DIVF " + leftSide + " " + rightSide + " " + "$T" + register;
                         break;
                 }
             }
@@ -160,7 +165,7 @@ public class MakeIRList {
             String rightSide = "";
             if(root.leftChild == null && root.rightChild == null){
                 if(root.data == "main"){
-                    irlist.add(new IRNode(";LABEL " + root.data + "\n;LINK\n"));
+                    irlist.add(new IRNode(";LABEL " + root.data + "\n;LINK"));
                 }
             }
             else{
@@ -168,10 +173,10 @@ public class MakeIRList {
                 rightSide = postOrder(root.leftChild);
                 
                 if(root.rightChild.type == "INT"){
-                    irlist.add(new IRNode(";STOREI " + leftSide + " " + rightSide + "\n"));
+                    irlist.add(new IRNode(";STOREI " + leftSide + " " + rightSide));
                 }
                 else{
-                    irlist.add(new IRNode(";STOREF " + rightSide + " " + leftSide + "\n"));
+                    irlist.add(new IRNode(";STOREF " + leftSide + " " + rightSide));
                 }
             }
         }
