@@ -250,11 +250,11 @@ class Listener extends LittleBaseListener{
         ASTNode temp;
 
         if(children.size() == 2){
-            children.get(0).setRightChild(children.get(1));
+            children.get(1).setLeftChild(children.get(0));
             temp = curChild.getParent();
             temp.removeChild(curChild);
             curChild = temp;
-            curChild.addChild(children.get(0));
+            curChild.addChild(children.get(1));
             //System.out.println("exit ------: " + ctx.getText() + " " + curChild.getChildren().size());
         }
         else if(children.size() == 3)
@@ -410,7 +410,6 @@ class Listener extends LittleBaseListener{
             temp.removeChild(curChild);
             curChild = temp;
             curChild.addChild(children.get(1));
-            System.out.println(curChild.getChildren().size());
         }
         else if(children.size() == 3)
         {
