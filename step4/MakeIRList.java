@@ -37,10 +37,12 @@ public class MakeIRList {
         
         if(n.operator.equals("+") || n.operator.equals("-") || n.operator.equals("*") || n.operator.equals("/"))
         {
-            System.out.println("right side " + rightSide);
+            //System.out.println("right side " + rightSide);
+            System.out.println("right side ");
             rightSide = postOrder(n.rightChild);
-            System.out.println("right side " + rightSide);
+            System.out.println("left side ");
             leftSide = postOrder(n.leftChild);
+            
            
             if(n.rightChild.type == "INT"){
                 flip = true;
@@ -115,8 +117,8 @@ public class MakeIRList {
                 }
             }
             else{
-                if(root.leftChild != null){System.out.println("Has left child");}
-                if(root.rightChild != null){System.out.println("Has right child");}
+               // if(root.leftChild != null){System.out.println("Has left child");}
+                //if(root.rightChild != null){System.out.println("Has right child");}
                 System.out.println("going right");
                 leftSide = postOrder(root.rightChild);
                 System.out.println("going left");
