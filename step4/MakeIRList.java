@@ -11,11 +11,7 @@ public class MakeIRList {
         String leftside = "";
         String rightside = "";
         boolean flip = false;
-        if(n.isRoot())
-        {
-            
-        }
-        else if(n.leftChild == null && n.rightChild == null)
+        if(n.leftChild == null && n.rightChild == null && !n.isRoot())
         {
             return n.data;
         }
@@ -69,12 +65,17 @@ public class MakeIRList {
 
         if(n.isRoot())
         {
+            if(n.leftChild != null && n.rightChild != null)
+            {
             rightSide = generateCode(child.rightChild);
             leftSide = generateCode(child.rightChild);
             //make new IR node, add to list
             register += 1;
-            generateCode(n.getChildRoot());
-            return "";
+            if(n.hasChildRoot()){
+                generateCode(n.getChildRoot());
+                return "";
+                }
+            }
         }
         register += 1;
         return str(register-1);
