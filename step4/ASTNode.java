@@ -26,20 +26,7 @@ public class ASTNode{
     public ASTNode(String type, String data){
         this.type = type;
         side = false;
-
-        if(type == "INT"){
-            this.data = data;
-        }
-        else if(type == "FLOAT"){
-            this.data = data;
-        }
-        else if(type == "LABEL")
-        {
-            this.data = data;
-        }
-        else if(type == "STRING"){
-            this.data = data;
-        }
+        this.data = data;
     }
 
     // Roots
