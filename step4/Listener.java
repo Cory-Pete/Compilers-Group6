@@ -32,10 +32,10 @@ class Listener extends LittleBaseListener{
     @Override
     public void exitProgram(LittleParser.ProgramContext ctx) { 
        stt.pop();
-       for(int i = 0; i < astRootNodes.size()-1; i++){
-           astRootNodes.get(i).setRoot(astRootNodes.get(i+1));
-       }
-       masterRoot = astRootNodes.get(0);
+    //    for(int i = 0; i < astRootNodes.size()-1; i++){
+    //        astRootNodes.get(i).setRoot(astRootNodes.get(i+1));
+    //    }
+    //    masterRoot = astRootNodes.get(0);
     }
 	
     @Override
@@ -64,7 +64,9 @@ class Listener extends LittleBaseListener{
         for(int i = 0; i < list.length; i++)
         {
             stt.peek().addSymbol(new TokenData(type, list[i]));
+            // etAstRootNodes.add(new ASTNode(type, list[i]));
         }
+
     }
    
 	public SymbolTable getSymbolTable(){
@@ -162,20 +164,20 @@ class Listener extends LittleBaseListener{
         else{
             if(isInteger(idname))
             {
-                temp = new ASTNode("int", idname);
+                temp = new ASTNode("INT", idname);
                 curChild.addChild(temp);
                 temp.setType("INT");
                 //System.out.println("INT");
             }
             else if(isFloat(idname))
             {
-                temp = new ASTNode("float", idname);
+                temp = new ASTNode("FLOAT", idname);
                 curChild.addChild(temp);
                 temp.setType("FLOAT");
                 //System.out.println("FLOAT");
             }
             else if(idname == "newline"){
-                temp = new ASTNode("string", "newline");
+                temp = new ASTNode("STRING", "newline");
                 curChild.addChild(temp);
             }
         }
@@ -263,8 +265,9 @@ class Listener extends LittleBaseListener{
         //System.out.println("ENTER ID: " + ctx.getText());
         if(idname.equals("main"))
         {
-            ASTNode main = new ASTNode(idname, "LABEL");
+            ASTNode main = new ASTNode("LABEL", idname);
             astRootNodes.add(main);
+            main.setRoot();
         }
     }
 	
@@ -410,6 +413,11 @@ class Listener extends LittleBaseListener{
     public ASTNode getRootAST()
     {
         return masterRoot;
+    }
+
+    public ArrayList<ASTNode> getRoots()
+    {
+        return astRootNodes;
     }
     // Print all symbole tables starting from symbol table r in a readable format
     public void printResults(SymbolTable r){

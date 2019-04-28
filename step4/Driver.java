@@ -19,11 +19,15 @@ public class Driver {
 		//Get the root table
 		// SymbolTable root = listener.getRoot();
 
-		ASTNode root = listener.getRootAST();
+		// ASTNode root = listener.getRootAST();
+		ArrayList<ASTNode> roots = listener.getRoots();
 		//root.generateCode();
-		MakeIRList a = new MakeIRList();
-		a.traverse(root);
-		ArrayList<IRNode> node = a.getIRNodes();
+		// MakeIRList a = new MakeIRList();
+		MakeIRList.start(roots);
+		ArrayList<IRNode> node = MakeIRList.getIRNodes();
+		for(IRNode n : node){
+			System.out.println(n.getThreeAC());
+		}
 		//Print entire tree from root
 		//listener.printResults(root);
 		

@@ -27,14 +27,17 @@ public class ASTNode{
         this.type = type;
         side = false;
 
-        if(type == "int"){
+        if(type == "INT"){
             this.data = data;
         }
-        else if(type == "float"){
+        else if(type == "FLOAT"){
             this.data = data;
         }
         else if(type == "LABEL")
         {
+            this.data = data;
+        }
+        else if(type == "STRING"){
             this.data = data;
         }
     }

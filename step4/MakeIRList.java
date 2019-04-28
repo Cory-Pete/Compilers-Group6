@@ -21,10 +21,11 @@ public class MakeIRList {
             //STORE $t1 a
             return child.data;
         }
+        System.out.println(child.operator);
         if(child.operator != null)
         {
             rightSide = traverse(child.rightChild);
-            leftSide = traverse(child.rightChild);
+            leftSide = traverse(child.leftChild);
 
             if(child.rightChild.type == "INT"){
                 flip = true;
@@ -65,6 +66,7 @@ public class MakeIRList {
                         break;
                 }
             }
+            System.out.println(threeAC);
 
             //make new IRNode w/ 3AC?
         }
@@ -73,18 +75,107 @@ public class MakeIRList {
         {
             if(child.leftChild != null && child.rightChild != null)
             {
-            rightSide = traverse(child.rightChild);
-            leftSide = traverse(child.rightChild);
-            //make new IR node, add to list
-            register += 1;
+                rightSide = traverse(child.rightChild);
+                leftSide = traverse(child.rightChild);
+                //make new IR node, add to list
+                register += 1;
+            }
             if(child.hasChildRoot()){
                 traverse(child.getRoot());
                 return "";
                 }
-            }
+            
         }
         register += 1;
         return String.valueOf(register-1);
+    }
+
+    public static String postOrder(ASTNode n){
+        String leftSide = "";
+        String rightSide = "";
+        boolean flip = false;
+        if(n.leftChild == null && n.rightChild == null)
+        {
+            return n.data;
+        }
+        if(n.operator != null)
+        {
+            rightSide = traverse(n.rightChild);
+            leftSide = traverse(n.leftChild);
+
+            if(n.rightChild.type == "INT"){
+                flip = true;
+                n.setType("INT");
+            }
+            else{
+                flip = false;
+                n.setType("FLOAT");
+            }
+
+            if(flip){
+                switch(n.operator){
+                    case "+":
+                        threeAC = ";ADDI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        break;
+                    case "-":
+                        threeAC = ";SUBI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        break;
+                    case "*":
+                        threeAC = ";MULI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        break;
+                    case "/":
+                        threeAC = ";DIVI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        break;
+                }
+            }
+            else{
+                switch(n.operator){
+                    case "+":
+                        threeAC = ";ADDF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        break;
+                    case "-":
+                        threeAC = ";SUBF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        break;
+                    case "*":
+                        threeAC = ";MULF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        break;
+                    case "/":
+                        threeAC = ";DIVF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        break;
+                }
+            }
+            System.out.println(threeAC);
+            irlist.add(new IRNode(threeAC));
+            register += 1;
+            return String.valueOf(register-1);
+            //make new IRNode w/ 3AC?
+        }
+        return "";
+    }
+
+    public static void start(ArrayList<ASTNode> rootList)
+    {
+        for(ASTNode root : rootList){
+            String leftSide = "";
+            String rightSide = "";
+            if(root.leftChild == null && root.rightChild == null){
+                if(root.data == "main"){
+                    irlist.add(new IRNode(";LABEL " + root.data + "\n;LINK\n"));
+                }
+            }
+            else{
+                leftSide = postOrder(root.rightChild);
+                rightSide = postOrder(root.leftChild);
+                
+                if(root.rightChild.type == "INT"){
+                    irlist.add(new IRNode(";STOREI " + leftSide + " " + rightSide + "\n"));
+                }
+                else{
+                    irlist.add(new IRNode(";STOREF " + rightSide + " " + leftSide + "\n"));
+                }
+            }
+        }
+        irlist.add(new IRNode(";Ret"));
     }
 
     public static ArrayList<IRNode> getIRNodes(){
