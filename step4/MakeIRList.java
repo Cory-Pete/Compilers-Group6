@@ -32,15 +32,8 @@ public class MakeIRList {
         
         if(n.operator.equals("+") || n.operator.equals("-") || n.operator.equals("*") || n.operator.equals("/"))
         {
-<<<<<<< HEAD
-            //System.out.println("right side " + rightSide);
-            System.out.println("right side ");
-            rightSide = postOrder(n.rightChild);
-            System.out.println("left side ");
-=======
             rightSide = postOrder(n.rightChild);
             System.out.println(n.operator);
->>>>>>> fac14c05c4e61a16448a81f43a2604b1020b6b22
             leftSide = postOrder(n.leftChild);
             
            
