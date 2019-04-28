@@ -115,8 +115,8 @@ public class MakeIRList {
         
         if(n.operator == "+" || n.operator == "-" || n.operator == "*" || n.operator == "/")
         {
-            rightSide = traverse(n.rightChild);
-            leftSide = traverse(n.leftChild);
+            rightSide = postOrder(n.rightChild);
+            leftSide = postOrder(n.leftChild);
            
             if(n.rightChild.type == "INT"){
                 flip = true;
