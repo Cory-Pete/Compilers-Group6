@@ -18,7 +18,12 @@ public class MakeIRList {
         String leftSide = "";
         String rightSide = "";
         boolean flip = false;
-        System.out.println(n.operator);
+        if(n.operator != null){
+            System.out.println(n.operator);
+        }
+        if(n.data != null){
+            System.out.println(n.data);
+        }
         if(n.leftChild == null && n.rightChild == null)
         {
             System.out.println("HAS NO CHILDREN");
@@ -30,7 +35,7 @@ public class MakeIRList {
             }
         }
         
-        if(n.operator == "+" || n.operator == "-" || n.operator == "*" || n.operator == "/")
+        if(n.operator.equals("+") || n.operator.equals("-") || n.operator.equals("*") || n.operator.equals("/"))
         {
             System.out.println("right side " + rightSide);
             rightSide = postOrder(n.rightChild);
@@ -112,7 +117,9 @@ public class MakeIRList {
             else{
                 if(root.leftChild != null){System.out.println("Has left child");}
                 if(root.rightChild != null){System.out.println("Has right child");}
+                System.out.println("going right");
                 leftSide = postOrder(root.rightChild);
+                System.out.println("going left");
                 rightSide = postOrder(root.leftChild);
                 if(root.rightChild.type == "INT"){
                     op = "STOREI";
