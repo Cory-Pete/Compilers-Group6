@@ -30,8 +30,10 @@ public class ASTNode{
     }
 
     // Roots
-    public ASTNode(ASTNode leftChild){
-        this.leftChild = leftChild;
+    public ASTNode(String var, String op, String val){
+        this.id = var;
+        this.type = op;
+        this.data = val;
     }
     
     //Temps
