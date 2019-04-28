@@ -11,13 +11,13 @@ public class MakeIRList {
         String leftside = "";
         String rightside = "";
         boolean flip = false;
-        if(n.leftChild == null && n.rightChild == null)
-        {
-            return n.data;
-        }
         if(n.isRoot())
         {
-
+            
+        }
+        else if(n.leftChild == null && n.rightChild == null)
+        {
+            return n.data;
         }
         if(n.operator != null)
         {
@@ -64,7 +64,16 @@ public class MakeIRList {
                 }
             }
 
-            //make new IRNode
+            //make new IRNode w/ 3AC?
+        }
+
+        if(n.isRoot())
+        {
+            rightSide = generateCode(child.rightChild);
+            leftSide = generateCode(child.rightChild);
+            //make new IR node, add to list
+            generateCode(n.getChildRoot());
+            return "";
         }
         register += 1;
         return str(register-1);
