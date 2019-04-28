@@ -24,6 +24,11 @@ public class IRNode{
         this.register = register;
         this.threeAC = null;
     }
+    public IRNode(String operator, String var1, String var2){
+        this.operator = operator;
+        this.var1 = var1;
+        this.var2 = var2;
+    }
 
     public String getThreeAC(){
         return threeAC;
@@ -60,8 +65,11 @@ public class IRNode{
                 else if(n.operator == "DIVF"){
                     System.out.println("DIVF " + n.var1 + " " + n.var2 + " " + register);
                 }
-                if(n.assignment == "STOREI"){
-                    
+                else if(n.operator == "STOREI"){
+                    System.out.println("STOREI " + n.var1 + " " + n.var2);
+                }
+                else if(n.operator == "STOREF"){
+                    System.out.println("STOREF " + n.var1 + " " + n.var2);
                 }
             }
         }

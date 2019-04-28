@@ -178,26 +178,35 @@ public class MakeIRList {
 
     public static void start(ArrayList<ASTNode> rootList)
     {
+        String op;
         for(ASTNode root : rootList){
             String leftSide = "";
             String rightSide = "";
             if(root.leftChild == null && root.rightChild == null){
                 if(root.data.equals("main")){
                     irlist.add(new IRNode("LABEL " + root.data + "\n;LINK"));
+                    System.out.println("LABEL " + root.data + "\n;LINK");
                 }
             }
             else{
                 leftSide = postOrder(root.rightChild);
                 rightSide = postOrder(root.leftChild);
                 if(root.rightChild.type == "INT"){
-                    irlist.add(new IRNode(";STOREI " + leftSide + " " + rightSide));
+                    op = "STOREI";
+                    irlist.add(new IRNode(op, leftSide, rightSide));
+                    System.out.println(";STOREI " + leftSide + " " + rightSide);
+                   
                 }
                 else{
-                    irlist.add(new IRNode(";STOREF " + leftSide + " " + rightSide));
+                    op = "STOREF";
+                    irlist.add(new IRNode(op, leftSide, rightSide));
+                    System.out.println(";STOREF " + leftSide + " " + rightSide);
+                    
                 }
             }
         }
         irlist.add(new IRNode("end"));
+        System.out.println(";ret");
     }
 
     public static ArrayList<IRNode> getIRNodes(){

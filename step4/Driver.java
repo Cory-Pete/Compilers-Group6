@@ -27,12 +27,11 @@ public class Driver {
 
 		ArrayList<IRNode> node = MakeIRList.getIRNodes();
 
-		System.out.println("----------------");
-		System.out.println("3AC");
-		System.out.println("----------------");
-		for(IRNode n : node){
-			System.out.println(n.getThreeAC());
-		}
+		
+		// for(IRNode n : node){
+		// 	//System.out.println(n.getThreeAC());
+		// 	//System.out.println(";" + n.operator + " " +  " " + n.id);
+		// }
 		System.out.println("----------------");
 		System.out.println("ASSEMBLY");
 		System.out.println("----------------");

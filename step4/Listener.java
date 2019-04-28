@@ -152,7 +152,7 @@ class Listener extends LittleBaseListener{
     }
     @Override public void enterPrimary(LittleParser.PrimaryContext ctx) { 
         String idname = ctx.getText();
-        System.out.println("ENTER PRIMARY: " + ctx.getText());
+        //IMARY: " + ctx.getText());
         ASTNode temp;
         TokenData id = stt.peek().lookUp(idname);
 
