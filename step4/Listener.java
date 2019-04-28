@@ -152,7 +152,7 @@ class Listener extends LittleBaseListener{
     }
     @Override public void enterPrimary(LittleParser.PrimaryContext ctx) { 
         String idname = ctx.getText();
-        //IMARY: " + ctx.getText());
+        // System.out.println("ENTER PRIMARY");
         ASTNode temp;
         TokenData id = stt.peek().lookUp(idname);
 
@@ -288,6 +288,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void enterMulop(LittleParser.MulopContext ctx) { 
+        // System.out.println("ENTER MULOP");
         String name = ctx.getText();
         ASTNode temp = new ASTNode(name);
         curChild.addChild(temp);
@@ -303,11 +304,15 @@ class Listener extends LittleBaseListener{
         String name = ctx.getText();
         // System.out.println("ENTER Assign_stmt: " + ctx.getText());
         String id = name.split(":")[0];
+        ASTNode temp;
         // String ops = name.split("=")[1];
-        curRoot = new ASTNode();
-        ASTNode temp = new ASTNode("left", id);
-        astRootNodes.add(curRoot);
-        curRoot.setLeftChild(temp);
+        TokenData td = stt.peek().lookUp(id);
+        if(td != null){
+            curRoot = new ASTNode();
+            temp = new ASTNode(td.type, id);
+            astRootNodes.add(curRoot);
+            curRoot.setLeftChild(temp);
+        }
     }
 	
 	@Override public void exitAssign_expr(LittleParser.Assign_exprContext ctx) {
@@ -343,7 +348,7 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitFactor(LittleParser.FactorContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
-        //System.out.println("exit Factor: " + ctx.getText() + children.size());
+        // System.out.println("exit Factor: " + ctx.getText() +  " || " + children.size());
         if(ctx.getText() == ""){
             return;
         }
@@ -373,7 +378,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void enterFactor_prefix(LittleParser.Factor_prefixContext ctx) {
-        //System.out.println("ENTER Factor_prefix " + ctx.getText());
+        // System.out.println("ENTER Factor_prefix " + ctx.getText());
         String name = ctx.getText();
 
         if(name == "")
@@ -391,7 +396,7 @@ class Listener extends LittleBaseListener{
 	
 	@Override public void exitFactor_prefix(LittleParser.Factor_prefixContext ctx) {
         ArrayList<ASTNode> children = curChild.getChildren();
-        //System.out.println("exit Factor_prefix: " + ctx.getText() + children.size());
+        // System.out.println("exit Factor_prefix: " + ctx.getText() + " || " + children.size());
         if(ctx.getText() == ""){
             return;
         }
@@ -400,11 +405,12 @@ class Listener extends LittleBaseListener{
         ASTNode temp;
 
         if(children.size() == 2){
-            children.get(0).setRightChild(children.get(1));
+            children.get(1).setLeftChild(children.get(0));
             temp = curChild.getParent();
             temp.removeChild(curChild);
             curChild = temp;
-            curChild.addChild(children.get(0));
+            curChild.addChild(children.get(1));
+            System.out.println(curChild.getChildren().size());
         }
         else if(children.size() == 3)
         {
@@ -414,6 +420,12 @@ class Listener extends LittleBaseListener{
             temp.removeChild(curChild);
             curChild = temp;
             curChild.addChild(children.get(2));
+        }
+        else if(children.size() == 1){
+            temp = curChild.getParent();
+            temp.removeChild(curChild);
+            curChild = temp;
+            curChild.addChild(children.get(0));
         }
         
     }

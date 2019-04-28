@@ -18,16 +18,11 @@ public class MakeIRList {
         String leftSide = "";
         String rightSide = "";
         boolean flip = false;
-        if(n.operator != null){
-            System.out.println(n.operator);
-        }
-        if(n.data != null){
-            System.out.println(n.data);
-        }
         if(n.leftChild == null && n.rightChild == null)
         {
             System.out.println("HAS NO CHILDREN");
             if(n.data != null){
+                System.out.println(n.data);
                 return n.data;
             }
             else{
@@ -37,9 +32,8 @@ public class MakeIRList {
         
         if(n.operator.equals("+") || n.operator.equals("-") || n.operator.equals("*") || n.operator.equals("/"))
         {
-            System.out.println("right side " + rightSide);
             rightSide = postOrder(n.rightChild);
-            System.out.println("right side " + rightSide);
+            System.out.println(n.operator);
             leftSide = postOrder(n.leftChild);
            
             if(n.rightChild.type == "INT"){
