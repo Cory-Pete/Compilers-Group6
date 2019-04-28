@@ -117,18 +117,6 @@ public class ASTNode{
         }
     }
 
-    public boolean hasChildRoot()
-    {
-        if(childRoot != null)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public ASTNode getChildRoot(){
-        return childRoot;
-    }
     public void setRoot(ASTNode childRoot)
     {
         this.childRoot = childRoot;
