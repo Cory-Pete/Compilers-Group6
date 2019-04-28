@@ -5,7 +5,7 @@ import java.util.*;
 
 public class MakeIRList {
     private static int registers = 0;
-    private ArrayList<IRNode> irlist = new ArrayList<IRNode>();
+    private static ArrayList<IRNode> irlist = new ArrayList<IRNode>();
 
     public static String traverse(ASTNode n){
         String leftside = "";
@@ -72,10 +72,15 @@ public class MakeIRList {
             rightSide = generateCode(child.rightChild);
             leftSide = generateCode(child.rightChild);
             //make new IR node, add to list
+            register += 1;
             generateCode(n.getChildRoot());
             return "";
         }
         register += 1;
         return str(register-1);
+    }
+
+    public static ArrayList<IRNode> getIRLIrNodes(){
+        return irlist;
     }
 }
