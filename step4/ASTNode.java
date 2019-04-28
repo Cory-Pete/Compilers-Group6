@@ -142,7 +142,7 @@ public class ASTNode{
         generateCode(this.childRoot);
         return threeAC;
     }
-
+    /*
     public void postOrderTraversal(ASTNode node)
     {
         if(node != null)
@@ -150,7 +150,7 @@ public class ASTNode{
             postOrderTraversal(node.rightChild);
             postOrderTraversal(node.leftChild);
         }
-    }
+    }*/
 
     public String generateCode(ASTNode child){
         System.out.println("TOP");

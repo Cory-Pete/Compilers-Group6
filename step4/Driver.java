@@ -20,11 +20,11 @@ public class Driver {
 		// SymbolTable root = listener.getRoot();
 
 		ASTNode root = listener.getRootAST();
-		// root.generateCode();
-		ASTNode a = new ASTNode();
-		String b = a.generateCode(root);
+		//root.generateCode();
+		MakeIRList a = new MakeIRList();
+		a.traverse(root);
 		//Print entire tree from root
-		// listener.printResults(root);
+		//listener.printResults(root);
 		
 	}
 }      
