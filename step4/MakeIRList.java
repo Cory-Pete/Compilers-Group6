@@ -11,100 +11,17 @@ public class MakeIRList {
     public MakeIRList(){
 
     }
-    public static String traverse(ASTNode child){
-        String leftSide = "";
-        String rightSide = "";
-        boolean flip = false;
-        if(child.leftChild == null && child.rightChild == null && !child.isRoot())
-        {
-            //make irnode of STOREI 2, $t1
-            //STORE $t1 a
-            return child.data;
-        }
-        System.out.println(child.operator);
-        if(child.operator != null)
-        {
-            rightSide = traverse(child.rightChild);
-            leftSide = traverse(child.leftChild);
-
-            if(child.rightChild.type == "INT"){
-                flip = true;
-            }
-            else{
-                flip = false;
-            }
-
-            if(flip){
-                switch(child.operator){
-                    case "+":
-                        threeAC = ";ADDI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
-                        op = "ADDI";
-                        break;
-                    case "-":
-                        threeAC = ";SUBI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
-                        op = "SUBI";
-                        break;
-                    case "*":
-                        threeAC = ";MULI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
-                        op = "MULI";
-                        break;
-                    case "/":
-                        threeAC = ";DIVI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
-                        op = "DIVI";
-                        break;
-                }
-            }
-            else{
-                switch(child.operator){
-                    case "+":
-                        threeAC = ";ADDF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
-                        op = "ADDF";
-                        break;
-                    case "-":
-                        threeAC = ";SUBF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
-                        op = "SUBF";
-                        break;
-                    case "*":
-                        threeAC = ";MULF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
-                        op = "MULF";
-                        break;
-                    case "/":
-                        threeAC = ";DIVF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
-                        op = "DIVF";
-                        break;
-                }
-            }
-            System.out.println(threeAC);
-           
-
-            //make new IRNode w/ 3AC?
-        }
-       
-        if(child.isRoot())
-        {
-            if(child.leftChild != null && child.rightChild != null)
-            {
-                rightSide = traverse(child.rightChild);
-                leftSide = traverse(child.rightChild);
-                //make new IR node, add to list
-                register += 1;
-            }
-            if(child.hasChildRoot()){
-                traverse(child.getRoot());
-                return "";
-                }
-            
-        }
-        register += 1;
-        return String.valueOf(register-1);
-    }
-
     public static String postOrder(ASTNode n){
+        System.out.println("CHILD");
+        if(n.leftChild != null){System.out.println("Has left child");}
+        if(n.rightChild != null){System.out.println("Has right child");}
         String leftSide = "";
         String rightSide = "";
         boolean flip = false;
+        System.out.println(n.operator);
         if(n.leftChild == null && n.rightChild == null)
         {
+            System.out.println("HAS NO CHILDREN");
             if(n.data != null){
                 return n.data;
             }
@@ -115,7 +32,9 @@ public class MakeIRList {
         
         if(n.operator == "+" || n.operator == "-" || n.operator == "*" || n.operator == "/")
         {
+            System.out.println("right side " + rightSide);
             rightSide = postOrder(n.rightChild);
+            System.out.println("right side " + rightSide);
             leftSide = postOrder(n.leftChild);
            
             if(n.rightChild.type == "INT"){
@@ -180,27 +99,31 @@ public class MakeIRList {
     {
         String op;
         for(ASTNode root : rootList){
+            System.out.println("NEW ROOT");
             String leftSide = "";
             String rightSide = "";
             if(root.leftChild == null && root.rightChild == null){
+                System.out.println("HAS NO CHILDREN");
                 if(root.data.equals("main")){
                     irlist.add(new IRNode("LABEL " + root.data + "\n;LINK"));
-                    System.out.println("LABEL " + root.data + "\n;LINK");
+                    // System.out.println("LABEL " + root.data + "\n;LINK");
                 }
             }
             else{
+                if(root.leftChild != null){System.out.println("Has left child");}
+                if(root.rightChild != null){System.out.println("Has right child");}
                 leftSide = postOrder(root.rightChild);
                 rightSide = postOrder(root.leftChild);
                 if(root.rightChild.type == "INT"){
                     op = "STOREI";
                     irlist.add(new IRNode(op, leftSide, rightSide));
-                    System.out.println(";STOREI " + leftSide + " " + rightSide);
+                    // System.out.println(";STOREI " + leftSide + " " + rightSide);
                    
                 }
                 else{
                     op = "STOREF";
                     irlist.add(new IRNode(op, leftSide, rightSide));
-                    System.out.println(";STOREF " + leftSide + " " + rightSide);
+                    // System.out.println(";STOREF " + leftSide + " " + rightSide);
                     
                 }
             }
