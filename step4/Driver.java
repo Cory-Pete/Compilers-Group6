@@ -17,19 +17,33 @@ public class Driver {
 		walker.walk(listener, parser.program());
 
 		//Get the root table
-		// SymbolTable root = listener.getRoot();
+		SymbolTable root = listener.getRoot();
 
 		// ASTNode root = listener.getRootAST();
 		ArrayList<ASTNode> roots = listener.getRoots();
 		//root.generateCode();
 		// MakeIRList a = new MakeIRList();
 		MakeIRList.start(roots);
+
 		ArrayList<IRNode> node = MakeIRList.getIRNodes();
+
+		System.out.println("----------------");
+		System.out.println("3AC");
+		System.out.println("----------------");
 		for(IRNode n : node){
 			System.out.println(n.getThreeAC());
 		}
+		System.out.println("----------------");
+		System.out.println("ASSEMBLY");
+		System.out.println("----------------");
+		listener.printResults(root);//print var declarations
+		IRNode n = new IRNode();
+		n.makeAssebly(node);
+		System.out.println("----------------");
+		// IRNode t = new IRNode("h");
+		// t.makeAssebly(node);
 		//Print entire tree from root
-		//listener.printResults(root);
+		
 		
 	}
 }      

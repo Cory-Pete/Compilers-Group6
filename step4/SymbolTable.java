@@ -54,10 +54,10 @@ public class SymbolTable {
         if(table != null){
             for(int i = 0; i < table.size(); i++){
                 if(table.get(i).data != ""){
-                    System.out.println("name " + table.get(i).name + " type " + table.get(i).type + " value " + table.get(i).data);
+                    //System.out.println("VAR" + table.get(i).name);// + " type " + table.get(i).type + " value " + table.get(i).data);
                 }
                 else{
-                    System.out.println("name " + table.get(i).name + " type " + table.get(i).type);
+                    System.out.println("VAR " + table.get(i).name);// + " type " + table.get(i).type);
                 }
             }
         }

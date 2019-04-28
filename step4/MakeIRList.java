@@ -6,7 +6,7 @@ import java.util.*;
 public class MakeIRList {
     private static int register = 0;
     private static ArrayList<IRNode> irlist = new ArrayList<IRNode>();
-    public static String threeAC;
+    public static String threeAC, op;
 
     public MakeIRList(){
 
@@ -38,15 +38,19 @@ public class MakeIRList {
                 switch(child.operator){
                     case "+":
                         threeAC = ";ADDI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        op = "ADDI";
                         break;
                     case "-":
                         threeAC = ";SUBI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        op = "SUBI";
                         break;
                     case "*":
                         threeAC = ";MULI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        op = "MULI";
                         break;
                     case "/":
                         threeAC = ";DIVI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        op = "DIVI";
                         break;
                 }
             }
@@ -54,23 +58,28 @@ public class MakeIRList {
                 switch(child.operator){
                     case "+":
                         threeAC = ";ADDF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        op = "ADDF";
                         break;
                     case "-":
                         threeAC = ";SUBF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        op = "SUBF";
                         break;
                     case "*":
                         threeAC = ";MULF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        op = "MULF";
                         break;
                     case "/":
                         threeAC = ";DIVF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
+                        op = "DIVF";
                         break;
                 }
             }
             System.out.println(threeAC);
+           
 
             //make new IRNode w/ 3AC?
         }
-
+       
         if(child.isRoot())
         {
             if(child.leftChild != null && child.rightChild != null)
@@ -103,11 +112,12 @@ public class MakeIRList {
                 return n.operator;
             }
         }
+        
         if(n.operator == "+" || n.operator == "-" || n.operator == "*" || n.operator == "/")
         {
             rightSide = traverse(n.rightChild);
             leftSide = traverse(n.leftChild);
-
+           
             if(n.rightChild.type == "INT"){
                 flip = true;
                 n.setType("INT");
@@ -121,15 +131,19 @@ public class MakeIRList {
                 switch(n.operator){
                     case "+":
                         threeAC = ";ADDI " + leftSide + " " + rightSide + " " + "$T" + register;
+                        op = "ADDI";
                         break;
                     case "-":
                         threeAC = ";SUBI " + leftSide + " " + rightSide + " " + "$T" + register;
+                        op = "SUBI";
                         break;
                     case "*":
                         threeAC = ";MULI " + leftSide + " " + rightSide + " " + "$T" + register;
+                        op = "MULI";
                         break;
                     case "/":
                         threeAC = ";DIVI " + leftSide + " " + rightSide + " " + "$T" + register;
+                        op = "DIVI";
                         break;
                 }
             }
@@ -137,20 +151,24 @@ public class MakeIRList {
                 switch(n.operator){
                     case "+":
                         threeAC = ";ADDF " + leftSide + " " + rightSide + " " + "$T" + register;
+                        op = "ADDF";
                         break;
                     case "-":
                         threeAC = ";SUBF " + leftSide + " " + rightSide + " " + "$T" + register;
+                        op = "SUBF";
                         break;
                     case "*":
                         threeAC = ";MULF " + leftSide + " " + rightSide + " " + "$T" + register;
+                        op = "MULF";
                         break;
                     case "/":
                         threeAC = ";DIVF " + leftSide + " " + rightSide + " " + "$T" + register;
+                        op = "DIVF";
                         break;
                 }
             }
             System.out.println(threeAC);
-            irlist.add(new IRNode(threeAC));
+            irlist.add(new IRNode(op, leftSide, rightSide, register));
             register += 1;
             return String.valueOf(register-1);
             //make new IRNode w/ 3AC?
@@ -164,14 +182,13 @@ public class MakeIRList {
             String leftSide = "";
             String rightSide = "";
             if(root.leftChild == null && root.rightChild == null){
-                if(root.data == "main"){
-                    irlist.add(new IRNode(";LABEL " + root.data + "\n;LINK"));
+                if(root.data.equals("main")){
+                    irlist.add(new IRNode("LABEL " + root.data + "\n;LINK"));
                 }
             }
             else{
                 leftSide = postOrder(root.rightChild);
                 rightSide = postOrder(root.leftChild);
-                
                 if(root.rightChild.type == "INT"){
                     irlist.add(new IRNode(";STOREI " + leftSide + " " + rightSide));
                 }
@@ -180,7 +197,7 @@ public class MakeIRList {
                 }
             }
         }
-        irlist.add(new IRNode(";Ret"));
+        irlist.add(new IRNode("end"));
     }
 
     public static ArrayList<IRNode> getIRNodes(){

@@ -64,6 +64,7 @@ class Listener extends LittleBaseListener{
         for(int i = 0; i < list.length; i++)
         {
             stt.peek().addSymbol(new TokenData(type, list[i]));
+
             // etAstRootNodes.add(new ASTNode(type, list[i]));
         }
 
@@ -428,8 +429,10 @@ class Listener extends LittleBaseListener{
                     if(children.get(i).visited == false){
                         children.get(i).setVisited();
                         //System.out.println("Symbol table " + children.get(i).getName());
+                       
                         if(children.get(i).table != null){
                             children.get(i).getData();
+                           
                         }
                         //System.out.println();
                         printResults(children.get(i));

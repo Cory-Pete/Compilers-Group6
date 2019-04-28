@@ -71,18 +71,15 @@ public class ASTNode{
         return type;
     }
 
-    public void setSide(Boolean side)
-    {
+    public void setSide(Boolean side){
         this.side = side;
     }
 
-    public Boolean getSide()
-    {
+    public Boolean getSide(){
         return side;
     }
 
-    public void setType(String type)
-    {
+    public void setType(String type){
         this.type = type;
     }
     
@@ -93,26 +90,21 @@ public class ASTNode{
     public Boolean isRoot(){
         return root;
     }
-    public String getID()
-    {
+    public String getID(){
         return id;
     }
-
-    public void addChild(ASTNode child)
-    {
+    
+    public void addChild(ASTNode child){
         children.add(child);
         child.setParent(this);
     }
 
-    public ArrayList<ASTNode> getChildren()
-    {
+    public ArrayList<ASTNode> getChildren(){
         return children;
     }
 
-    public boolean hasChildren()
-    {
-        if(children.size() == 0)
-        {
+    public boolean hasChildren() {
+        if(children.size() == 0){
             return false;
         }
         else{
@@ -120,8 +112,7 @@ public class ASTNode{
         }
     }
 
-    public void setRoot(ASTNode childRoot)
-    {
+    public void setRoot(ASTNode childRoot){
         this.childRoot = childRoot;
         hasChildRoot = true;
     }
@@ -136,100 +127,12 @@ public class ASTNode{
     {
         for(int i = 0; i < children.size(); i++){
             if(childToBeRemoved == children.get(i))
-            {
+            {   
+               // System.out.println("CHild rem");
                 children.remove(i);
                 break;
             }
         }
-    }
-
-    public String generateCode(){
-        threeAC = ";LABEL main\n;LINK";
-        generateCode(this.childRoot);
-        return threeAC;
-    }
-    /*
-    public void postOrderTraversal(ASTNode node)
-    {
-        if(node != null)
-        {
-            postOrderTraversal(node.rightChild);
-            postOrderTraversal(node.leftChild);
-        }
-    }*/
-
-    public String generateCode(ASTNode child){
-        System.out.println("TOP");
-        String rightSide = "";
-        String leftSide = "";
-        Boolean flip = true;
-        if(child.rightChild != null){
-            rightSide = generateCode(child.rightChild);
-            if(child.rightChild.type == "INT"){
-                flip = true;
-            }
-            else{
-                flip = false;
-            }
-        }
-        if(child.leftChild != null){
-            leftSide = generateCode(child.rightChild);
-            if(child.rightChild.type == "INT"){
-                flip = true;
-            }
-            else{
-                flip = false;
-            }
-        }
-        else{
-            if(childRoot != null)
-            {
-                generateCode(childRoot);
-            }
-            else{
-                System.out.println("WTF");
-                return this.data;
-            }
-        }
-        System.out.println("MIDDLE");
-        if(this.side){
-            if(flip){
-                switch(operator){
-                    case "+":
-                        threeAC = ";ADDI " + leftSide + " " + rightSide + " " + "$T" + 1 + "\n";
-                        break;
-                    case "-":
-                        threeAC = ";SUBI " + leftSide + " " + rightSide + " " + "$T" + 1 + "\n";
-                        break;
-                    case "*":
-                        threeAC = ";MULI " + leftSide + " " + rightSide + " " + "$T" + 1 + "\n";
-                        break;
-                    case "/":
-                        threeAC = ";DIVI " + leftSide + " " + rightSide + " " + "$T" + 1 + "\n";
-                        break;
-                }
-            }
-            else{
-                switch(operator){
-                    case "+":
-                        threeAC = ";ADDF " + leftSide + " " + rightSide + " " + "$T" + 1 + "\n";
-                        break;
-                    case "-":
-                        threeAC = ";SUBF " + leftSide + " " + rightSide + " " + "$T" + 1 + "\n";
-                        break;
-                    case "*":
-                        threeAC = ";MULF " + leftSide + " " + rightSide + " " + "$T" + 1 + "\n";
-                        break;
-                    case "/":
-                        threeAC = ";DIVF " + leftSide + " " + rightSide + " " + "$T" + 1 + "\n";
-                        break;
-                }
-            }
-        }
-        System.out.println("HI");
-        this.hasCode = true; 
-        System.out.println(threeAC);
-        return "";
     }
 
 }
