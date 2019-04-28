@@ -23,6 +23,7 @@ public class Driver {
 		//root.generateCode();
 		MakeIRList a = new MakeIRList();
 		a.traverse(root);
+		ArrayList<IRNode> node = a.getIRNodes();
 		//Print entire tree from root
 		//listener.printResults(root);
 		

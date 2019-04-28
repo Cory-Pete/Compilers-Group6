@@ -14,7 +14,7 @@ public class ASTNode{
     public boolean root;
     public ASTNode childRoot;
     public String threeAC;
-    public boolean hasCode;
+    public boolean hasCode, hasChildRoot;
 
     // Expressions
     public ASTNode(String operator){
@@ -120,12 +120,15 @@ public class ASTNode{
     public void setRoot(ASTNode childRoot)
     {
         this.childRoot = childRoot;
+        hasChildRoot = true;
     }
 
     public ASTNode getRoot(){
         return childRoot;
     }
-
+    public boolean hasChildRoot(){
+        return hasChildRoot;
+    }
     public void removeChild(ASTNode childToBeRemoved)
     {
         for(int i = 0; i < children.size(); i++){

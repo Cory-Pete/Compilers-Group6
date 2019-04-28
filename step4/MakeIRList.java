@@ -4,21 +4,27 @@ import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
 public class MakeIRList {
-    private static int registers = 0;
+    private static int register = 0;
     private static ArrayList<IRNode> irlist = new ArrayList<IRNode>();
+    public static String threeAC;
 
-    public static String traverse(ASTNode n){
-        String leftside = "";
-        String rightside = "";
+    public MakeIRList(){
+
+    }
+    public static String traverse(ASTNode child){
+        String leftSide = "";
+        String rightSide = "";
         boolean flip = false;
-        if(n.leftChild == null && n.rightChild == null && !n.isRoot())
+        if(child.leftChild == null && child.rightChild == null && !child.isRoot())
         {
-            return n.data;
+            //make irnode of STOREI 2, $t1
+            //STORE $t1 a
+            return child.data;
         }
-        if(n.operator != null)
+        if(child.operator != null)
         {
-            rightSide = generateCode(child.rightChild);
-            leftSide = generateCode(child.rightChild);
+            rightSide = traverse(child.rightChild);
+            leftSide = traverse(child.rightChild);
 
             if(child.rightChild.type == "INT"){
                 flip = true;
@@ -28,7 +34,7 @@ public class MakeIRList {
             }
 
             if(flip){
-                switch(operator){
+                switch(child.operator){
                     case "+":
                         threeAC = ";ADDI " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
                         break;
@@ -44,7 +50,7 @@ public class MakeIRList {
                 }
             }
             else{
-                switch(operator){
+                switch(child.operator){
                     case "+":
                         threeAC = ";ADDF " + leftSide + " " + rightSide + " " + "$T" + register + "\n";
                         break;
@@ -63,25 +69,25 @@ public class MakeIRList {
             //make new IRNode w/ 3AC?
         }
 
-        if(n.isRoot())
+        if(child.isRoot())
         {
-            if(n.leftChild != null && n.rightChild != null)
+            if(child.leftChild != null && child.rightChild != null)
             {
-            rightSide = generateCode(child.rightChild);
-            leftSide = generateCode(child.rightChild);
+            rightSide = traverse(child.rightChild);
+            leftSide = traverse(child.rightChild);
             //make new IR node, add to list
             register += 1;
-            if(n.hasChildRoot()){
-                generateCode(n.getChildRoot());
+            if(child.hasChildRoot()){
+                traverse(child.getRoot());
                 return "";
                 }
             }
         }
         register += 1;
-        return str(register-1);
+        return String.valueOf(register-1);
     }
 
-    public static ArrayList<IRNode> getIRLIrNodes(){
+    public static ArrayList<IRNode> getIRNodes(){
         return irlist;
     }
 }
