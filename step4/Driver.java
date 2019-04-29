@@ -39,6 +39,8 @@ public class Driver {
 
 		System.out.println(";Tiny code");
 		writer.println("Tiny code");
+		SymbolTable root = listener.getRoot();
+		listener.printResults(root);
 		// listener.printResults(root);//print var declarations
 		IRNode n = new IRNode();
 		n.makeAssebly(node, writer);
