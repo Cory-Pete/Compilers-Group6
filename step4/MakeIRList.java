@@ -133,7 +133,7 @@ public class MakeIRList {
             }
         }
         irlist.add(new IRNode("sys halt"));
-        System.out.println(";ret");
+        System.out.println(";RET");
     }
 
     public static ArrayList<IRNode> getIRNodes(){
