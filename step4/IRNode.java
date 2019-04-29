@@ -102,7 +102,9 @@ public class IRNode{
                     writer.println("divr " + n.var1 + " " + n.var2 + " " + n.register);
                 }
                 else if(n.operator == "move"){
-                    System.out.println("move " + n.var1 + " " + n.var2);
+                    System.out.println("move " + n.var1 + " r" + n.register);
+                    System.out.println("move r" + n.register + " " + n.var2);
+
                     writer.println("move " + n.var1 + " " + n.var2);
                 }
                 

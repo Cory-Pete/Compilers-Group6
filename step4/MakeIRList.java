@@ -96,7 +96,7 @@ public class MakeIRList {
            // writer.println(threeAC);
             irlist.add(new IRNode(op, leftSide, rightSide, register));
             register += 1;
-            return String.valueOf(register-1);
+            return String.valueOf(register - 1);
             //make new IRNode w/ 3AC?
         }
         return "";
