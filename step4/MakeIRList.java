@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 public class MakeIRList {
-    private static int register = 0;
+    public int register = 0;
     private static ArrayList<IRNode> irlist = new ArrayList<IRNode>();
     public static String threeAC, op;
     public PrintWriter writer;
@@ -101,7 +101,7 @@ public class MakeIRList {
         }
         return "";
     }
-
+    
     public void start(ArrayList<ASTNode> rootList)
     {
         String op;
@@ -122,7 +122,7 @@ public class MakeIRList {
                     if(root.id.equals("INT")){
                         System.out.println(";WRITEI " + root.data);
                         //writer.println(";WRITEI " + root.data);
-                    }
+                    } 
                     else if(root.id.equals("FLOAT")){
                         System.out.println(";WRITEF " + root.data);
                         //writer.println(";WRITEF " + root.data);
@@ -138,14 +138,16 @@ public class MakeIRList {
                 rightSide = postOrder(root.leftChild);
                 if(root.rightChild.type == "INT"){
                     op = "move";
-                    irlist.add(new IRNode(op, leftSide, rightSide));
+                    irlist.add(new IRNode(op, leftSide, rightSide, register));
+                    register++;
                     System.out.println(";STOREI " + leftSide + " " + rightSide);
                    // writer.println(";STOREI " + leftSide + " " + rightSide);
                    
                 }
                 else{
                     op = "move";
-                    irlist.add(new IRNode(op, leftSide, rightSide));
+                    irlist.add(new IRNode(op, leftSide, rightSide, register));
+                    register++;
                     System.out.println(";STOREF " + leftSide + " " + rightSide);
                     //writer.println(";STOREF " + leftSide + " " + rightSide);
                 }
