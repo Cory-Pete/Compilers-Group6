@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 
 public class IRNode{
     public String operator, var, var1, var2, threeAC, val;
-    public int register;
+    public String register;
     PrintWriter writer;
     
     public IRNode(){
@@ -22,7 +22,7 @@ public class IRNode{
         this.val = val;
     }
     //Operators
-    public IRNode(String operator, String var1, String var2, int register){
+    public IRNode(String operator, String var1, String var2, String register){
         this.operator = operator;
         this.var1 = var1;
         this.var2 = var2;

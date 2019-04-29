@@ -71,7 +71,6 @@ class Listener extends LittleBaseListener{
     public void enterString_decl(LittleParser.String_declContext ctx)
     {
         //get data from string declaration
-        //System.out.println("ENTER STRING_DECL: " + ctx.getText());
         String type = "STRING";
         String name = ctx.id().getText();
         String value = ctx.getText().split("=")[1];
@@ -82,7 +81,6 @@ class Listener extends LittleBaseListener{
     @Override
     public void enterParam_decl(LittleParser.Param_declContext ctx)
     {
-        //System.out.println("ENTER Param_decl: " + ctx.getText());
         String type = ctx.var_type().getText();
         String paramID = ctx.id().getText();
         stt.peek().addSymbol(new TokenData(type, paramID));
@@ -91,7 +89,6 @@ class Listener extends LittleBaseListener{
     //Enter if statement block, creates new scope by making new symbol table
     @Override
     public void enterIf_stmt(LittleParser.If_stmtContext ctx) {
-        //System.out.println("ENTER If_stmt: " + ctx.getText()); 
         if (ctx.cond() != null) {
             SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
             stt.peek().addTable(new_table);
@@ -102,7 +99,6 @@ class Listener extends LittleBaseListener{
 	
     @Override
     public void exitIf_stmt(LittleParser.If_stmtContext ctx) { 
-        //System.out.println("exit If_stmt: " + ctx.getText());
         ASTNode temp = new ASTNode("EXIT", label);
         label--;
         astRootNodes.add(temp);
@@ -111,8 +107,7 @@ class Listener extends LittleBaseListener{
     
     //Enter else statement block, creates new scope by making new symbol table
     @Override
-    public void enterElse_part(LittleParser.Else_partContext ctx) {
-        //System.out.println("ENTER Else_part: " + ctx.getText()); 
+    public void enterElse_part(LittleParser.Else_partContext ctx) { 
         if(ctx.decl() != null){
             SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
             stt.peek().addTable(new_table);
@@ -125,14 +120,12 @@ class Listener extends LittleBaseListener{
 	
     @Override
     public void exitElse_part(LittleParser.Else_partContext ctx) {
-        //System.out.println("exit Else_part: " + ctx.getText());
         stt.pop();
      }
     
     //Enter while statement block, creates new scope by making new symbol table
     @Override
     public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
-        //System.out.println("ENTER WHILE_STMT: " + ctx.getText());
         if(ctx.cond() != null){
             SymbolTable new_table = new SymbolTable("BLOCK " + scope++, stt.peek());
             stt.peek().addTable(new_table);
@@ -143,7 +136,6 @@ class Listener extends LittleBaseListener{
 	
     @Override
     public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
-        //System.out.println("exit While_stmt: " + ctx.getText());
         stt.pop();
         ASTNode temp = new ASTNode("EXIT", label);
     }
@@ -290,7 +282,6 @@ class Listener extends LittleBaseListener{
 
     @Override public void enterId(LittleParser.IdContext ctx) { 
         String idname = ctx.getText();
-        //System.out.println("ENTER ID: " + ctx.getText());
         if(idname.equals("main"))
         {
             ASTNode main = new ASTNode("LABEL", idname);
@@ -415,37 +406,23 @@ class Listener extends LittleBaseListener{
     }
     // Print all symbole tables starting from symbol table r in a readable format
     public void printResults(SymbolTable r){
-        //while(r != null){
-            if(r.getChildren() != null){
-                ArrayList<SymbolTable> children = r.getChildren();
-                for(int i = 0; i < children.size(); i++){
-                    if(children.get(i).visited == false){
-                        children.get(i).setVisited();
-                        ////System.out.println("Symbol table " + children.get(i).getName());
-                        if(children.get(i).table != null){
-                            children.get(i).getData();
-                        }
-                        ////System.out.println();
-                        printResults(children.get(i));
+        if(r.getChildren() != null){
+            ArrayList<SymbolTable> children = r.getChildren();
+            for(int i = 0; i < children.size(); i++){
+                if(children.get(i).visited == false){
+                    children.get(i).setVisited();
+                    if(children.get(i).table != null){
+                        children.get(i).getData();
                     }
+                    printResults(children.get(i));
                 }
             }
-            else{
-                return;
-            }
-    }
-
-	@Override public void exitVar_decl(LittleParser.Var_declContext ctx) { 
-        ////System.out.println("exit var_decl: " + ctx.getText());
-    }
-	@Override public void enterVar_type(LittleParser.Var_typeContext ctx) {
-        //System.out.println("ENTER var_type: " + ctx.getText());
-    }
-	@Override public void exitVar_type(LittleParser.Var_typeContext ctx) {
-        ////System.out.println("exit Var_type: " + ctx.getText());
+        }
+        else{
+            return;
+        }
     }
 	@Override public void enterWrite_stmt(LittleParser.Write_stmtContext ctx) {
-        // System.out.println("ENTER Write_stmt: " + ctx.getText());
         for(String ids : ctx.id_list().getText().split(",")){
             TokenData id = stt.peek().lookUp(ids);
             if(id != null){
@@ -462,7 +439,6 @@ class Listener extends LittleBaseListener{
 	@Override public void exitWrite_stmt(LittleParser.Write_stmtContext ctx) {}
 
 	@Override public void enterCond(LittleParser.CondContext ctx) {
-        // System.out.println("ENTER Cond: " + ctx.getText());
         label = maxLabel;
         label++;
         maxLabel++;
@@ -473,15 +449,6 @@ class Listener extends LittleBaseListener{
         String type = stt.peek().lookUp(vars[0]).type;
         ASTNode temp = new ASTNode(vars[0], cond, vars[1], type, label);
         astRootNodes.add(temp);
-    }
-
-	@Override public void enterCompop(LittleParser.CompopContext ctx) {
-        cond = ctx.getText();
-        
-    }
-
-	@Override public void exitCompop(LittleParser.CompopContext ctx) {
-        ////System.out.println("Exit Compop: " + ctx.getText());
     }
 }
 
