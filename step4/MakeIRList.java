@@ -99,24 +99,30 @@ public class MakeIRList {
     {
         String op;
         for(ASTNode root : rootList){
-            //System.out.println("NEW ROOT");
             String leftSide = "";
             String rightSide = "";
             if(root.leftChild == null && root.rightChild == null){
-                //System.out.println("HAS NO CHILDREN");
                 if(root.data.equals("main")){
 
                     irlist.add(new IRNode("LABEL " + root.data + "\n;LINK"));
                     System.out.println(";IR code");
                     System.out.println(";LABEL " + root.data + "\n;LINK");
                 }
+                if(root.type.equals("WRITE")){
+                    irlist.add(new IRNode("WRITE", root.id, root.data));
+                    if(root.id.equals("INT")){
+                        System.out.println(";WRITEI " + root.data);
+                    }
+                    else if(root.id.equals("FLOAT")){
+                        System.out.println(";WRITEF " + root.data);
+                    }
+                    else{
+                        System.out.println(";WRITES " + root.data);
+                    }
+                }
             }
             else{
-               // if(root.leftChild != null){System.out.println("Has left child");}
-                //if(root.rightChild != null){System.out.println("Has right child");}
-               // System.out.println("going right");
                 leftSide = postOrder(root.rightChild);
-                //System.out.println("going left");
                 rightSide = postOrder(root.leftChild);
                 if(root.rightChild.type == "INT"){
                     op = "move";
