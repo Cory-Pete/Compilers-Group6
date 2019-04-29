@@ -390,21 +390,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
-<<<<<<< HEAD
-        
-        ArrayList<ASTNode> children = curChild.getChildren();
-        //System.out.println("exit postfix 1st: " + ctx.getText() + curChild.getChildren().size());
-        if(ctx.getText() == "")
-        {
-            return;
-        }
-        //System.out.println(children.size());
-        // //System.out.println("exit Postfix_expr: " + ctx.getText());
-
-        if(curChild.getChildren().size() == 0){
-=======
         if(ctx.getText() == ""){
->>>>>>> 801d0a61e9ce57ea6b08fcdd93c0f4208c8efcf6
             return;
         }
 
