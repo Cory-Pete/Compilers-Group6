@@ -29,7 +29,7 @@ public class ASTNode{
         this.data = data;
     }
 
-    // Roots
+    // Conditionals & Write
     public ASTNode(String var, String op, String val){
         this.id = var;
         this.type = op;
