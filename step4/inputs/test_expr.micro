@@ -3,6 +3,7 @@ BEGIN
 
 	INT a,b,c,d;
 	FLOAT x,y,z,t;
+	
 	STRING newline := "\n";
 
 	FUNCTION VOID main()

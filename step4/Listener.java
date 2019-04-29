@@ -427,6 +427,7 @@ class Listener extends LittleBaseListener{
     }
 	
 	@Override public void exitPostfix_expr(LittleParser.Postfix_exprContext ctx) {
+        
         ArrayList<ASTNode> children = curChild.getChildren();
         //System.out.println("exit postfix 1st: " + ctx.getText() + curChild.getChildren().size());
         if(ctx.getText() == "")
@@ -490,7 +491,7 @@ class Listener extends LittleBaseListener{
         ////System.out.println("exit var_decl: " + ctx.getText());
     }
 	@Override public void enterVar_type(LittleParser.Var_typeContext ctx) {
-        ////System.out.println("ENTER var_type: " + ctx.getText());
+        //System.out.println("ENTER var_type: " + ctx.getText());
     }
 	@Override public void exitVar_type(LittleParser.Var_typeContext ctx) {
         ////System.out.println("exit Var_type: " + ctx.getText());

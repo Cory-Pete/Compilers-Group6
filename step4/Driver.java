@@ -2,6 +2,9 @@ import java.io.IOException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 public class Driver {
 	
@@ -32,8 +35,17 @@ public class Driver {
 		// 	//System.out.println(n.getThreeAC());
 		// 	//System.out.println(";" + n.operator + " " +  " " + n.id);
 		// }
+		PrintWriter writer = null;
+		//use PrintWriter to output results to Sagen_Matthew.txt
+		try {
+			writer = new PrintWriter("step4/new_Tiny.c", "UTF-8");	
+		} 
+		catch (FileNotFoundException | UnsupportedEncodingException e) {
+			e.printStackTrace();	
+		}
 		
 		System.out.println(";Tiny code");
+		writer.println(";Tiny code");
 		listener.printResults(root);//print var declarations
 		IRNode n = new IRNode();
 		n.makeAssebly(node);
