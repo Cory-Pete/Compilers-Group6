@@ -10,6 +10,7 @@ class Listener extends LittleBaseListener{
 
     ASTNode curRoot;
     ASTNode curChild;
+    String cond;
     
     int scope;
     //need to make stack to push new scopes on?
@@ -454,15 +455,19 @@ class Listener extends LittleBaseListener{
 	@Override public void exitWrite_stmt(LittleParser.Write_stmtContext ctx) {}
 
 	@Override public void enterCond(LittleParser.CondContext ctx) {
-        ////System.out.println("ENTER Cond: " + ctx.getText());
+        // System.out.println("ENTER Cond: " + ctx.getText());
     }
 
 	@Override public void exitCond(LittleParser.CondContext ctx) {
-        ////System.out.println("exit Cond: " + ctx.getText());
+        String[] vars = ctx.getText().split(cond);
+        String type = stt.peek().lookUp(vars[0]).type;
+        ASTNode temp = new ASTNode(vars[0], cond, vars[1], type);
+        astRootNodes.add(temp);
     }
 
 	@Override public void enterCompop(LittleParser.CompopContext ctx) {
-        ////System.out.println("ENTER compop: " + ctx.getText());
+        cond = ctx.getText();
+        
     }
 
 	@Override public void exitCompop(LittleParser.CompopContext ctx) {

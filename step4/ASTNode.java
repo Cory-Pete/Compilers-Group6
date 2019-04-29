@@ -29,11 +29,18 @@ public class ASTNode{
         this.data = data;
     }
 
-    // Conditionals & Write
+    //Write
     public ASTNode(String var, String op, String val){
         this.id = var;
         this.type = op;
         this.data = val;
+    }
+
+    public ASTNode(String var, String op, String val, String type){
+        this.id = var;
+        this.operator = op;
+        this.data = val;
+        this.type = type;
     }
     
     //Temps
