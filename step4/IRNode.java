@@ -107,6 +107,9 @@ public class IRNode{
 
                     writer.println("move " + n.var1 + " " + n.var2);
                 }
+                else if(n.operator == "cmpr"){
+                    System.out.println("cmpr " + n.var1 + " r" + n.var2);
+                }
                 
             }
         }

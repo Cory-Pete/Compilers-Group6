@@ -140,7 +140,9 @@ public class MakeIRList {
                     op = "move";
                     irlist.add(new IRNode(op, leftSide, rightSide, register));
                     register++;
-                    System.out.println(";STOREI " + leftSide + " " + rightSide);
+                    System.out.println(";STOREI " + leftSide + " $T" + register);
+                    System.out.println(";STOREI $T" + register + " " + rightSide);
+
                    // writer.println(";STOREI " + leftSide + " " + rightSide);
                    
                 }
@@ -148,7 +150,8 @@ public class MakeIRList {
                     op = "move";
                     irlist.add(new IRNode(op, leftSide, rightSide, register));
                     register++;
-                    System.out.println(";STOREF " + leftSide + " " + rightSide);
+                    System.out.println(";STOREF " + leftSide + " $T" + register);
+                    System.out.println(";STOREF $T" + register + " " + rightSide);
                     //writer.println(";STOREF " + leftSide + " " + rightSide);
                 }
             }
