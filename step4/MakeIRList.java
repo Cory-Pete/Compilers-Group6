@@ -3,15 +3,21 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
 public class MakeIRList {
     private static int register = 0;
     private static ArrayList<IRNode> irlist = new ArrayList<IRNode>();
     public static String threeAC, op;
+    public PrintWriter writer;
 
-    public MakeIRList(){
-
+    public MakeIRList(PrintWriter writer){
+        this.writer = writer;
     }
-    public static String postOrder(ASTNode n){
+    public String postOrder(ASTNode n){
         //System.out.println("CHILD");
         // if(n.leftChild != null){System.out.println("Has left child");}
         // if(n.rightChild != null){System.out.println("Has right child");}
@@ -87,6 +93,7 @@ public class MakeIRList {
                 }
             }
             System.out.println(threeAC);
+           // writer.println(threeAC);
             irlist.add(new IRNode(op, leftSide, rightSide, register));
             register += 1;
             return String.valueOf(register-1);
@@ -95,7 +102,7 @@ public class MakeIRList {
         return "";
     }
 
-    public static void start(ArrayList<ASTNode> rootList)
+    public void start(ArrayList<ASTNode> rootList)
     {
         String op;
         for(ASTNode root : rootList){
@@ -107,17 +114,22 @@ public class MakeIRList {
                     irlist.add(new IRNode("LABEL " + root.data + "\n;LINK"));
                     System.out.println(";IR code");
                     System.out.println(";LABEL " + root.data + "\n;LINK");
+                   // writer.println(";IR code");
+                   // writer.println(";LABEL " + root.data + "\n;LINK");
                 }
                 if(root.type.equals("WRITE")){
                     irlist.add(new IRNode("WRITE", root.id, root.data));
                     if(root.id.equals("INT")){
                         System.out.println(";WRITEI " + root.data);
+                        //writer.println(";WRITEI " + root.data);
                     }
                     else if(root.id.equals("FLOAT")){
                         System.out.println(";WRITEF " + root.data);
+                        //writer.println(";WRITEF " + root.data);
                     }
                     else{
                         System.out.println(";WRITES " + root.data);
+                       // writer.println(";WRITES " + root.data);
                     }
                 }
             }
@@ -128,18 +140,20 @@ public class MakeIRList {
                     op = "move";
                     irlist.add(new IRNode(op, leftSide, rightSide));
                     System.out.println(";STOREI " + leftSide + " " + rightSide);
+                   // writer.println(";STOREI " + leftSide + " " + rightSide);
                    
                 }
                 else{
                     op = "move";
                     irlist.add(new IRNode(op, leftSide, rightSide));
                     System.out.println(";STOREF " + leftSide + " " + rightSide);
-                    
+                    //writer.println(";STOREF " + leftSide + " " + rightSide);
                 }
             }
         }
         irlist.add(new IRNode("sys halt"));
         System.out.println(";RET");
+        //writer.println(";RET");
     }
 
     public static ArrayList<IRNode> getIRNodes(){

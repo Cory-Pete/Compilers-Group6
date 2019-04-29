@@ -282,7 +282,7 @@ class Listener extends LittleBaseListener{
 
     @Override public void enterId(LittleParser.IdContext ctx) { 
         String idname = ctx.getText();
-        System.out.println("ENTER ID: " + ctx.getText());
+        //System.out.println("ENTER ID: " + ctx.getText());
         if(idname.equals("main"))
         {
             ASTNode main = new ASTNode("LABEL", idname);
