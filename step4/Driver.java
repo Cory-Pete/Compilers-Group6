@@ -32,13 +32,11 @@ public class Driver {
 		// 	//System.out.println(n.getThreeAC());
 		// 	//System.out.println(";" + n.operator + " " +  " " + n.id);
 		// }
-		System.out.println("----------------");
-		System.out.println("ASSEMBLY");
-		System.out.println("----------------");
+		
+		System.out.println(";Tiny code");
 		listener.printResults(root);//print var declarations
 		IRNode n = new IRNode();
 		n.makeAssebly(node);
-		System.out.println("----------------");
 		// IRNode t = new IRNode("h");
 		// t.makeAssebly(node);
 		//Print entire tree from root

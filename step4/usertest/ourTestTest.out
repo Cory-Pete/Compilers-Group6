@@ -1,0 +1,40 @@
+NEW ROOT
+HAS NO CHILDREN
+NEW ROOT
+going right
+CHILD
+Has left child
+Has right child
+CHILD
+HAS NO CHILDREN
+2
+*
+CHILD
+Has left child
+Has right child
+CHILD
+HAS NO CHILDREN
+2
+*
+CHILD
+HAS NO CHILDREN
+2
+;MULI 2 2 $T0
+;MULI 0 2 $T1
+going left
+CHILD
+HAS NO CHILDREN
+a
+;ret
+----------------
+ASSEMBLY
+----------------
+VAR a
+VAR b
+VAR c
+VAR d
+MULI 2 2 0
+MULI 0 2 1
+STOREI 1 a
+end
+----------------

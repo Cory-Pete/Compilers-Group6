@@ -1,0 +1,70 @@
+NEW ROOT
+HAS NO CHILDREN
+NEW ROOT
+going right
+CHILD
+HAS NO CHILDREN
+1
+going left
+CHILD
+HAS NO CHILDREN
+a
+NEW ROOT
+going right
+CHILD
+HAS NO CHILDREN
+2
+going left
+CHILD
+HAS NO CHILDREN
+b
+NEW ROOT
+going right
+CHILD
+Has left child
+Has right child
+CHILD
+Has left child
+Has right child
+CHILD
+HAS NO CHILDREN
+d
+*
+CHILD
+HAS NO CHILDREN
+b
+;MULF b d $T0
++
+CHILD
+Has left child
+Has right child
+CHILD
+HAS NO CHILDREN
+c
+*
+CHILD
+HAS NO CHILDREN
+a
+;MULF a c $T1
+;ADDF 1 0 $T2
+going left
+CHILD
+HAS NO CHILDREN
+e
+;ret
+----------------
+ASSEMBLY
+----------------
+VAR a
+VAR b
+VAR c
+VAR d
+VAR e
+STOREI 1 a
+STOREI 2 b
+MULF b d 0
+MULF a c 1
+ADDF 1 0 2
+STOREF 2 e
+end
+----------------

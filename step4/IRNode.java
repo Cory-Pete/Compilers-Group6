@@ -35,42 +35,42 @@ public class IRNode{
     }
     
     public void makeAssebly(ArrayList<IRNode> nodes){
-       // System.out.println("HI");
         for(IRNode n : nodes){
-            if(n.threeAC != null && n.threeAC.equals("end")){
+            if(n.threeAC != null && n.threeAC.equals("sys halt")){
                 System.out.println(n.threeAC);
+            }
+            if(n.threeAC != null && n.threeAC.equals("LABEL main\n;LINK")){
+                System.out.println("label main");
             }
             else{
                 if(n.operator == "ADDI"){
-                    System.out.println("ADDI " + n.var1 + " " + n.var2 + " " + register);
+                    System.out.println("ADDI " + n.var1 + " " + n.var2 + " " + n.register);
                 }
                 else if(n.operator == "ADDF"){
-                    System.out.println("ADDF " + n.var1 + " " + n.var2 + " " + register);
+                    System.out.println("ADDF " + n.var1 + " " + n.var2 + " " + n.register);
                 }
                 else if(n.operator == "SUBI"){
-                    System.out.println("SUBI " + n.var1 + " " + n.var2 + " " + register);
+                    System.out.println("SUBI " + n.var1 + " " + n.var2 + " " + n.register);
                 }
                 else if(n.operator == "SUBF"){
-                    System.out.println("SUBF " + n.var1 + " " + n.var2 + " " + register);
+                    System.out.println("SUBF " + n.var1 + " " + n.var2 + " " + n.register);
                 }
                 else if(n.operator == "MULI"){
-                    System.out.println("MULI " + n.var1 + " " + n.var2 + " " + register);
+                    System.out.println("MULI " + n.var1 + " " + n.var2 + " " + n.register);
                 }
                 else if(n.operator == "MULF"){
-                    System.out.println("MULF " + n.var1 + " " + n.var2 + " " + register);
+                    System.out.println("MULF " + n.var1 + " " + n.var2 + " " + n.register);
                 }
                 else if(n.operator == "DIVI"){
-                    System.out.println("DIVI " + n.var1 + " " + n.var2 + " " + register);
+                    System.out.println("DIVI " + n.var1 + " " + n.var2 + " " + n.register);
                 }
                 else if(n.operator == "DIVF"){
-                    System.out.println("DIVF " + n.var1 + " " + n.var2 + " " + register);
+                    System.out.println("DIVF " + n.var1 + " " + n.var2 + " " + n.register);
                 }
-                else if(n.operator == "STOREI"){
-                    System.out.println("STOREI " + n.var1 + " " + n.var2);
+                else if(n.operator == "move"){
+                    System.out.println("move " + n.var1 + " " + n.var2);
                 }
-                else if(n.operator == "STOREF"){
-                    System.out.println("STOREF " + n.var1 + " " + n.var2);
-                }
+                
             }
         }
     }

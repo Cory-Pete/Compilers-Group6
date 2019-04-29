@@ -1,0 +1,99 @@
+NEW ROOT
+HAS NO CHILDREN
+NEW ROOT
+going right
+CHILD
+HAS NO CHILDREN
+0
+going left
+CHILD
+HAS NO CHILDREN
+i
+NEW ROOT
+going right
+CHILD
+HAS NO CHILDREN
+0
+going left
+CHILD
+HAS NO CHILDREN
+a
+NEW ROOT
+going right
+CHILD
+HAS NO CHILDREN
+10
+going left
+CHILD
+HAS NO CHILDREN
+b
+NEW ROOT
+going right
+CHILD
+Has left child
+Has right child
+CHILD
+HAS NO CHILDREN
+1
++
+CHILD
+HAS NO CHILDREN
+a
+;ADDI a 1 $T0
+going left
+CHILD
+HAS NO CHILDREN
+a
+NEW ROOT
+going right
+CHILD
+Has left child
+Has right child
+CHILD
+HAS NO CHILDREN
+1
++
+CHILD
+HAS NO CHILDREN
+b
+;ADDI b 1 $T1
+going left
+CHILD
+HAS NO CHILDREN
+b
+NEW ROOT
+going right
+CHILD
+Has left child
+Has right child
+CHILD
+HAS NO CHILDREN
+1
++
+CHILD
+HAS NO CHILDREN
+i
+;ADDI i 1 $T2
+going left
+CHILD
+HAS NO CHILDREN
+i
+;ret
+----------------
+ASSEMBLY
+----------------
+VAR a
+VAR b
+VAR i
+VAR p
+STOREI 0 i
+STOREI 0 a
+STOREI 10 b
+ADDI a 1 0
+STOREI 0 a
+ADDI b 1 1
+STOREI 1 b
+ADDI i 1 2
+STOREI 2 i
+end
+----------------

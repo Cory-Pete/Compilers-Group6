@@ -6,8 +6,6 @@ BEGIN
 	FUNCTION VOID main()
 	BEGIN
 		a := 2*2*2;
-		b := 2;
 		
-		a := a + 10 + b;
 	END	
 END

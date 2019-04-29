@@ -12,17 +12,17 @@ public class MakeIRList {
 
     }
     public static String postOrder(ASTNode n){
-        System.out.println("CHILD");
-        if(n.leftChild != null){System.out.println("Has left child");}
-        if(n.rightChild != null){System.out.println("Has right child");}
+        //System.out.println("CHILD");
+        // if(n.leftChild != null){System.out.println("Has left child");}
+        // if(n.rightChild != null){System.out.println("Has right child");}
         String leftSide = "";
         String rightSide = "";
         boolean flip = false;
         if(n.leftChild == null && n.rightChild == null)
         {
-            System.out.println("HAS NO CHILDREN");
+            //System.out.println("HAS NO CHILDREN");
             if(n.data != null){
-                System.out.println(n.data);
+                //System.out.println(n.data);
                 return n.data;
             }
             else{
@@ -33,7 +33,7 @@ public class MakeIRList {
         if(n.operator.equals("+") || n.operator.equals("-") || n.operator.equals("*") || n.operator.equals("/"))
         {
             rightSide = postOrder(n.rightChild);
-            System.out.println(n.operator);
+           // System.out.println(n.operator);
             leftSide = postOrder(n.leftChild);
             
            
@@ -99,38 +99,40 @@ public class MakeIRList {
     {
         String op;
         for(ASTNode root : rootList){
-            System.out.println("NEW ROOT");
+            //System.out.println("NEW ROOT");
             String leftSide = "";
             String rightSide = "";
             if(root.leftChild == null && root.rightChild == null){
-                System.out.println("HAS NO CHILDREN");
+                //System.out.println("HAS NO CHILDREN");
                 if(root.data.equals("main")){
+
                     irlist.add(new IRNode("LABEL " + root.data + "\n;LINK"));
-                    // System.out.println("LABEL " + root.data + "\n;LINK");
+                    System.out.println(";IR code");
+                    System.out.println(";LABEL " + root.data + "\n;LINK");
                 }
             }
             else{
                // if(root.leftChild != null){System.out.println("Has left child");}
                 //if(root.rightChild != null){System.out.println("Has right child");}
-                System.out.println("going right");
+               // System.out.println("going right");
                 leftSide = postOrder(root.rightChild);
-                System.out.println("going left");
+                //System.out.println("going left");
                 rightSide = postOrder(root.leftChild);
                 if(root.rightChild.type == "INT"){
-                    op = "STOREI";
+                    op = "move";
                     irlist.add(new IRNode(op, leftSide, rightSide));
-                    // System.out.println(";STOREI " + leftSide + " " + rightSide);
+                    System.out.println(";STOREI " + leftSide + " " + rightSide);
                    
                 }
                 else{
-                    op = "STOREF";
+                    op = "move";
                     irlist.add(new IRNode(op, leftSide, rightSide));
-                    // System.out.println(";STOREF " + leftSide + " " + rightSide);
+                    System.out.println(";STOREF " + leftSide + " " + rightSide);
                     
                 }
             }
         }
-        irlist.add(new IRNode("end"));
+        irlist.add(new IRNode("sys halt"));
         System.out.println(";ret");
     }
 
