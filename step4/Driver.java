@@ -17,7 +17,7 @@ public class Driver {
 		walker.walk(listener, parser.program());
 
 		//Get the root table
-		SymbolTable root = listener.getRoot();
+		// SymbolTable root = listener.getRoot();
 
 		// ASTNode root = listener.getRootAST();
 		ArrayList<ASTNode> roots = listener.getRoots();
@@ -34,7 +34,7 @@ public class Driver {
 		// }
 		
 		System.out.println(";Tiny code");
-		listener.printResults(root);//print var declarations
+		// listener.printResults(root);//print var declarations
 		IRNode n = new IRNode();
 		n.makeAssebly(node);
 		// IRNode t = new IRNode("h");
