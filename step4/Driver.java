@@ -24,30 +24,16 @@ public class Driver {
 		
 		ArrayList<ASTNode> roots = listener.getRoots();
 	
-		PrintWriter writer = null;
-		//use PrintWriter to output results to Sagen_Matthew.txt
-		try {
-			writer = new PrintWriter("new_Tiny.c", "UTF-8");	
-		} 
-		catch (FileNotFoundException | UnsupportedEncodingException e) {
-			e.printStackTrace();	
-		}
 
-		MakeIRList mlist = new MakeIRList(writer);
+		MakeIRList mlist = new MakeIRList();
 		mlist.start(roots);
 		ArrayList<IRNode> node = mlist.getIRNodes();
 
 		System.out.println(";Tiny code");
-		writer.println("Tiny code");
 		SymbolTable root = listener.getRoot();
 		listener.printResults(root);
-		// listener.printResults(root);//print var declarations
 		IRNode n = new IRNode();
-		n.makeAssebly(node, writer);
-		// IRNode t = new IRNode("h");
-		// t.makeAssebly(node);
-		//Print entire tree from root
-		writer.close();
+		n.makeAssebly(node);
 		
 	}
 }      

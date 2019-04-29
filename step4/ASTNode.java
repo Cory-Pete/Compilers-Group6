@@ -122,7 +122,6 @@ public class ASTNode{
         for(int i = 0; i < children.size(); i++){
             if(childToBeRemoved == children.get(i))
             {   
-               // System.out.println("CHild rem");
                 children.remove(i);
                 break;
             }
