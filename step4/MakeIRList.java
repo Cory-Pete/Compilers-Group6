@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 
 public class MakeIRList {
     public int register = 0;
+    public int label = 0;
     private static ArrayList<IRNode> irlist = new ArrayList<IRNode>();
     public static String threeAC, op;
     public PrintWriter writer;
@@ -108,6 +109,7 @@ public class MakeIRList {
         for(ASTNode root : rootList){
             String leftSide = "";
             String rightSide = "";
+            String operation = "";
             if(root.leftChild == null && root.rightChild == null){
                 if(root.data.equals("main")){
 
@@ -117,7 +119,7 @@ public class MakeIRList {
                    // writer.println(";IR code");
                    // writer.println(";LABEL " + root.data + "\n;LINK");
                 }
-                if(root.type.equals("WRITE")){
+                else if(root.type.equals("WRITE")){
                     irlist.add(new IRNode("WRITE", root.id, root.data));
                     if(root.id.equals("INT")){
                         System.out.println(";WRITEI " + root.data);
@@ -131,6 +133,44 @@ public class MakeIRList {
                         System.out.println(";WRITES " + root.data);
                        // writer.println(";WRITES " + root.data);
                     }
+                }
+                else{
+                    System.out.println(";move " + root.data + " r" + register);
+                    irlist.add(new IRNode("move", root.data, String.valueOf(register)));
+                    if(root.type.equals("INT")){
+                        System.out.println(";cmpi " + root.id + " r" + register);
+                        irlist.add(new IRNode("cmpi", root.id, String.valueOf(register)));
+                    }
+                    else if(root.type.equals("FLOAT")){
+                        System.out.println(";cmpr " + root.id + " r" + register);
+                        irlist.add(new IRNode("cmpr", root.id, String.valueOf(register)));
+                    }
+                    switch(root.operator){
+                        case ">":
+                            operation = "le";
+                            break;
+                        case ">=":
+                            operation = "lt";
+                            break;
+                        case "<":
+                            operation = "ge";
+                            break;
+                        case "<=":
+                            operation = "gt";
+                            break;
+                        case "!=":
+                            operation = "eq";
+                            break;
+                        case "=":
+                            operation = "ne";
+                            break;
+                    }
+                    System.out.println(";j" + operation + " " + root.id + " label" + label);
+                    operation = "j" + operation;
+                    String temp = "label" + String.valueOf(label);
+                    irlist.add(new IRNode(operation, root.id, temp));
+                    label ++;
+                    register++;
                 }
             }
             else{
