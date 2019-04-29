@@ -5,6 +5,8 @@ class Listener extends LittleBaseListener{
     
     Stack<SymbolTable> stt = new Stack <SymbolTable>(); //symbol table tree
     ArrayList<ASTNode> astRootNodes = new ArrayList<ASTNode>();
+    int label = 0;
+    int maxLabel = 0;
     
     SymbolTable root;
 
@@ -101,6 +103,9 @@ class Listener extends LittleBaseListener{
     @Override
     public void exitIf_stmt(LittleParser.If_stmtContext ctx) { 
         //System.out.println("exit If_stmt: " + ctx.getText());
+        ASTNode temp = new ASTNode("EXIT", label);
+        label--;
+        astRootNodes.add(temp);
         stt.pop();
     }
     
@@ -113,8 +118,9 @@ class Listener extends LittleBaseListener{
             stt.peek().addTable(new_table);
             new_table.setParent(stt.peek());
             stt.push(new_table);
-            
         }
+        ASTNode temp = new ASTNode("EXIT", maxLabel);
+        maxLabel ++;
     }
 	
     @Override
@@ -139,6 +145,7 @@ class Listener extends LittleBaseListener{
     public void exitWhile_stmt(LittleParser.While_stmtContext ctx) { 
         //System.out.println("exit While_stmt: " + ctx.getText());
         stt.pop();
+        ASTNode temp = new ASTNode("EXIT", label);
     }
     public SymbolTable getRoot(){
         return root;
@@ -456,12 +463,15 @@ class Listener extends LittleBaseListener{
 
 	@Override public void enterCond(LittleParser.CondContext ctx) {
         // System.out.println("ENTER Cond: " + ctx.getText());
+        label = maxLabel;
+        label++;
+        maxLabel++;
     }
 
 	@Override public void exitCond(LittleParser.CondContext ctx) {
         String[] vars = ctx.getText().split(cond);
         String type = stt.peek().lookUp(vars[0]).type;
-        ASTNode temp = new ASTNode(vars[0], cond, vars[1], type);
+        ASTNode temp = new ASTNode(vars[0], cond, vars[1], type, label);
         astRootNodes.add(temp);
     }
 

@@ -14,6 +14,7 @@ public class MakeIRList {
     private static ArrayList<IRNode> irlist = new ArrayList<IRNode>();
     public static String threeAC, op;
     public PrintWriter writer;
+    public HashMap<Integer, String> labelHolder = new HashMap<Integer, String>();
 
     public MakeIRList(PrintWriter writer){
         this.writer = writer;
@@ -134,6 +135,10 @@ public class MakeIRList {
                        // writer.println(";WRITES " + root.data);
                     }
                 }
+                else if(root.id.equals("EXIT")){
+                    System.out.println(";label " + labelHolder.get(root.tracker));
+                    irlist.add(new IRNode("label", labelHolder.get(root.tracker)));
+                }
                 else{
                     System.out.println(";move " + root.data + " r" + register);
                     irlist.add(new IRNode("move", root.data, String.valueOf(register)));
@@ -168,8 +173,9 @@ public class MakeIRList {
                     System.out.println(";j" + operation + " " + root.id + " label" + label);
                     operation = "j" + operation;
                     String temp = "label" + String.valueOf(label);
+                    labelHolder.put(root.tracker, temp);
                     irlist.add(new IRNode(operation, root.id, temp));
-                    label ++;
+                    label++;
                     register++;
                 }
             }

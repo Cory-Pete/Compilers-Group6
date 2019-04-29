@@ -5,7 +5,6 @@ public class ASTNode{
     
     public ASTNode parent;
     public String operator;
-    public Boolean side;
     public String type;
     public String id;
     public String data;
@@ -13,7 +12,7 @@ public class ASTNode{
     public ASTNode leftChild, rightChild;
     public boolean root;
     public ASTNode childRoot;
-    public String threeAC;
+    public int tracker;
     public boolean hasCode, hasChildRoot;
 
     // Expressions
@@ -25,8 +24,14 @@ public class ASTNode{
     //Literals
     public ASTNode(String type, String data){
         this.type = type;
-        side = false;
         this.data = data;
+    }
+
+    public ASTNode(String type, int data){
+        this.id = type;
+        this.tracker = data;
+        this.data = "";
+        this.type = "";
     }
 
     //Write
@@ -35,12 +40,13 @@ public class ASTNode{
         this.type = op;
         this.data = val;
     }
-
-    public ASTNode(String var, String op, String val, String type){
+    //Conditionals
+    public ASTNode(String var, String op, String val, String type, int track){
         this.id = var;
         this.operator = op;
         this.data = val;
         this.type = type;
+        this.tracker = track;
     }
     
     //Temps
@@ -65,14 +71,6 @@ public class ASTNode{
 
     public String getType(){
         return type;
-    }
-
-    public void setSide(Boolean side){
-        this.side = side;
-    }
-
-    public Boolean getSide(){
-        return side;
     }
 
     public void setType(String type){
