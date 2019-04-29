@@ -36,6 +36,21 @@ public class IRNode{
     
     public void makeAssebly(ArrayList<IRNode> nodes){
         for(IRNode n : nodes){
+            if(n.operator != null){
+                if(n.operator.equals("WRITE")){
+                    switch(n.var1){
+                        case "INT":
+                            System.out.println("sys writei " + n.var2);
+                            break;
+                        case "FLOAT":
+                            System.out.println("sys writei " + n.var2);
+                            break;
+                        case "STRING":
+                            System.out.println("sys writei " + n.var2);
+                            break;
+                    }
+                }
+            }
             if(n.threeAC != null && n.threeAC.equals("sys halt")){
                 System.out.println(n.threeAC);
             }
